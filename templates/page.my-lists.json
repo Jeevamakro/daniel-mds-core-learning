@@ -1,0 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "custom-my-lists",
+      "settings": {
+        "color_scheme": "background-1",
+        "margin_top": "xs",
+        "margin_bottom": "xl"
+      }
+    },
+    "cheksection": {
+      "type": "fetch-search-products",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "cheksection"
+  ]
+}

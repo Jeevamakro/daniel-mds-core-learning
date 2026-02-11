@@ -1,0 +1,15 @@
+{%- liquid
+  assign count = cart.item_count  
+  for item in cart.items    
+    if item.properties._lineID and item.properties.For      
+      assign count = count | minus: item.quantity
+    elsif item.properties._plan_id and item.properties.For      
+      assign count = count | minus: item.quantity    
+    elsif item.properties.Product-Name != blank      
+      assign count = count | minus: item.quantity    
+    elsif item.properties.Product_Name != blank      
+      assign count = count | minus: item.quantity
+    endif    
+  endfor  
+-%}
+<span aria-hidden="true" data-total-count="{{ cart.item_count }}">{{ count | json }}</span>

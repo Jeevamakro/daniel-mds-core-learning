@@ -1,0 +1,628 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+SECTION: Make Payment
+DESCRIPTION:
+  - Multi-payment instruction section allowing customers to choose payment
+    method and view dynamic instructions for each method.
+  - Supports Interac e-Transfer, Bank Payment, and Credit Card/PayPal form.
+  - Each block renders its own UI layout and unique fields based on block type.
+
+LOGIC OVERVIEW:
+  - Section loads external JS: make-payment.js (handles checkbox logic,
+
+  - Renders payment blocks depending on block.type:
+        • interac → static informational list + bank icons
+        • bank → static list + dynamic loop for bank icons
+        • card → credit card/PayPal form + validation
+  - Only one payment method can be selected at a time (managed in JS).
+
+DEPENDENCIES:
+  - CSS:
+      • make-payment.css (custom styling for payment UI)
+  - JS:
+      • make-payment.js (checkbox toggle logic, validation)
+  - Snippets:
+      • make-payment-error (form error icon)
+      • section-margin (layout spacing system)
+
+FILES UPDATED / ADDED:
+  - Added:
+      • assets/make-payment.css
+      • assets/make-payment.js
+  - Updated:
+      • This section’s markup defines 3 block layouts with condition checks.
+
+SCHEMA OVERVIEW:
+  - Section Settings:
+      • title (section heading)
+      • full section margin controls (desktop + mobile)
+  - Blocks:
+      • interac → heading, description, labels/values, up to 5 icons
+      • bank → subheading, small text, labels/values, up to 5 bank icons
+      • card → heading, card icon, and form fields (JS validated)
+  - Preset:
+      • "Make Payment"
+
+NOTES:
+  - Follows internal Shopify theme standards: naming, spacing, schema grouping.
+  - Fully OS2.0 compatible with block-based structure.
+  - All images use Shopify's responsive img_url filters.
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+
+<script src='{{ 'make-payment.js' | asset_url }}' defer='defer'></script>
+{{- 'make-payment.css' | asset_url | stylesheet_tag -}}
+{%- style -%}
+	{% render 'section-margin' %}
+{%- endstyle -%}
+<div class="make-payment">
+    <div class="container">
+        {% if section.settings.title != blank %}
+          <h2 class="section-title">{{ section.settings.title }}</h2>
+        {% endif %}
+            <div class="payment-section">
+                {% for block in section.blocks %}
+                    {% if block.type == 'interac' %}
+                        <!-- BLOCK 1 -->
+                        <div class="payment-block">
+                            <div class="payment-block-header">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="payment">
+                                    <div class="payment-group">
+                                    <span class="icon icon-checkmark"></span>
+                                    <span>{{ block.settings.heading }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-fields">
+                           {% if block.settings.description != blank %} <h5>{{ block.settings.description }}</h5> {% endif %}
+                            <ul>
+                                <li>
+                                {% if block.settings.label_1 != blank %} <span class="payment-text-left">{{ block.settings.label_1 }}</span>{% endif %}
+                                {% if block.settings.value_1 != blank %} <span class="payment-text-right">{{ block.settings.value_1 }}</span>{% endif %}
+                                </li>
+
+                                <li>
+                                 {% if block.settings.label_2 != blank %} <span class="payment-text-left">{{ block.settings.label_2 }}</span>{% endif %}
+                                 {% if block.settings.value_2 != blank %} <span class="payment-text-right">{{ block.settings.value_2 }}</span>{% endif %}
+                                </li>
+
+                                <li>
+                                {% if block.settings.label_3 != blank %} <span class="payment-text-left">{{ block.settings.label_3 }}</span>{% endif %}
+                                {% if block.settings.value_3 != blank %} <span class="payment-text-right">{{ block.settings.value_3 }}</span>{% endif %}
+                                </li>
+
+                                <li>
+                                {% if block.settings.label_4 != blank %} <span class="payment-text-left">{{ block.settings.label_4 }}</span>{% endif %}
+                                {% if block.settings.value_4 != blank %} <span class="payment-text-right">{{ block.settings.value_4 }}</span>{% endif %}
+                                </li>
+                            </ul>
+                            <div class="bank-icons">
+                                {% if block.settings.icon_1 %}
+                                <div class="bank-icon-inner">
+                                <img src="{{ block.settings.icon_1 | img_url:width:100 }}">
+                                </div>
+                                {% endif %}
+
+                                {% if block.settings.icon_2 %}
+                                <div class="bank-icon-inner">
+                                <img src="{{ block.settings.icon_2 | img_url:width:100 }}">
+                                </div>
+                                {% endif %}
+                                {% if block.settings.icon_3 %}
+                                <div class="bank-icon-inner">
+                                <img src="{{ block.settings.icon_3 | img_url:width:100 }}">
+                                </div>
+                                {% endif %}
+                                {% if block.settings.icon_4 %}
+                                <div class="bank-icon-inner">
+                                <img src="{{ block.settings.icon_4 | img_url:width:100 }}">
+                                </div>
+                                {% endif %}
+                                {% if block.settings.icon_5 %}
+                                <div class="bank-icon-inner">
+                                <img src="{{ block.settings.icon_5 | img_url:width:100 }}">
+                                </div>
+                                {% endif %}
+                            </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if block.type == 'bank' %}
+                    <!-- BLOCK 2 -->
+                    <div class="payment-block through-bank">
+                        <div class="payment-block-header">
+                        <div class="checkbox-group">
+                            <input type="checkbox" name="payment">
+                            <div class="payment-group">
+                            <span class="icon icon-checkmark"></span>
+                            <span>{{ block.settings.heading }}</span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="payment-fields">
+                        <h5 class="block-sub-heading">{{ block.settings.subheading }}</h5>
+                        <p class="text-desc">{{ block.settings.small }}</p>
+                        <h5>{{ block.settings.description }}</h5>
+                        <ul>
+                            <li>{% if block.settings.label_1 != blank %}<span class="payment-text-left">{{ block.settings.label_1 }}</span> {% endif %} {% if block.settings.value_1 != blank %}<span class="payment-text-right">{{ block.settings.value_1 }}</span></li> {% endif %} 
+                            <li>{% if block.settings.label_2 != blank %}<span class="payment-text-left">{{ block.settings.label_2 }}</span> {% endif %} {% if block.settings.value_2 != blank %}<span class="payment-text-right">{{ block.settings.value_2 }}</span></li>  {% endif %}
+                            <li>{% if block.settings.label_3 != blank %}<span class="payment-text-left">{{ block.settings.label_3 }}</span> {% endif %} {% if block.settings.value_3 != blank %}<span class="payment-text-right">{{ block.settings.value_3 }}</span></li>  {% endif %}
+                            <li>{% if block.settings.label_4 != blank %}<span class="payment-text-left">{{ block.settings.label_4 }}</span> {% endif %} {% if block.settings.value_4 != blank %}<span class="payment-text-right">{{ block.settings.value_4 }}</span></li>  {% endif %}
+                            <li>{% if block.settings.label_5 != blank %}<span class="payment-text-left">{{ block.settings.label_5 }}</span> {% endif %} {% if block.settings.value_5 != blank %}<span class="payment-text-right">{{ block.settings.value_5 }}</span></li>  {% endif %}
+                        </ul>
+                        <div class="bank-icons">
+                                {% for i in (1..5) %}
+                                    {% assign icon_key = "icon_bank_" | append: i %}
+                                    {% assign icon = block.settings[icon_key] %}
+                                    {% if icon %}
+                                      <div class="bank-icon-inner">
+                                          <img src="{{ icon | img_url: '200x' }}">
+                                      </div>
+                                    {% endif %}
+                                {% endfor %}
+                        </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.type == 'card' %}
+                    <!-- BLOCK 3 -->
+                    <div class="payment-block through-cards">
+                        <div class="payment-block-option">
+                            <div class="payment-block-header">
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="payment">
+                                <div class="payment-group">
+                                <span class="icon icon-checkmark"></span>
+                                <span>{{ block.settings.heading }}</span>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="card-icons">
+                            {% if block.settings.card_icon %}
+                                <img class="payment-card-icons" src="{{ block.settings.card_icon | img_url: '300x' }}">
+                            {% endif %}
+                            </div>
+                        </div>
+                        <form action="#">
+                        <div class="payment-fields">
+                            <div class="fieldset name-group">
+                            <div class="form-fname">
+                                <div class="field">
+                                <label>First Name *</label>
+                                <input type="text" placeholder="FIRST NAME" name="first-name" required>
+                                </div>
+                                <div class="error-message" style="display: none;">
+                                <span class="error-icon">{% render 'make-payment-error' %}</span>
+                                THIS FIELD IS REQUIRED
+                                </div>
+                            </div>
+                            <div class="form-lname">
+                                <div class="field">
+                                <label>Last Name *</label>
+                                <input type="text" placeholder="LAST NAME" name="last-name" required>
+                                </div>
+                                <div class="error-message" style="display: none;">
+                                <span class="error-icon">{% render 'make-payment-error' %}</span>
+                                THIS FIELD IS REQUIRED
+                                </div>
+                            </div>
+                            </div>
+                            <div class="field">
+                            <label>E-mail *</label>
+                            <input type="email" placeholder="E-MAIL" name="email" required>
+                            </div>
+                            <div class="error-message" style="display: none;">
+                            <span class="error-icon">{% render 'make-payment-error' %}</span>
+                            THIS FIELD IS REQUIRED
+                            </div>
+                            <div class="form-group">
+                            <div class="field">
+                                <label>Invoice Number *</label>
+                                <input type="text" placeholder="INVOICE NUMBER" name="shipping-address" required>
+                            </div>
+                            <div class="error-message" style="display: none;">
+                                <span class="error-icon">{% render 'make-payment-error' %}</span>
+                                THIS FIELD IS REQUIRED
+                            </div>
+                            <div class="field">
+                                <label>Invoice Amount *</label>
+                                <input type="text" placeholder="$" name="shipping-address" required>
+                            </div>
+                            </div>
+                            <button type="button" class="payment-submit button button--secondary focus-inset">
+                            <span>submit</span>
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+    </div>
+</div>
+{% schema %}
+{
+  "name": "Payment section",
+  "class": "custom_payment",
+  "settings": [
+    { "type": "text",
+      "id": "title",
+      "label": "Section Title" 
+    },
+      {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_top_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "interac",
+      "name": "Pay Interac Block",
+      "limit": 1,
+      "settings": [
+        { 
+          "type": "text", 
+          "id": "heading",
+          "label": "Main Heading",
+          "default": "Pay via Interac e-Transfer" 
+        },
+        { 
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Add TA Appliance as a Contact and send payment" 
+        },
+        { 
+          "type": "text",
+          "id": "label_1",
+          "label": "Label 1",
+          "default": "Contact Name:" 
+        },
+        { 
+          "type": "text",
+          "id": "value_1",
+          "label": "Value 1",
+          "default": "Makro"
+        },
+        { 
+          "type": "text",
+          "id": "label_2",
+          "label": "Label 2",
+          "default": "Contact Method:" 
+        },
+        { 
+          "type": "text",
+          "id": "value_2",
+          "label": "Value 2",
+          "default": "Email"
+        },
+        { 
+          "type": "text",
+          "id": "label_3", 
+          "label": "Label 3",
+          "default": "Message:"
+        },
+        { 
+          "type": "text",
+          "id": "value_3",
+          "label": "Value 3",
+          "default": "TA invoice # (Required)"
+        },
+        { 
+        "type": "text",
+         "id": "label_4", 
+         "label": "Label 4",
+         "default": "Email Address:"
+        },
+        { 
+          "type": "text",
+          "id": "value_4",
+          "label": "Value 4",
+          "default": "email@gmail.com"
+        },
+        { 
+          "type": "image_picker",
+          "id": "icon_1",
+          "label": "Icon 1"
+        },
+        { "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon 2" 
+        },
+        { "type": "image_picker",
+         "id": "icon_3",
+          "label": "Icon 3" 
+        },
+        { "type": "image_picker",
+          "id": "icon_4",
+          "label": "Icon 4" 
+        },
+        { 
+          "type": "image_picker",
+          "id": "icon_5", 
+          "label": "Icon 5"
+        }
+      ]
+    },
+
+    {
+      "type": "bank",
+      "name": "Pay Bank Block",
+      "limit": 1,
+      "settings": [
+        { "type": "text",
+          "id": "heading",
+          "label": "Main Heading",
+          "default": "Pay Through Bank"
+        },
+        { 
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Sub Heading",
+          "default": "Add TA Appliance as your bill payee and send payment."
+        },
+        { 
+          "type": "textarea",
+          "id": "small",
+          "label": "Small Text",
+          "default": "Account Number is your 'Bill To' #" 
+        },
+        { 
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "TA Appliance is registered as a bill payee under the following names:"
+        },
+        { 
+          "type": "text",
+          "id": "label_1", 
+          "label": "Label 1",
+          "default": "Scotiabank:" 
+        },
+        { 
+          "type": "text",
+          "id": "value_1",
+          "label": "Value 1",
+          "default": "Makro Agency" 
+        },
+        { 
+          "type": "text",
+          "id": "label_2",
+          "label": "Label 2",
+          "default": "TD:" 
+        },
+        { 
+          "type": "text", 
+          "id": "value_2", 
+          "label": "Value 2",
+          "default": "Makro Agency"
+        },
+        { 
+          "type": "text",
+          "id": "label_3",
+          "label": "Label 3",
+          "default": "CIBC:" 
+        },
+        {
+          "type": "text",
+          "id": "value_3",
+          "label": "Value 3",
+          "default": "Makro Agency" 
+        },
+        { 
+          "type": "text",
+          "id": "label_4",
+          "label": "Label 4",
+          "default": "RBC:" 
+        },
+        { 
+          "type": "text",
+          "id": "value_4",
+          "label": "Value 4",
+          "default": "Makro Agency"
+        },
+        { 
+          "type": "text",
+          "id": "label_5",
+          "label": "Label 5",
+          "default": "BMO:" 
+        },
+        { 
+          "type": "text",
+          "id": "value_5", 
+          "label": "Value 5",
+          "default": "Makro Agency"
+        },
+        { 
+          "type": "image_picker",
+          "id": "icon_bank_1",
+          "label": "Icon 1"
+        },
+        { 
+          "type": "image_picker",
+          "id": "icon_bank_2",
+          "label": "Icon 2" 
+        },
+        { 
+          "type": "image_picker",
+          "id": "icon_bank_3",
+          "label": "Icon 3" 
+        },
+        {
+          "type": "image_picker", 
+          "id": "icon_bank_4",
+          "label": "Icon 4"
+        },
+        { 
+          "type": "image_picker", 
+          "id": "icon_bank_5", 
+          "label": "Icon 5"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Pay Card Block",
+      "limit": 1,
+      "settings": [
+        { 
+           "type": "text",
+           "id": "heading",
+           "label": "Main Heading",
+           "default": "Pay by Credit Card or Paypal" 
+        },
+        { 
+          "type": "image_picker",
+          "id": "card_icon", 
+          "label": "Card Icon Image"
+        }
+      ]
+    }
+
+  ],
+
+  "presets": [
+    { "name": "Make Payment" }
+  ]
+}
+{% endschema %}

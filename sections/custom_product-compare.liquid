@@ -1,0 +1,136 @@
+{% comment %}
+  SECTION: Product compare
+  
+  DEPENDENCIES:
+  -product-compare.css
+  -custom_product-compare.js
+  -icon-long-arrow.liquid
+{% endcomment %}
+
+{{ 'product-compare.css' | asset_url | stylesheet_tag }} 
+<script src="{{ 'custom_product-compare.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="product-compare container">
+  <div class="page-header">
+    <div class="page-header__inner">
+      <h1 class="main-page-title page-title {{section.settings.heading_size}}">
+        <span class="small-hide">Compare Products</span>
+        <span class="large-up-hide medium-hide">Compare</span>        
+      </h1>
+      <div class="compare-clear-all button button--tertiary" onclick="clearComparePage()">Clear All</div>
+    </div>
+    <div class="wrapper large-up-hide medium-hide">
+      
+      <label class="compare-checkbox">
+        <input type="checkbox" onchange="checkDiff(this)" /> Only Show Differences
+      </label>
+      <div class="compare-count"><span class="c-count">0 of 4</span> selected</div>
+    </div>
+  </div>
+  <div class="compare-table">
+
+    {%- assign product_form_id = 'quick-add-' | append: section.id -%}
+
+    <table class="">
+      <tbody>
+        <tr class="product-card-tr product-card-tr-placeholder hidden">
+          <th class="first-th small-hide"></th>
+          <th class="card-th"></th>
+          <th class="card-th"></th>
+          <th class="empty-th"></th>
+          <th class="empty-th"></th>
+        </tr>
+        <tr class="product-card-tr">
+          <th class="first-th small-hide">
+            <label class="compare-checkbox">
+              <input type="checkbox" onchange="checkDiff(this)" /> Only Show Differences
+            </label>
+            <div class="compare-count"><span class="c-count">2 of 4</span> selected</div>
+            
+          </th>
+          <th class="empty-th min-hgt">                             
+            <div class="product-card product-card-empty">
+              
+              <span>You can select up to 4 products for comparison</span>
+              <p class="link" onclick="BrowseProd()">
+                Browse Products 
+                {%- render 'icon-long-arrow' -%}
+              </p>
+            </div>
+          </th>
+          <th class="empty-th">                             
+            <div class="product-card product-card-empty">
+              
+              <span>You can select up to 4 products for comparison</span>
+              <p class="link" onclick="BrowseProd()">
+                Browse Products 
+                {%- render 'icon-long-arrow' -%}
+              </p>
+            </div>
+          </th>
+          <th class="empty-th">                             
+            <div class="product-card product-card-empty">
+              
+              <span>You can select up to 4 products for comparison</span>
+              <p class="link" onclick="BrowseProd()">
+                Browse Products 
+                {%- render 'icon-long-arrow' -%}
+              </p>
+            </div>
+          </th>
+          <th class="empty-th">                             
+            <div class="product-card product-card-empty">
+              
+              <span>You can select up to 4 products for comparison</span>
+              <p class="link" onclick="BrowseProd()">
+                Browse Products 
+                {%- render 'icon-long-arrow' -%}
+              </p>
+            </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>  
+</div>
+
+{% schema %}
+{
+  "name": "Product compare",
+  "tag": "section",
+  "class": "product-compare-section spaced-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h3",
+      "label": "t:sections.all.heading_size.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product compare"
+    }
+  ]
+}
+{% endschema %}

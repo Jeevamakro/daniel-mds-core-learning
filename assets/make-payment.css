@@ -1,0 +1,53 @@
+
+.custom_payment .section-title{ text-align:center; margin-bottom:40px;  }
+.custom_payment .payment-section {  max-width: 662px; margin: 0 auto; }
+.custom_payment  .payment-block { border: none;  padding: 0; margin-top:8px;  margin-bottom: 8px; border-radius: 6px;}
+.custom_payment .payment-block-header { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 24px; margin-bottom:0; background-color: rgb(var(--color-background-secondary));border-radius: calc(var(--border-radius-main) - 4px);  line-height: var(--font-heading-line-height); }
+.custom_payment .payment-block.through-cards .payment-fields .fieldset.name-group .form-lname  .field{  margin-top:16px; }
+.custom_payment .payment-block-header p{ margin: 6px 0 0 0; color: rgb(var(--color-foreground-secondary)); }
+.custom_payment .payment-block-option{ display: flex; justify-content: space-between;     background-color: rgb(var(--color-background-secondary));  }
+.custom_payment .payment-fields h5{ margin:0; padding-top:2.4rem; padding-bottom:1.6rem; padding-left:24px; padding-right:24px; background-color: rgb(var(--color-background-secondary)); line-height: var(--font-heading-line-height); }
+.custom_payment .payment-fields p{ margin:0; padding-top:0rem; padding-bottom:0rem; padding-left:2.4rem; padding-right:2.4rem; color: rgb(var(--color-foreground-secondary));   background-color: rgb(var(--color-background-secondary)); }
+.custom_payment .payment-block.through-bank .payment-fields h5.block-sub-heading{ padding-bottom:6px;  }
+.custom_payment .payment-block-header .payment-group span{ font-size: calc(var(--font-body-scale) * 2rem); }
+.custom_payment .payment-block input[type="checkbox"] { position: absolute; opacity: 1; width: 100%; height: 2rem; margin: 0; border-radius: var(--border-radius-button); top: 0;left: 0; z-index: 10;cursor:pointer;  -webkit-appearance: none;appearance: none; /* pointer-events: none; */ border-radius: 50%;}
+.custom_payment .checkbox-group h5{ margin:24px 0 0 0; }
+.custom_payment .checkbox-group{ position:relative;     line-height: var(--font-heading-line-height); }
+.custom_payment .payment-block .checkbox-group>input[type="checkbox"] + .payment-group  span.icon.icon-checkmark{ position: absolute; top: 50%; left: .5rem;width: 1rem; height: 1rem; border-radius: 50%; z-index: 5; visibility: hidden; background-color: rgb(var(--color-foreground)); transform: translateY(-50%); transition: all var(--duration-default) ease-in-out; }
+.custom_payment .payment-block-header .payment-group{ gap:12px; display:flex; align-items: center; flex-grow:1; position:relative;   }
+.custom_payment .payment-block input[type="checkbox"] + .payment-group:before { content: ""; display: block; flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 50%; background-color: rgb(var(--color-border)); }
+.custom_payment .payment-block-header .payment-group  span:last-child{ position:relative; cursor:pointer; }
+.custom_payment .payment-block .checkbox-group>input[type="checkbox"]:checked + .payment-group > span.icon.icon-checkmark { visibility: visible; } 
+.custom_payment .payment-block input[type="checkbox"] .payment-group .icon.icon-checkmark {position: absolute;top: 50%;left: .5rem; width: 1rem; height: 1rem;border-radius: 50%;z-index: 5;visibility: hidden; background-color: rgb(var(--color-foreground));transform: translateY(-50%); transition: all var(--duration-default) ease-in-out;}
+  /* UL / LI FIELD LAYOUT */
+.custom_payment .payment-fields ul { list-style: none;  padding: 0; margin: 0;}
+.custom_payment .payment-fields li { display: flex; justify-content: space-between; line-height: var(--font-heading-line-height);  align-items:center;  padding: 21px 24px;background-color: rgb(var(--color-background-secondary));  border-top: 1px solid rgb(var(--color-border));}
+.custom_payment .payment-fields li:last-child { border-bottom: 1px solid rgb(var(--color-border));}
+.custom_payment .payment-fields .payment-text-left { width: 40%; font-family: var(--font-button-family); letter-spacing: 0; font-size: calc(var(--font-body-scale) * 1.2rem); color: rgb(var(--color-foreground-secondary)); text-transform: var(--font-button-text-transform);}
+.custom_payment .payment-fields .payment-text-right { width: 60%; text-align: right;}
+.custom_payment .bank-icon-inner{ padding: 8px;background-color:rgb(var(--color-background)); display: flex;align-items: center; border-radius: var(--border-radius-main); }
+.custom_payment .bank-icons{ display: flex; gap: 5px; margin-top:0; background-color: rgb(var(--color-background-secondary)); padding-top:12px; padding-bottom:24px; }
+.custom_payment .payment-card-icons{ display: flex; gap: 5px; max-width: 220px;  max-height: 24px;  }
+.custom_payment .card-icons{  display: flex; align-items: center; }
+.custom_payment .bank-icons{ padding-left:24px; padding-right:24px; }
+.custom_payment .bank-icons img,.card-icons img { height: 32px;}
+/* .payment-block.through-bank .payment-block-header{ padding-bottom:0; } */
+.custom_payment .payment-block.through-bank .payment-fields h5{ margin-top:0; }
+.custom_payment .payment-block.through-cards .payment-fields{ margin-top:24px; }
+.custom_payment .payment-block.through-cards .payment-fields .field{ margin-top:1.6rem; }
+.custom_payment .payment-block.through-cards .payment-fields .field label{ font-weight: var(--font-button-weight); margin-bottom:8px; }
+.custom_payment .payment-block.through-cards .payment-fields .field input{ background:none; border:1px solid rgb(var(--color-border));}
+.custom_payment .payment-block.through-cards .form-group{ display:flex; gap:16px;  }
+.custom_payment .payment-block.through-cards .payment-fields{ background-color: rgb(var(--color-background-secondary)); border-radius: var(--border-radius-main); padding:24px;  }
+.custom_payment .payment-block.through-cards button.payment-submit{ margin-top:1.6rem; width:100%;  }
+.custom_payment .payment-block.through-cards .payment-fields .fieldset.name-group .field{ margin-top:0; }
+.custom_payment .payment-block-option .checkbox-group>input[type=checkbox]:checked+.payment-group>span.icon.icon-checkmark{ visibility: visible;}
+.custom_payment .payment-block-option .checkbox-group>input[type=checkbox]+.payment-group > span.icon.icon-checkmark{ position: absolute;top: 50%;left: .5rem;width: 1rem; height: 1rem;border-radius: 50%; z-index: 5; visibility: hidden; background-color: rgb(var(--color-foreground));transform: translateY(-50%); transition: all var(--duration-default) ease-in-out; }
+
+@media screen and (max-width:767px){
+    .custom_payment .section-title{ margin-bottom:24px; }
+    .custom_payment .payment-block-header .payment-group span{ font-size: calc(var(--font-body-scale) * 1.8rem); }
+    .custom_payment .payment-fields h5 , .custom_payment .payment-block-header , .custom_payment .payment-fields li , .custom_payment .payment-block.through-cards .payment-fields{ padding-left:20px; padding-right:20px; }
+    .custom_payment .payment-block.through-cards .payment-fields .field label{ font-size: calc(var(--font-body-scale) * 1.2rem); }
+    .custom_payment .payment-block.through-cards .form-group{ flex-direction:column; gap:0; }
+}

@@ -1,0 +1,65 @@
+<div class="smaller-card-item color-{{ color_scheme }} {{ image_size }}" data-id="{{ block_id }}">
+    {{ block_styles }}
+<div class="smaller-content">
+   
+    <div class="top-content">
+    {% if card_subheading %}
+     <span class="subheading section-header__subtitle">{{ card_subheading }}</span>
+    {% endif %}
+     {% if card_heading %}
+     <h3 class="section-header__title {{ card_heading_size }}"> {{ card_heading }}</h3>
+     {% endif %}
+    </div>
+
+    <div class="bottom-content">
+        <div class="slideshow__button-wrapper smaller-card-wrapper {% if section.settings.text_animation %} js-fade {% endif %}"></div>
+            {% render 'button',
+            btn_label: block.settings.button_label,
+            btn_link: block.settings.button_link,
+            btn_style: block.settings.button_style,
+            button_dot: block.settings.button_dot,
+            add_classes: 'focus-inset'
+            %}
+        </div>
+</div>
+<div class="smaller-card-media">
+    {% if image != blank  %}
+        {% if mobile_image == blank %}
+            {%  assign  desktop_image_class = "hide-in-mobile" %}
+        {% else %}
+            {%  assign desktop_image_class =  "desktop-image"%} 
+        {% endif %}
+        {{
+            image
+            | image_url: width: 240
+            | image_tag:
+                loading: 'lazy',
+                width: image.width,
+                height: image_height,
+                sizes: '100vw',
+                widths: '240',
+                class: desktop_image_class
+        }}
+        {% if mobile_image != blank %}
+        <picture>
+           {{
+            mobile_image
+            | image_url: width: 240
+            | image_tag:
+                loading: 'lazy',
+                width: mobile_image.width,
+                height: imobile_image.height,
+                widths: '240',
+                class: "mobile-image"
+        }}
+        </picture>
+        {% endif %}
+    {% else %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+    {% endif %}
+    {% if block.settings.overlay_enable %}
+        <span class='slideshow__overlay'></span>
+    {% endif %}
+</div>
+
+</div>

@@ -1,0 +1,404 @@
+{{ 'page-form.css' | asset_url | stylesheet_tag }}
+
+
+{% if customer and customer.current_company.available_locations_count > 0 %}
+  <script>
+    window.location.href = '/account';
+  </script>
+{% endif %}
+
+<div class="page-form-section b2b-register">
+  <div class="container">
+    <div class="form-wrapper">
+      {% if section.settings.title != blank or section.settings.des != blank %}
+        <div class="page-form-header">
+          {% if section.settings.title != blank %}<h2 class="page-form-title h2 section-title">{{ section.settings.title }}</h2>{% endif %}
+          {% if section.settings.des != blank %}<p class="section-description"> {{ section.settings.des }}</p>{% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.form_link != blank %}
+        <div class="page-form-content">
+          <div class="form-container">
+            <form class="business-form" action="{{ section.settings.form_link }}">
+              <div class="field">
+                  <label>Name of your business *</label>
+                  <input type="text" placeholder="NAME OF YOUR BUSINESS" name="business-name" required>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="fieldset name-group">
+                <div>
+                  <div class="field">
+                    <label>First Name *</label>
+                    <input type="text" placeholder="FIRST NAME" name="first-name" required>
+                  </div>
+                  <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+                </div>
+
+                <div>
+                  <div class="field">
+                    <label>Last Name *</label>
+                    <input type="text" placeholder="LAST NAME" name="last-name" required>
+                  </div>
+                  <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+                </div>
+              </div>
+
+              <div class="field">
+                  <label>E-mail *</label>
+                  <input type="email" placeholder="E-MAIL" name="email" required>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="field">
+                  <label>Your Business Address *</label>
+                  <input type="text" placeholder="YOUR SHIPPING ADDRESS" name="shipping-address" required>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="field">
+                  <label>Zip Code *</label>
+                  <input type="text" placeholder="ZIP CODE" name="zipcode" required>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="field" data-form-dropdwon-wrapper>
+                  <label>Country *</label>
+
+                  {% capture country_data %}
+                    {{ all_country_option_tags }}
+                  {% endcapture %}
+                  <div class="custom-dropdown">
+                      <select class="hidden" id="country-drop" required name="country-drop"><option value=""></option>{{ all_country_option_tags }}</select>
+                      <div class="selected-option" data-form-dropdwon-active onclick="toggleActive(this);">PLEASE SELECT</div>
+                      <div class="dropdown-arrow">
+                          {% render 'custom-dropdown-icon' %}
+                      </div>
+                      <div class="dropdown-options" data-province-append="#stateProvince-drop" data-tag="#country-drop">
+                        {{ country_data | replace:'<option','<div class="option" onclick="selectoption(this)"' | replace:'</option','</div' | replace:'value=','data-value=' }}
+                      </div>
+                  </div>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="field" data-form-dropdwon-wrapper>
+                  <label>State *</label>
+                  <div class="custom-dropdown">
+                    <select class="hidden" id="stateProvince-drop" name="stateProvince" required></select>
+                    <div class="selected-option" data-form-dropdwon-active onclick="toggleActive(this);">PLEASE SELECT</div>
+                    <div class="dropdown-arrow">
+                        {% render 'custom-dropdown-icon' %}
+                    </div>
+                    <div class="dropdown-options" data-tag="#stateProvince-drop">
+                      <div class="option" data-value="California">California</div>
+                      <div class="option" data-value="Texas">Texas</div>
+                      <div class="option" data-value="New York">New York</div>
+                      <div class="option" data-value="Florida">Florida</div>
+                      <div class="option" data-value="Other">Other</div>
+                    </div>
+                  </div>
+                  
+                  {% comment %} <select id="stateProvince-drop" name="stateProvince" required></select> {% endcomment %}
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="field">
+                  <label>City *</label>
+                  <input type="text" placeholder="CITY" name="city" required>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="field">
+                  <label>Message / Notes (for special requests or comments)</label>
+                  <textarea placeholder="MESSAGE" name="message"></textarea>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <div class="checkbox main-ele">
+                <input type="checkbox" id="terms" name="agree_terms" required>
+                <label for="terms"> I Agree to the <a href="#">Terms and Conditions</a> * </label>
+              </div>
+              <div class="error-message" style="display: none;"> <span class="error-icon"> {% render 'custom-error' %}</span> THIS FIELD IS REQUIRED</div>
+
+              <button type="submit" class="button button--primary btn-submit">{{section.settings.btn-text}}
+                <div class="loading-overlay__spinner hide">
+                  {% render 'icon-spinner' %}
+                </div>
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="form-success-message hidden">
+      <div class="success-content">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M12.2534 27.9542C11.9479 28.2615 11.5312 28.4329 11.0983 28.4329C10.6653 28.4329 10.2486 28.2615 9.94314 27.9542L0.718024 18.7276C-0.239341 17.7703 -0.239341 16.2178 0.718024 15.2623L1.87315 14.1068C2.83081 13.1495 4.38144 13.1495 5.33881 14.1068L11.0983 19.8666L26.6611 4.30341C27.6188 3.34605 29.1709 3.34605 30.1268 4.30341L31.2819 5.45883C32.2393 6.4162 32.2393 7.96833 31.2819 8.9242L12.2534 27.9542Z" fill="#231F20"/>
+        </svg>
+      
+      <span>
+        <h2 class="section-title">Thank you!</h2>
+        <p>The form has been successfully submitted</p>
+      </span>
+      <span><a href="javascript:void(0);" class="button button--primary" onclick="goBack()">Go Back</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener("click",function(e){
+      
+      var _hearAboutActive = e.target.hasAttribute('data-form-dropdwon-active');
+      {% comment %} console.log('_hearAboutActive',e.target.closest('[data-tag]'),e.target.hasAttribute('data-value'),e.target); {% endcomment %}
+
+      if( e.target.closest('[data-tag]') != null && e.target.hasAttribute('data-value') ){
+
+        
+        
+        let value = e.target.getAttribute("data-value");
+        var _hearAboutSelect = document.querySelector(e.target.closest('[data-tag]').getAttribute('data-tag'));
+        var _appednActiveText = e.target.closest('[data-form-dropdwon-wrapper]').querySelector('[data-form-dropdwon-active]');     
+        if(_hearAboutSelect){
+          _hearAboutSelect.value = value;
+          _hearAboutSelect.closest('.field').nextElementSibling.style.display = 'none';
+        } 
+        if(_appednActiveText) _appednActiveText.innerText = e.target.textContent;
+        
+        let provines = e.target.getAttribute("data-provinces") || null;
+        //console.log(provines,'provines');
+        var appendEle = e.target.closest('[data-province-append]') != null ? document.querySelector(e.target.closest('[data-province-append]').getAttribute('data-province-append')) : null;
+        if( provines != null && provines.length > 2 ){
+          //console.log( JSON.parse(provines),'provines', provines.length );
+          var provinesJSON = JSON.parse(provines);
+          var _option = '', _li = '', _ul = document.createElement("ul"), _div = document.createElement("div");
+          for(var i = 0; i < provinesJSON.length; i++){          
+            _option = _option + `<option value="${provinesJSON[i][0]}">${provinesJSON[i][0]}</option>`;
+            _li = _li + `<div class="option" onclick="selectoption(this)" data-value="${provinesJSON[i][0]}">${provinesJSON[i][0]}</div>`;
+          }        
+          appendEle.innerHTML = _option;
+          appendEle.value = '';
+          appendEle.closest('[data-form-dropdwon-wrapper]').querySelector('[data-form-dropdwon-active]').innerText = 'Please Select';
+          appendEle.closest('[data-form-dropdwon-wrapper]').querySelector('.dropdown-options').innerHTML = _li;
+          appendEle.closest('[data-form-dropdwon-wrapper]').classList.remove('hidden');
+        }else{
+          if( appendEle ){
+            //console.log('appendEle',appendEle);
+            appendEle.closest('[data-form-dropdwon-wrapper]').classList.add('hidden');
+            appendEle.closest('[data-form-dropdwon-wrapper]').nextElementSibling.style.display = 'none';
+            appendEle.value = '';
+          }
+        }
+      }
+      if(_hearAboutActive){
+        var _hearAboutWrap = e.target.closest('[data-form-dropdwon-wrapper]');
+        if(_hearAboutWrap.classList.contains("active")){
+          _hearAboutWrap.classList.remove("active");
+        }else{        
+          document.querySelectorAll('[data-form-dropdwon-wrapper].active').forEach(function(ele, eleIndex, eleArray){
+            ele.classList.remove('active');
+          });
+          _hearAboutWrap.classList.add("active");
+        }
+      }
+      if( !_hearAboutActive && document.querySelector('[data-form-dropdwon-wrapper].active') != null ){
+        document.querySelectorAll('[data-form-dropdwon-wrapper].active').forEach(function(ele, eleIndex, eleArray){
+          ele.classList.remove('active');
+        });
+      }
+    });
+
+    document.querySelector('.b2b-register .page-form-content form .btn-submit').addEventListener("click",function(e){
+      var _fieldEmpty = false;
+      
+      e.preventDefault();
+
+      var _passwrodMatch = false;
+      if( this.closest('form').querySelectorAll('input[type="password"]').length == 0 ){
+        _passwrodMatch = true;
+      }
+  
+      this.closest('form').querySelectorAll('input[type="email"][required]').forEach((email_selector) => {
+        email_selector.closest('.field').nextElementSibling.style.display = 'none';
+        if( email_selector && !validateEmail(email_selector.value) ){
+          email_selector.closest('.field').nextElementSibling.style.display = 'flex';
+          _passwrodMatch = false;
+        }
+      })
+  
+      var _requiredFiledCount = this.closest('form').querySelectorAll('*[required]').length, _FiledFilledCount = 0;
+      _requiredFiledCount = _requiredFiledCount + this.closest('form').querySelectorAll('.check-list').length;
+      this.closest('form').querySelectorAll('*[required]').forEach(function(ele, eleIndex, eleArray){
+        /*if( ele.tagName == "SELECT" ){console.log(ele.tagName, ele.value, ele);}*/
+        
+        if(ele.closest('[data-form-dropdwon-wrapper]') && ele.closest('[data-form-dropdwon-wrapper]').classList.contains('hide')){
+          _FiledFilledCount += 1;
+          ele.closest('[data-form-dropdwon-wrapper]').remove();
+        }else{
+          if( ele.value == '' ){
+            ele.closest('.field').nextElementSibling.style.display = 'flex';
+          }else{
+            if( ele.closest('.field') && ele.closest('.field').nextElementSibling.style.display == 'flex'){
+              if(ele.type == "email"){
+                if(validateEmail(ele.value)){
+                  ele.closest('.field').nextElementSibling.style.display = 'none';
+                }
+                
+              }else{
+                ele.closest('.field').nextElementSibling.style.display = 'none';
+              }
+            }
+            _FiledFilledCount += 1;
+          }
+        }
+        
+  
+        if( ele.type == "checkbox" && ele.name == "agree_terms" && ele.checked == false ){        
+          _FiledFilledCount -= 1;
+          ele.closest('.main-ele').nextElementSibling.style.display = 'flex';
+        }else if(ele.type == "checkbox" && ele.name == "agree_terms" && ele.checked == true){
+          ele.closest('.main-ele').nextElementSibling.style.display = 'none';
+        }
+
+        
+      });
+
+      this.closest('form').querySelectorAll('.check-list').forEach(function(ele, eleIndex, eleArray){
+        
+        if(ele.querySelectorAll('input:checked').length > 0){
+          _FiledFilledCount += 1;
+          ele.nextElementSibling.style.display = 'none';
+        }else{
+          ele.nextElementSibling.style.display = 'flex';
+        }
+      })
+
+      //console.log(_requiredFiledCount, _FiledFilledCount);
+      if( _requiredFiledCount != _FiledFilledCount ){
+        _passwrodMatch = false;
+      }
+
+      //console.log('_passwrodMatch',_passwrodMatch, _fieldEmpty);
+      if(!_passwrodMatch){
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        e.preventDefault();
+      }else{
+        
+        const data = {};
+        const formData = new FormData(this.closest('form'));
+
+        {% comment %} formData.forEach((value, key) => {
+          // If multiple values (e.g. checkboxes with same name), you may want to handle that too
+          data[key] = value;
+        }); {% endcomment %}
+        
+        formSubmit(e);
+      }
+    });
+    
+  });
+
+  function toggleActive(ele){
+    ele.closest('.custom-dropdown').classList.toggle('active');
+  }
+
+  function selectoption(ele){
+    var value = ele.getAttribute('data-value');
+    ele.closest('.custom-dropdown').querySelector('.selected-option').textContent = ele.textContent;
+
+    // If a hidden input is linked via a data attribute on the dropdown, update its value
+    var hiddenInputId = ele.closest('.custom-dropdown').getAttribute('data-input-id');
+    if (hiddenInputId) {
+      document.getElementById(hiddenInputId).value = value;
+    }
+    ele.closest('.custom-dropdown').classList.remove('active');
+  }
+
+  function fetchConfig(type = 'json') {
+    return {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: `application/${type}` },
+    };
+  }
+
+  function formSubmit(e) {
+    e.preventDefault();
+
+    document.querySelector('.b2b-register .page-form-content form .btn-submit').classList.add('loading');
+    document.querySelector('.b2b-register .page-form-content form .btn-submit .loading-overlay__spinner').classList.remove('hide');
+    
+    const form = e.target.closest('form');
+
+    var url = form.getAttribute('action');    
+    var config = fetchConfig('javascript');
+    delete config.headers['Content-Type'];
+    config.headers['Accept'] = '/';
+    var formData = new FormData(form);
+    config.body = formData;
+    fetch(`${url}`, config)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.status) {
+          window.scrollTo({top: 0, behavior: 'smooth'});
+          e.target.closest('form').classList.add('hide');
+          e.target.closest(".form-wrapper").classList.add('hidden');
+          e.target.closest(".page-form-section").querySelector(".form-success-message").classList.remove('hidden');
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  };
+
+  function goBack(){
+    location.reload();
+  }
+
+  function validateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
+      return (true);
+    }    
+    return (false);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Page Form",
+  "class": "custom-page-form spaced-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "form_link",
+      "label": "Add Zapier Link"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "des",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "btn-text",
+      "label": "Button Text",
+      "default": "Submit"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "B2B page form"
+    }
+  ]
+}
+{% endschema %}

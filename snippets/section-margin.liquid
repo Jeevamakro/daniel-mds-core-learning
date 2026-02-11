@@ -1,0 +1,95 @@
+{%- liquid
+	assign has_mobile = section.settings.enable_mobile_spacing 
+	assign margin_top_m = section.settings.margin_top_m
+	assign margin_bottom_m = section.settings.margin_bottom_m
+-%}
+
+#shopify-section-{{ section.id }} {
+	
+{%- if has_mobile and margin_bottom_m != blank -%}
+	{% if margin_top_m == 'no-indent' %}
+		padding-top: 0;
+	{% elsif margin_top_m == 'xl' %}
+		padding-top: 10rem;
+	{% elsif margin_top_m == 'l' %}
+		padding-top: 7rem;
+	{% elsif margin_top_m == 'm' %}
+		padding-top: 4rem;
+	{% elsif margin_top_m == 's' %}
+		padding-top: 4rem;
+	{% else %}
+		padding-top: 3.2rem;
+	{% endif %}
+
+	{% if margin_bottom_m == 'no-indent' %}
+		padding-bottom: 0;
+	{% elsif margin_bottom_m == 'xl' %}
+		padding-bottom: 10rem;
+	{% elsif margin_bottom_m == 'l' %}
+		padding-bottom: 7rem;
+	{% elsif margin_bottom_m == 'm' %}
+		padding-bottom: 4rem;
+	{% elsif margin_bottom_m == 's' %}
+		padding-bottom: 4rem;
+	{% else %}
+		padding-bottom: 3.2rem;
+	{% endif %}
+{% else %}	
+	{% if section.settings.margin_top == 'no-indent' %}
+		padding-top: 0;
+	{% elsif section.settings.margin_top == 'xl' %}
+		padding-top: 10rem;
+	{% elsif section.settings.margin_top == 'l' %}
+		padding-top: 7rem;
+	{% elsif section.settings.margin_top == 'm' %}
+		padding-top: 6.4rem;
+	{% elsif section.settings.margin_top == 's' %}
+		padding-top: 4rem;
+	{% else %}
+		padding-top: 3.2rem;
+	{% endif %}
+
+	{% if section.settings.margin_bottom == 'no-indent' %}
+		padding-bottom: 0;
+	{% elsif section.settings.margin_bottom == 'xl' %}
+		padding-bottom: 10rem;
+	{% elsif section.settings.margin_bottom == 'l' %}
+		padding-bottom: 7rem;
+	{% elsif section.settings.margin_bottom == 'm' %}
+		padding-bottom: 6.4rem;
+	{% elsif section.settings.margin_bottom == 's' %}
+		padding-bottom: 4rem;
+	{% else %}
+		padding-bottom: 3.2rem;
+	{% endif %}
+{% endif %}
+}
+@media screen and (min-width: 750px) { #shopify-section-{{ section.id }} {
+{% if section.settings.margin_top == 'no-indent' %}
+	padding-top: 0;
+{% elsif section.settings.margin_top == 'xl' %}
+	padding-top: 15rem;
+{% elsif section.settings.margin_top == 'l' %}
+	padding-top: 10rem;
+{% elsif section.settings.margin_top == 'm' %}
+	padding-top: 7rem;
+{% elsif section.settings.margin_top == 's' %}
+	padding-top: 4.8rem;
+{% else %}
+	padding-top: 4rem;
+{% endif %}
+
+{% if section.settings.margin_bottom == 'no-indent' %}
+	padding-bottom: 0;
+{% elsif section.settings.margin_bottom == 'xl' %}
+	padding-bottom: 15rem;
+{% elsif section.settings.margin_bottom == 'l' %}
+	padding-bottom: 10rem;
+{% elsif section.settings.margin_bottom == 'm' %}
+	padding-bottom: 7rem;
+{% elsif section.settings.margin_bottom == 's' %}
+	padding-bottom: 4.8rem;
+{% else %}
+	padding-bottom: 4rem;
+{% endif %}
+} }

@@ -1,0 +1,1041 @@
+{{ 'custom-my-lists.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  {% render 'section-margin' %}
+{%- endstyle -%}
+
+<div class="section-my-lists color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    <div class="saved-success-message success-message hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2.5 9L6 12.5L14 4.5" stroke="#367B60" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      List Saved
+    </div>
+    {% comment %}
+      mylist default
+    {% endcomment %}
+    <div class="create-list-section">
+      <div class="section-heading-wrapper">
+        <h1 class="h1 section-title">My Lists</h1>
+        <button type="button" class="button button--primary" onclick="createList(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3.75 12H20.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 3.75V20.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Create New List
+        </button>
+      </div>
+      <p class="empty-text hidden">You don't have any Lists yet. Click “Create List” to add your first List.</p>
+      <div class="lists-layout hidden">
+        <div class="lists-table">
+          <div class="table-header small-hide">
+            <div>List Name</div>
+            <div>Last Updated</div>
+            <div></div>
+          </div>
+          {% comment %} <div class="table-row">
+            <div class="list-name"><a href="#">Product List 1</a></div>
+            <div class="created-date">
+              <span class="large-up-hide medium-hide">Last Updated</span>
+              2025-11-01
+            </div>
+            <div class="actions">
+              <button class="add-btn button button--tertiary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M17.625 17.25H8.54719C8.19591 17.2499 7.85579 17.1266 7.58612 16.9015C7.31646 16.6764 7.13435 16.3637 7.07156 16.0181L4.56844 2.25H2.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.625 21C9.66053 21 10.5 20.1605 10.5 19.125C10.5 18.0895 9.66053 17.25 8.625 17.25C7.58947 17.25 6.75 18.0895 6.75 19.125C6.75 20.1605 7.58947 21 8.625 21Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.625 21C18.6605 21 19.5 20.1605 19.5 19.125C19.5 18.0895 18.6605 17.25 17.625 17.25C16.5895 17.25 15.75 18.0895 15.75 19.125C15.75 20.1605 16.5895 21 17.625 21Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6.61406 13.5H18.3844C18.7357 13.4999 19.0758 13.3766 19.3454 13.1515C19.6151 12.9264 19.7972 12.6137 19.86 12.2681L21 6H5.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Add to Cart
+              </button>
+              <button class="delete-btn button button--delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M7.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14.25 4.5V15C14.25 15.3979 14.0919 15.7794 13.8107 16.0606C13.5293 16.342 13.1478 16.5 12.75 16.5H5.25001C4.85218 16.5 4.47065 16.342 4.18935 16.0606C3.90804 15.7794 3.75 15.3979 3.75 15L3.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2.25 4.5L15.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 4.5V3.00001C6 2.60218 6.15804 2.22065 6.43935 1.93935C6.72065 1.65804 7.10218 1.5 7.50001 1.5L10.5 1.5C10.8978 1.5 11.2793 1.65804 11.5607 1.93935C11.8419 2.22065 12 2.60218 12 3.00001V4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="table-row">
+            <div class="list-name"><a href="#">Product List 1</a></div>
+            <div class="created-date">
+              <span class="large-up-hide medium-hide">Last Updated</span>
+              2025-11-01
+            </div>
+            <div class="actions">
+              <button class="add-btn button button--tertiary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M17.625 17.25H8.54719C8.19591 17.2499 7.85579 17.1266 7.58612 16.9015C7.31646 16.6764 7.13435 16.3637 7.07156 16.0181L4.56844 2.25H2.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.625 21C9.66053 21 10.5 20.1605 10.5 19.125C10.5 18.0895 9.66053 17.25 8.625 17.25C7.58947 17.25 6.75 18.0895 6.75 19.125C6.75 20.1605 7.58947 21 8.625 21Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.625 21C18.6605 21 19.5 20.1605 19.5 19.125C19.5 18.0895 18.6605 17.25 17.625 17.25C16.5895 17.25 15.75 18.0895 15.75 19.125C15.75 20.1605 16.5895 21 17.625 21Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6.61406 13.5H18.3844C18.7357 13.4999 19.0758 13.3766 19.3454 13.1515C19.6151 12.9264 19.7972 12.6137 19.86 12.2681L21 6H5.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Add to Cart
+              </button>
+              <button class="delete-btn button button--delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M7.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14.25 4.5V15C14.25 15.3979 14.0919 15.7794 13.8107 16.0606C13.5293 16.342 13.1478 16.5 12.75 16.5H5.25001C4.85218 16.5 4.47065 16.342 4.18935 16.0606C3.90804 15.7794 3.75 15.3979 3.75 15L3.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2.25 4.5L15.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 4.5V3.00001C6 2.60218 6.15804 2.22065 6.43935 1.93935C6.72065 1.65804 7.10218 1.5 7.50001 1.5L10.5 1.5C10.8978 1.5 11.2793 1.65804 11.5607 1.93935C11.8419 2.22065 12 2.60218 12 3.00001V4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div> {% endcomment %}
+        </div>
+      </div>
+    </div>
+    {% comment %}
+      list page
+    {% endcomment %}
+    <div class="list-created hidden">
+      <div class="section-heading-wrapper">
+        <div class="heading-wrap">
+          <a href="javascript:void(0);" onclick="backbutton(this)" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <path d="M6.5 1.5L3 5L6.5 8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Lists
+          </a>
+          <div class="page-actions">
+            <button class="delete-btn button button--delete hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.25 4.5V15C14.25 15.3979 14.0919 15.7794 13.8107 16.0606C13.5293 16.342 13.1478 16.5 12.75 16.5H5.25001C4.85218 16.5 4.47065 16.342 4.18935 16.0606C3.90804 15.7794 3.75 15.3979 3.75 15L3.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.25 4.5L15.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 4.5V3.00001C6 2.60218 6.15804 2.22065 6.43935 1.93935C6.72065 1.65804 7.10218 1.5 7.50001 1.5L10.5 1.5C10.8978 1.5 11.2793 1.65804 11.5607 1.93935C11.8419 2.22065 12 2.60218 12 3.00001V4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Delete
+            </button>
+            <button class="add-btn button button--tertiary small-hide medium-hide" onclick="saveLists(this)">
+              Save List
+            </button>
+          </div>
+        </div>
+        <button class="add-btn button button--tertiary large-up-hide" onclick="saveLists(this)">Save List</button>
+      </div>
+
+      <div class="lists-name">
+        <h3 class="h3 section-title">List title</h3>
+        <input type="text" name="lits-name" placeholder="List title">
+      </div>
+      <div class="add-producttolist">
+        <div class="product-lists-wrapper">
+          <div class="add-pdp-list">
+            <h3 class="h3 section-title">Add Products to list</h3>
+            <div class="product-input">
+              <input type="text" name="lits-name" placeholder="Search by SKU" onkeyup="searchProd(this)">
+              <span class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M12.0868 12.8027C12.2842 13.0001 12.6043 13.0001 12.8017 12.8027C12.9992 12.6053 12.9992 12.2852 12.8017 12.0877L12.0868 12.8027ZM10.0171 6.03999C10.0171 8.23703 8.23605 10.0181 6.03902 10.0181V11.0292C8.79448 11.0292 11.0282 8.79545 11.0282 6.03999H10.0171ZM6.03902 10.0181C3.84197 10.0181 2.06092 8.23703 2.06092 6.03999H1.0498C1.0498 8.79545 3.28355 11.0292 6.03902 11.0292V10.0181ZM2.06092 6.03999C2.06092 3.84295 3.84197 2.06189 6.03902 2.06189V1.05078C3.28355 1.05078 1.0498 3.28453 1.0498 6.03999H2.06092ZM6.03902 2.06189C8.23605 2.06189 10.0171 3.84295 10.0171 6.03999H11.0282C11.0282 3.28453 8.79448 1.05078 6.03902 1.05078V2.06189ZM8.88417 9.6001L12.0868 12.8027L12.8017 12.0877L9.59913 8.88514L8.88417 9.6001Z" fill="#1A313C"/>
+                </svg>
+              </span>
+
+              <div class="suggested-product-list hidden">
+                {% comment %}
+                  <div class="suggested-product">
+                      <div class="suggest-product-wrapper">
+                          <div class="image"><img src="https://cdn.shopify.com/s/files/1/0774/4438/2944/files/tools-and-instruments.png?v=1764308196" alt="image" height="auto" width="auto" /></div>
+                          <div class="product-details">
+                              <div class="product-title">Supco Fin Jack | 9 and 10 FPI | Black Handle</div>
+                              <div class="sku">FPT-10-SUP</div>
+                          </div>
+                      </div>
+                      <div class="quantity-btn-wrp">
+                          <quantity-input class="quantity">
+                              <button class="quantity__button no-js-hidden focus-inset disabled" name="minus" type="button">
+                              <span class="visually-hidden">Decrease quantity for Memphis Small Round Plastic Planter - 13 in x 13 in x 11.6 in</span>
+                              <span class="quantity__button_minus">-</span>
+                              </button>
+                              <input class="quantity__input focus-inset" type="number" name="quantity" id="Quantity-template--20245889286400__main-product" data-cart-quantity="0" data-min="1" min="1" step="1" value="1" form="product-form-template--20245889286400__main-product">
+                              <label class="visually-hidden" for="Quantity-template--20245889286400__main-product">
+                              Quantity
+                              </label>
+                              <button class="quantity__button no-js-hidden focus-inset" name="plus" type="button">
+                              <span class="visually-hidden">Increase quantity for Memphis Small Round Plastic Planter - 13 in x 13 in x 11.6 in</span>
+                              <span class="quantity__button_plus">+</span>
+                              </button>
+                          </quantity-input>
+                          <button class="button button--primary">Add to List</button>
+                      </div>
+                  </div>
+                {% endcomment %}
+              </div>
+            </div>
+          </div>
+          <div class="list-total-price">
+            <div class="total-price h3">
+              <span class="total-text">List Total:</span>
+              <div class="list-price">$00.00</div>
+            </div>
+            <button class="button button--primary disabled" onclick="addListItem(this)">Add list to Cart</button>
+          </div>
+        </div>
+        <div class="success-message hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2.5 9L6 12.5L14 4.5" stroke="#367B60" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Product Added
+        </div>
+      </div>
+      <p class="empty-text">You don’t have any items in this list yet.</p>
+
+      {% comment %}added product list{% endcomment %}
+      <div class="product-table hidden">
+        <div class="product-list">
+          <div class="table-header small-hide  medium-hide">
+            <div class="title">Title</div>
+            <div class="sku">SKU</div>
+            <div class="qty">Qty</div>
+            <div class="price">Price</div>
+            <div class="delete-icon"></div>
+          </div>
+          {% comment %}
+            <div class="table-row">
+                <div class="title">
+                    <div class="image"><img src="https://cdn.shopify.com/s/files/1/0774/4438/2944/files/ProductImage.png?v=1764308196" height="auto" width="auto"></div>
+                    <div class="product-title">ClimateMaster Configuration Diagnostic Tool</div>
+                </div>
+                <div class="sku">
+                    <span class="large-up-hide">SKU</span>
+                    ACDU03-CLM
+                </div>
+                <div class="qty">
+                    <quantity-input class="quantity">
+                        <button class="quantity__button no-js-hidden focus-inset disabled" name="minus" type="button">
+                        <span class="visually-hidden">Decrease quantity for Memphis Small Round Plastic Planter - 13 in x 13 in x 11.6 in</span>
+                        <span class="quantity__button_minus">-</span>
+                        </button>
+                        <input class="quantity__input focus-inset" type="number" name="quantity" id="Quantity-template--20245889286400__main-product" data-cart-quantity="0" data-min="1" min="1" step="1" value="1" form="product-form-template--20245889286400__main-product">
+                        <label class="visually-hidden" for="Quantity-template--20245889286400__main-product">
+                        Quantity
+                        </label>
+                        <button class="quantity__button no-js-hidden focus-inset" name="plus" type="button">
+                        <span class="visually-hidden">Increase quantity for Memphis Small Round Plastic Planter - 13 in x 13 in x 11.6 in</span>
+                        <span class="quantity__button_plus">+</span>
+                        </button>
+                    </quantity-input>
+                </div>
+                <div class="product-price">
+                    <span class="large-up-hide">Price</span>
+                    <div>
+                    $7,192.00
+                    <span>$1,798.00/per item</span>
+                    </div>
+                </div>
+                <button class="delete-icon button button--delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6.6665 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.3335 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12.6668 4V13.3333C12.6668 13.687 12.5263 14.0261 12.2763 14.2761C12.0262 14.5262 11.6871 14.6667 11.3335 14.6667H4.66684C4.31322 14.6667 3.97408 14.5262 3.72403 14.2761C3.47398 14.0261 3.3335 13.687 3.3335 13.3333V4" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 4H14" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.3335 4.00065V2.66732C5.3335 2.3137 5.47398 1.97456 5.72403 1.72451C5.97408 1.47446 6.31322 1.33398 6.66684 1.33398H9.3335C9.68713 1.33398 10.0262 1.47446 10.2763 1.72451C10.5263 1.97456 10.6668 2.3137 10.6668 2.66732V4.00065" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="large-up-hide">Delete</span>
+                </button>
+            </div>
+            <div class="table-row">
+                <div class="title">
+                    <div class="image"><img src="https://cdn.shopify.com/s/files/1/0774/4438/2944/files/ProductImage.png?v=1764308196" height="auto" width="auto"></div>
+                    <div class="product-title">ClimateMaster Configuration Diagnostic Tool</div>
+                </div>
+                <div class="sku">
+                    <span class="large-up-hide">SKU</span>
+                    ACDU03-CLM
+                </div>
+                <div class="qty">
+                    <quantity-input class="quantity">
+                        <button class="quantity__button no-js-hidden focus-inset disabled" name="minus" type="button">
+                        <span class="visually-hidden">Decrease quantity for Memphis Small Round Plastic Planter - 13 in x 13 in x 11.6 in</span>
+                        <span class="quantity__button_minus">-</span>
+                        </button>
+                        <input class="quantity__input focus-inset" type="number" name="quantity" id="Quantity-template--20245889286400__main-product" data-cart-quantity="0" data-min="1" min="1" step="1" value="1" form="product-form-template--20245889286400__main-product">
+                        <label class="visually-hidden" for="Quantity-template--20245889286400__main-product">
+                        Quantity
+                        </label>
+                        <button class="quantity__button no-js-hidden focus-inset" name="plus" type="button">
+                        <span class="visually-hidden">Increase quantity for Memphis Small Round Plastic Planter - 13 in x 13 in x 11.6 in</span>
+                        <span class="quantity__button_plus">+</span>
+                        </button>
+                    </quantity-input>
+                </div>
+                <div class="product-price">
+                    $7,192.00
+                    <span>$1,798.00/per item</span>
+                </div>
+                <button class="delete-icon button button--delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6.6665 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.3335 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12.6668 4V13.3333C12.6668 13.687 12.5263 14.0261 12.2763 14.2761C12.0262 14.5262 11.6871 14.6667 11.3335 14.6667H4.66684C4.31322 14.6667 3.97408 14.5262 3.72403 14.2761C3.47398 14.0261 3.3335 13.687 3.3335 13.3333V4" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 4H14" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.3335 4.00065V2.66732C5.3335 2.3137 5.47398 1.97456 5.72403 1.72451C5.97408 1.47446 6.31322 1.33398 6.66684 1.33398H9.3335C9.68713 1.33398 10.0262 1.47446 10.2763 1.72451C10.5263 1.97456 10.6668 2.3137 10.6668 2.66732V4.00065" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="large-up-hide">Delete</span>
+                </button>
+            </div>
+          {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkforlists();
+    });
+
+    function createList(ele){
+        document.querySelector('.empty-text').classList.add('hidden');
+        document.querySelector('.list-created').classList.remove('hidden');
+        if(!document.querySelector('.lists-layout').classList.contains('hidden')){
+            document.querySelector('.lists-layout').classList.add('hidden');
+        }
+        ele.classList.add('hidden');
+    }
+
+    function backbutton(ele){
+        document.querySelector('.list-created').classList.add('hidden');
+        checkforlists();
+    }
+
+    function checkforlists(){
+        var hasMyLists = !!localStorage.getItem('mylists');
+        document.querySelector('[onclick="createList(this)"]').classList.remove('hidden');
+        if(hasMyLists && JSON.parse(localStorage.getItem('mylists')).length == 0){
+          document.querySelector('.empty-text').classList.remove('hidden');
+          document.querySelector('.list-created').classList.add('hidden');
+          document.querySelector('.create-list-section').classList.remove('hidden');
+          return;
+        }
+        if(hasMyLists){
+            document.querySelector('.empty-text').classList.add('hidden');
+            {% comment %} document.querySelector('.list-created').classList.remove('hidden'); {% endcomment %}
+            document.querySelector('.lists-layout').classList.remove('hidden');
+            {% comment %} document.querySelector('.create-list-section').classList.remove('hidden'); {% endcomment %}
+            addsavedEntry(localStorage.getItem('mylists'));
+        }else{
+            document.querySelector('.empty-text').classList.remove('hidden');
+            document.querySelector('.list-created').classList.add('hidden');
+            document.querySelector('.create-list-section').classList.remove('hidden');
+        }
+        document.querySelector('[onclick="createList(this)"]').classList.remove('hidden');
+    }
+
+    function searchProd(ele){
+        var get_search_term = ele.value;
+        fetch(`/search?q=${get_search_term}&type=product&section_id=template--20490542710997__cheksection`)
+        .then((response) => response.text())
+        .then((responseText) => {
+            const html = new DOMParser().parseFromString(responseText, 'text/html')
+            const get_html = html.querySelector('.result-div').textContent.trim();
+            {% comment %} if(get_html == 'No Products'){console.log('no products');}else{console.log('have products');} {% endcomment %}
+            document.querySelector('.suggested-product-list').innerHTML = html.querySelector('.result-div').innerHTML;
+            document.querySelector('.suggested-product-list').classList.remove('hidden');
+        })
+        .catch((e) => {
+            console.error(e)
+        })
+    }
+
+    function addprodlist(ele){
+        var main_div = ele.closest('.suggested-product');
+        var qty = ele.closest('.suggested-product').querySelector('quantity-input [name="quantity"]').value;
+        var get_price = window.formatMoney(ele.getAttribute('data-price'));
+        var addHtml = `
+        <div class="table-row" data-add-id="${ele.getAttribute('data-id')}">
+            <div class="title">
+                <div class="image"><img src="${main_div.querySelector('.image img').getAttribute('src')}" height="auto" width="auto"></div>
+                <div class="product-title">${main_div.querySelector('.product-details .product-title').textContent.trim()}</div>
+            </div>
+            <div class="sku">
+                <span class="large-up-hide">SKU</span>
+                ${main_div.querySelector('.product-details .sku').textContent.trim()}
+            </div>
+            <div class="qty">
+                <quantity-input class="quantity">
+                    <button class="quantity__button no-js-hidden focus-inset disabled" name="minus" type="button">
+                    <span class="quantity__button_minus">-</span>
+                    </button>
+                    <input class="quantity__input focus-inset" type="number" name="quantity" id="Quantity-template--20245889286400__main-product" data-cart-quantity="0" data-min="1" min="1" step="1" value="${qty}" form="product-form-template--20245889286400__main-product">
+                    <label class="visually-hidden" for="Quantity-template--20245889286400__main-product">
+                    Quantity
+                    </label>
+                    <button class="quantity__button no-js-hidden focus-inset" name="plus" type="button">
+                    <span class="quantity__button_plus">+</span>
+                    </button>
+                </quantity-input>
+            </div>
+            <div class="product-price" data-price-v="${ele.getAttribute('data-price')}">
+                <span class="large-up-hide">Price</span>
+                <div>
+                ${get_price}
+                </div>
+            </div>
+            <button class="delete-icon button button--delete" onclick="removeItemList(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6.6665 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M9.3335 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12.6668 4V13.3333C12.6668 13.687 12.5263 14.0261 12.2763 14.2761C12.0262 14.5262 11.6871 14.6667 11.3335 14.6667H4.66684C4.31322 14.6667 3.97408 14.5262 3.72403 14.2761C3.47398 14.0261 3.3335 13.687 3.3335 13.3333V4" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M2 4H14" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M5.3335 4.00065V2.66732C5.3335 2.3137 5.47398 1.97456 5.72403 1.72451C5.97408 1.47446 6.31322 1.33398 6.66684 1.33398H9.3335C9.68713 1.33398 10.0262 1.47446 10.2763 1.72451C10.5263 1.97456 10.6668 2.3137 10.6668 2.66732V4.00065" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="large-up-hide">Delete</span>
+            </button>
+        </div>`;
+        document.querySelector('.product-table .product-list').innerHTML += addHtml;
+        document.querySelector('.product-table').classList.remove('hidden');
+        {% comment %} document.querySelector('.list-created .page-actions .delete-btn').classList.remove('hidden'); {% endcomment %}
+        document.querySelector('.list-created .empty-text').classList.add('hidden');
+        ele.closest('.add-producttolist').querySelector('.success-message').classList.remove('hidden');
+        setTimeout(function() {
+            ele.closest('.add-producttolist').querySelector('.success-message').classList.add('hidden');
+        }, 2000);
+
+        var totalPrice = 0;
+        document.querySelectorAll('.list-created .table-row .product-price').forEach(function(priceDiv) {
+            var priceValue = priceDiv.getAttribute('data-price-v');
+            if (priceValue) {
+                var num = parseFloat(priceValue);
+                if (!isNaN(num)) totalPrice += num;
+            }
+        });
+
+        document.querySelector('.list-created .add-producttolist .list-total-price .list-price').innerText = window.formatMoney(totalPrice)
+        document.querySelector('.list-created .add-producttolist .list-total-price button').classList.remove('disabled');
+        {% comment %} ele.closest('.suggested-product-list').classList.add('hidden') {% endcomment %}
+    }
+
+    function closeBox(){
+        {% comment %} console.log('call'); {% endcomment %}
+        if(document.querySelector('.suggested-product-list') && document.querySelector('.suggested-product-list').classList.contains('hidden') == false){
+            document.querySelector('.suggested-product-list').classList.add('hidden');
+            document.querySelector('.product-lists-wrapper [name="lits-name"]').value = '';
+        }
+    }
+
+    function removeItemList(ele){
+        ele.closest('.table-row').remove();
+        if(document.querySelectorAll('.list-created .product-table .table-row').length == 0){
+            document.querySelector('.list-created .product-table').classList.add('hidden');
+            document.querySelector('.list-created .empty-text').classList.remove('hidden');
+        }
+    }
+
+    function saveLists(ele){
+
+        var mylists = [];
+        // Get the list title value
+        var listTitle = document.querySelector('.list-created [name="lits-name"]') ? document.querySelector('.list-created [name="lits-name"]').value.trim() : '';
+
+        console.log(listTitle,'listTitle')
+        if(listTitle == ''){
+            var errorElem = document.createElement('p');
+            errorElem.className = 'error-message';
+            errorElem.textContent = 'Please add List title';
+            document.querySelector('.lists-name').appendChild(errorElem);
+            setTimeout(function() {
+                document.querySelector('.lists-name .error-message').remove();
+            }, 2000);
+            return false;
+        }
+
+        if(document.querySelectorAll('.list-created .product-table .table-row').length == 0){
+            var errorElem = document.createElement('p');
+            errorElem.className = 'error-message';
+            errorElem.textContent = 'Please add Products';
+            document.querySelector('.lists-name').appendChild(errorElem);
+            setTimeout(function() {
+                document.querySelector('.lists-name .error-message').remove();
+            }, 2000);
+            return false;
+        }
+
+        // Get today's date in YYYY-MM-DD format
+        var today = new Date();
+        var addDate = today.getFullYear() + '-' + 
+            String(today.getMonth()+1).padStart(2, '0') + '-' + 
+            String(today.getDate()).padStart(2, '0');
+
+        // Retrieve previously saved lists, or start with empty
+        var existingLists = [];
+        var stored = localStorage.getItem('mylists');
+        if (stored) {
+            try {
+                var parsed = JSON.parse(stored);
+                // If old object format, coerce to array
+                if (Array.isArray(parsed)) {
+                    existingLists = parsed;
+                } else if (typeof parsed === 'object' && parsed !== null) {
+                    existingLists = [parsed];
+                }
+            } catch(e) {
+                existingLists = [];
+            }
+        }
+
+        // Build new/updated list object
+        var listObj = {
+            list_title: listTitle,
+            date_added: addDate,
+            products: []
+        };
+
+        document.querySelectorAll('.list-created .product-table .table-row').forEach(function(row) {
+            var id = row.getAttribute('data-add-id') || '';
+            var title = '';
+            var sku = '';
+            var image = '';
+            var price = '';
+            var qty = '';
+
+            var titleDiv = row.querySelector('.product-title');
+            if (titleDiv) {
+                title = titleDiv.textContent.trim();
+            }
+
+            var skuDiv = row.querySelector('.sku');
+            if (skuDiv) {
+                sku = skuDiv.textContent.replace(/SKU/i, '').replace(/\s+/g, '');
+            }
+
+            var imgTag = row.querySelector('img');
+            if (imgTag) {
+                image = imgTag.getAttribute('src') || '';
+            }
+
+            var priceDiv = row.querySelector('.product-price');
+            if (priceDiv) {
+                price = priceDiv.getAttribute('data-price-v') || '';
+            }
+
+            var qtyDiv = row.querySelector('quantity-input [name="quantity"]');
+            if (qtyDiv) {
+              qty = parseInt(qtyDiv.value) || '';
+            }
+            
+            listObj.products.push({
+                id: id,
+                title: title,
+                sku: sku,
+                image: image,
+                price: price,
+                quantity: qty,
+                date_added: addDate
+            });
+        });
+
+        // Check if a list with the same name exists -- update if so, else add
+        var found = false;
+        for (var i = 0; i < existingLists.length; i++) {
+            if (existingLists[i].list_title === listObj.list_title) {
+                // update in place
+                existingLists[i] = listObj;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            existingLists.push(listObj);
+        }
+        localStorage.setItem('mylists', JSON.stringify(existingLists));
+
+        document.querySelector('.saved-success-message').classList.remove('hidden');
+        setTimeout(function() {
+            document.querySelector('.saved-success-message').classList.add('hidden');
+            document.querySelector('.lists-name [name="lits-name"]').value = '';
+            document.querySelector('[onkeyup="searchProd(this)"]').value = '';
+            document.querySelectorAll('.list-created .product-table .product-list .table-row').forEach((removeRow) => {
+                removeRow.remove();
+            })
+            document.querySelector('.list-created .product-table').classList.add('hidden');
+            document.querySelector('.list-created .empty-text').classList.remove('hidden');
+            document.querySelector('.list-created .add-producttolist .list-total-price .list-price').innerText = window.formatMoney(0);
+            document.querySelector('.list-created .add-producttolist .list-total-price button').classList.add('disabled');
+
+        }, 1500);
+    }
+
+    function addsavedEntry(list){
+        console.log('list',JSON.parse(list));
+        var savedListObj = JSON.parse(list);
+
+        var tableBody = document.querySelector('.lists-layout .lists-table');
+        if (tableBody && Array.isArray(savedListObj)) {
+            var headerRow = tableBody.querySelector('.table-header');
+            tableBody.innerHTML = '';
+            if (headerRow) {
+                tableBody.appendChild(headerRow);
+            }
+            {% comment %} tableBody.innerHTML = ''; {% endcomment %}
+            savedListObj.forEach(function(listObj) {
+                var row = document.createElement('div');
+                row.className = 'table-row';
+
+                row.innerHTML = `
+                    <div class="list-name"><a href="javascript:void(0);" onclick="showSavedDetails(this)">${listObj.list_title}</a></div>
+                    <div class="created-date">
+                        <span class="large-up-hide medium-hide">Last Updated</span>
+                        ${listObj.date_added}
+                    </div>
+                    <div class="actions">
+                        <button class="add-btn button button--tertiary" onclick="listitemscart(this);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M17.625 17.25H8.54719C8.19591 17.2499 7.85579 17.1266 7.58612 16.9015C7.31646 16.6764 7.13435 16.3637 7.07156 16.0181L4.56844 2.25H2.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8.625 21C9.66053 21 10.5 20.1605 10.5 19.125C10.5 18.0895 9.66053 17.25 8.625 17.25C7.58947 17.25 6.75 18.0895 6.75 19.125C6.75 20.1605 7.58947 21 8.625 21Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.625 21C18.6605 21 19.5 20.1605 19.5 19.125C19.5 18.0895 18.6605 17.25 17.625 17.25C16.5895 17.25 15.75 18.0895 15.75 19.125C15.75 20.1605 16.5895 21 17.625 21Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.61406 13.5H18.3844C18.7357 13.4999 19.0758 13.3766 19.3454 13.1515C19.6151 12.9264 19.7972 12.6137 19.86 12.2681L21 6H5.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Add to Cart
+                        </button>
+                        <button class="delete-btn button button--delete" onclick="deleteList(this);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M7.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10.5 8.25V12.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14.25 4.5V15C14.25 15.3979 14.0919 15.7794 13.8107 16.0606C13.5293 16.342 13.1478 16.5 12.75 16.5H5.25001C4.85218 16.5 4.47065 16.342 4.18935 16.0606C3.90804 15.7794 3.75 15.3979 3.75 15L3.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2.25 4.5L15.75 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6 4.5V3.00001C6 2.60218 6.15804 2.22065 6.43935 1.93935C6.72065 1.65804 7.10218 1.5 7.50001 1.5L10.5 1.5C10.8978 1.5 11.2793 1.65804 11.5607 1.93935C11.8419 2.22065 12 2.60218 12 3.00001V4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>`;
+                tableBody.appendChild(row);
+            });
+        }
+    }
+
+    function deleteList(ele){
+        
+        var row = ele.closest('.table-row');
+        if (!row) return;
+        
+        var listName = row.querySelector('.list-name a') ? row.querySelector('.list-name a').textContent.trim() : null;
+        if (!listName) return;
+        
+        var myLists = localStorage.getItem('mylists');
+        if (!myLists) return;
+
+        var myListsObj;
+        try {
+            myListsObj = JSON.parse(myLists);
+        } catch(e){
+            console.error('Failed to parse mylists', e);
+            return;
+        }
+        if (Array.isArray(myListsObj)) {
+            var newLists = myListsObj.filter(function(list){
+                return list.list_title !== listName;
+            });
+        
+            if (newLists.length > 0) {
+                localStorage.setItem('mylists', JSON.stringify(newLists));
+            } else {
+                localStorage.removeItem('mylists');
+            }
+        } else if (myListsObj && myListsObj.list_title === listName) {
+            localStorage.removeItem('mylists');
+        }
+        
+        row.parentNode.removeChild(row);
+        
+        setTimeout(function() {
+            var tableRows = document.querySelectorAll('.lists-table .table-row');
+            if (tableRows.length === 0) {
+                document.querySelector('.lists-layout').classList.add('hidden');
+                document.querySelector('.empty-text').classList.remove('hidden');
+            }
+        }, 100);
+    }
+
+    function showSavedDetails(ele){
+      var listName = ele.textContent.trim();
+
+      var myLists = localStorage.getItem('mylists');
+      if (!myLists) return;
+
+      var myListsArr;
+      try {
+        myListsArr = JSON.parse(myLists);
+      } catch(e) {
+        console.error('Failed to parse mylists', e);
+        return;
+      }
+
+      var foundList;
+      if (Array.isArray(myListsArr)) {
+        foundList = myListsArr.find(function(list) {
+          return list.list_title === listName;
+        });
+      } else if (typeof myListsArr === "object" && myListsArr.list_title === listName) {
+        foundList = myListsArr;
+      }
+      if (!foundList) return;
+
+      var listCreatedDiv = document.querySelector('.list-created');
+      if (!listCreatedDiv) return;
+
+      var titleInput = listCreatedDiv.querySelector('.lists-name [name="lits-name"]');
+      if (titleInput) {
+        titleInput.value = foundList.list_title;
+      }
+
+      var tableBody = listCreatedDiv.querySelector('.product-table .product-list');
+      if (tableBody) {
+        var headerRow = tableBody.querySelector('.table-header');
+        tableBody.innerHTML = '';
+        if (headerRow) {
+            tableBody.appendChild(headerRow);
+        }
+        //tableBody.innerHTML = "";
+        if (Array.isArray(foundList.products)) {
+          foundList.products.forEach(function(prod) {
+            // Make product row HTML
+            var row = document.createElement('div');
+            row.className = 'table-row';
+            row.setAttribute('data-add-id', prod.id);
+
+            row.innerHTML = `
+                  <div class="title">
+                      <div class="image"><img src="${prod.image}width=100" height="auto" width="auto"></div>
+                      <div class="product-title">${prod.title || ''}</div>
+                  </div>
+                  <div class="sku">
+                      <span class="large-up-hide">SKU</span>
+                      ${prod.sku || ''}
+                  </div>
+                  <div class="qty">
+                      <quantity-input class="quantity">
+                          <button class="quantity__button no-js-hidden focus-inset disabled" name="minus" type="button">
+                          <span class="quantity__button_minus">-</span>
+                          </button>
+                          <input class="quantity__input focus-inset" type="number" name="quantity" id="Quantity-template--20245889286400__main-product" data-cart-quantity="0" data-min="1" min="1" step="1" value="${prod.quantity || 1}" form="product-form-template--20245889286400__main-product">
+                          <label class="visually-hidden" for="Quantity-template--20245889286400__main-product">
+                          Quantity
+                          </label>
+                          <button class="quantity__button no-js-hidden focus-inset" name="plus" type="button">
+                          <span class="quantity__button_plus">+</span>
+                          </button>
+                      </quantity-input>
+                  </div>
+                  <div class="product-price" data-price-v="12730">
+                      <span class="large-up-hide">Price</span>
+                      <div>
+                      ${window.formatMoney(prod.price) || ''}
+                      </div>
+                  </div>
+                  <button class="delete-icon button button--delete" onclick="removeItemList(this)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <path d="M6.6665 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M9.3335 7.33398V11.334" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M12.6668 4V13.3333C12.6668 13.687 12.5263 14.0261 12.2763 14.2761C12.0262 14.5262 11.6871 14.6667 11.3335 14.6667H4.66684C4.31322 14.6667 3.97408 14.5262 3.72403 14.2761C3.47398 14.0261 3.3335 13.687 3.3335 13.3333V4" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M2 4H14" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M5.3335 4.00065V2.66732C5.3335 2.3137 5.47398 1.97456 5.72403 1.72451C5.97408 1.47446 6.31322 1.33398 6.66684 1.33398H9.3335C9.68713 1.33398 10.0262 1.47446 10.2763 1.72451C10.5263 1.97456 10.6668 2.3137 10.6668 2.66732V4.00065" stroke="#E31A36" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                      <span class="large-up-hide">Delete</span>
+                  </button>
+            `;
+            tableBody.appendChild(row);
+          });
+        }
+        tableBody.closest('.product-table').classList.remove('hidden');
+        listCreatedDiv.querySelector('.empty-text').classList.add('hidden');
+      }
+
+      var totalEl = listCreatedDiv.querySelector('.list-price');
+      if (totalEl && Array.isArray(foundList.products)) {
+        var total = foundList.products.reduce(function(acc, p) {
+          var q = parseInt(p.quantity || 1, 10);
+          var price = parseFloat(p.price || 0);
+          return acc + (q * price);
+        }, 0);
+        totalEl.textContent = window.formatMoney(total);
+      }
+
+      var deleteBtn = listCreatedDiv.querySelector('.delete-btn');
+      if (deleteBtn) {
+        //deleteBtn.classList.remove('hidden');
+      }
+
+      var addListBtn = listCreatedDiv.querySelector('[onclick="addListItem(this)"]');
+      if (addListBtn) {
+        addListBtn.classList.remove('disabled');
+        addListBtn.textContent = 'Add list to Cart';
+      }
+
+      document.querySelector('[onclick="createList(this)"]').classList.add('hidden');
+      document.querySelector('.lists-layout').classList.add('hidden')
+      document.querySelector('.list-created').classList.remove('hidden');
+    }
+
+    document.addEventListener('click', function(event) {
+        var suggestedProductList = document.querySelector('.suggested-product-list');
+        if (!suggestedProductList) return;
+
+        if (suggestedProductList.classList.contains('hidden')) return;
+        var input = document.querySelector('[oninput="searchProd(this)"]');
+        if ((input && input.contains(event.target)) || suggestedProductList.contains(event.target)) {
+            return;
+        }
+
+        suggestedProductList.classList.add('hidden');
+    });
+
+    function addListItem(ele){
+      var rows = document.querySelectorAll('.product-table .table-row');
+      if (rows.length === 0) {
+          alert('Please add Products to the list before adding to cart.');
+          return;
+      }
+
+      var items = [];
+      rows.forEach(function(row) {
+          var variantId = row.getAttribute('data-add-id');
+          if (!variantId) return;
+          var qtyInput = row.querySelector('input[name="quantity"]');
+          var quantity = qtyInput ? parseInt(qtyInput.value, 10) : 1;
+          items.push({
+              id: parseInt(variantId, 10),
+              quantity: quantity > 0 ? quantity : 1
+          });
+      });
+
+      if (items.length === 0) {
+          alert('No valid products found to add to cart.');
+          return;
+      }
+
+      console.log(items,'items');
+
+      ele.classList.add('disabled');
+      ele.textContent = 'Adding...';
+
+      fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ items: items })
+      })
+      .then(function(response){
+          if (!response.ok) {
+              throw new Error('Failed to add items to cart.');
+          }
+          return response.json();
+      })
+      .then(function(data){
+          
+          var msg = document.querySelector('.success-message');
+          msg.textContent = 'items added to Cart';
+          if (msg) {
+              msg.classList.remove('hidden');
+              setTimeout(function() {
+                  msg.classList.add('hidden');
+              }, 2000);
+          }
+          ele.classList.remove('disabled');
+          ele.textContent = 'Add list to Cart';
+          setTimeout(function() {
+            document.querySelector('.saved-success-message').classList.add('hidden');
+            document.querySelector('.lists-name [name="lits-name"]').value = '';
+            document.querySelector('[onkeyup="searchProd(this)"]').value = '';
+            document.querySelectorAll('.list-created .product-table .product-list .table-row').forEach((removeRow) => {
+                removeRow.remove();
+            })
+            document.querySelector('.list-created .product-table').classList.add('hidden');
+            document.querySelector('.list-created .empty-text').classList.remove('hidden');
+            document.querySelector('.list-created .add-producttolist .list-total-price .list-price').innerText = window.formatMoney(0);
+            document.querySelector('.list-created .add-producttolist .list-total-price button').classList.add('disabled');
+          }, 1500);
+          // Optionally, redirect to cart or update cart UI here
+      })
+      .catch(function(error){
+          alert('Error: Could not add items to cart.');
+          ele.classList.remove('disabled');
+          ele.textContent = 'Add list to Cart';
+          console.error(error);
+      });
+    }
+
+    function listitemscart(ele){
+
+      var row = ele.closest('.table-row');
+      var listNameElem = row.querySelector('.list-name a');
+      var listTitle = listNameElem.textContent.trim();
+
+      var myLists = localStorage.getItem('mylists');
+      if (!myLists) return;
+
+      var myListsArr;
+      try {
+          myListsArr = JSON.parse(myLists);
+      } catch(e){
+          console.error("Could not parse mylists", e);
+          return;
+      }
+      if (!Array.isArray(myListsArr)) return;
+
+      var foundIndex = myListsArr.findIndex(function(list) {
+          return list.list_title === listTitle;
+      });
+      if (foundIndex === -1) {
+          alert("List not found.");
+          return;
+      }
+      var foundList = myListsArr[foundIndex];
+
+      if (!foundList.products || !Array.isArray(foundList.products) || foundList.products.length === 0) {
+          alert("No products in this list.");
+          return;
+      }
+      var items = foundList.products.map(function(p) {
+          return { id: p.id, quantity: p.quantity || 1 };
+      });
+
+      ele.classList.add('disabled');
+      ele.textContent = 'Adding...';
+
+      fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ items: items })
+      })
+      .then(function(response){
+          if (!response.ok) {
+              throw new Error('Failed to add items to cart.');
+          }
+          return response.json();
+      })
+      .then(function(data){
+          myListsArr.splice(foundIndex, 1);
+          localStorage.setItem('mylists', JSON.stringify(myListsArr));
+
+          var tableBody = document.querySelector('.lists-layout .lists-table');
+          if (typeof addsavedEntry === 'function' && myListsArr.length > 0) {
+              addsavedEntry(JSON.stringify(myListsArr));
+          } else if (tableBody) {
+              tableBody.innerHTML = '';
+          }
+
+          var msg = document.querySelector('.success-message');
+          if (msg) {
+              msg.classList.remove('hidden');
+              setTimeout(function () {
+                  msg.classList.add('hidden');
+              }, 2000);
+          }
+          ele.classList.remove('disabled');
+          ele.textContent = 'Add list to Cart';
+          checkforlists();
+          {% comment %} window.location.href = '/cart'; {% endcomment %}
+      })
+      .catch(function(error){
+          alert('Error: Could not add items to cart.');
+          ele.classList.remove('disabled');
+          ele.textContent = 'Add list to Cart';
+          console.error(error);
+      });
+    }
+
+    window.addEventListener('scroll', function() {
+        closeBox();
+    });
+</script>
+
+{% schema %}
+{
+  "name": "My Lists",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "background-1",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "My Lists"
+    }
+  ]
+}
+{% endschema %}

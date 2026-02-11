@@ -1,0 +1,26 @@
+{% if btn_label != blank %}
+	<a
+		{% if btn_link != blank %}
+			href='{{ btn_link }}'
+			data-button-text='{{ btn_label | escape }}'
+		{% endif %}
+		class='
+			{% if btn_style == "link_only_style" %}link-only-style{% else %} button button--{{ btn_style }}{% endif %}
+			{% if add_classes != blank %}{{ add_classes }}{% endif %}
+			{% if button_dot %}dot_active{% endif %}
+		'
+		{% if btn_link == blank %}
+			aria-disabled='true'
+		{% endif %}
+		aria-label='{{ btn_label | escape }}'
+	>
+		<span>
+			{{ btn_label | escape }}
+		</span>
+		{% if btn_style == "link_only_style" %}
+		<span class="link-arrow">
+          {%  render 'icon-arrow-btn-link' %}
+		</span>
+		{% endif %}
+	</a>
+{% endif %}

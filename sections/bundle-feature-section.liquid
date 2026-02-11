@@ -1,0 +1,424 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+SECTION: Custom Collection Grid 
+DESCRIPTION:
+  - Renders products from a selected collection.
+  - Each product includes:
+        • Product image
+        • Title
+        • Price render
+        • Add button - reveals qty controls
+  - When products are added:
+        → Updates left qty controls and right-side summary panel  
+        → Calculates product total, savings (compare vs price), and subtotal
+  - “Add to Cart” posts all selected items at once using `/cart/add.js`.
+
+DEPENDENCIES:
+  - CSS:
+      • bundle-feature-section.css 
+  - JS:
+      • Internal script 
+  - Snippets:
+      • price
+      • icon-minus
+      • icon-plus
+
+FILES UPDATED / ADDED:
+  - Added new CSS asset:
+        • custom-collection-grid.css
+  - Updated this section's Liquid template with:
+        • Bundle builder layout (left grid + right summary box)
+        • Qty controls markup
+        • Dynamic card background style block
+  - No changes to external snippets except usage.
+
+SCHEMA OVERVIEW:
+  - Settings:
+        • collection_product — Select product collection
+        • card_background — Background color for product image container
+        • columns_per_row — Desktop grid columns
+        • columns_mobile — Mobile grid columns
+        • Full section margin system (desktop + mobile)
+  - Preset:
+        • “Bundle feature section”
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{{- 'bundle-feature-section.css' | asset_url | stylesheet_tag -}}
+{%- style -%}
+	{% render 'section-margin' %}
+  .custom_collection .collection-path{ background-color: {{ section.settings.card_background }}; }
+{%- endstyle -%}
+<div class="container">
+    <div class="column-grid">
+    {% assign column_per_row = section.settings.columns_per_row %}
+        <div class=" {{ section.settings.version }} collections-list__wrapper  {% if section.settings.versions == 'version2' %} version-2 {% endif %} collections-list__wrapper--{{ column_per_row }}  collections-list__wrapper-mobile--{{ section.settings.columns_mobile }} ">
+                {% if section.settings.collection_product %}
+                {% assign selected_collection = section.settings.collection_product %}
+                    {% for product in selected_collection.products %}
+                        <div class="collections-list__item">
+                            <div class="collection-inner">
+                                    <div class="collection-path">
+                                        <a href="{{ product.url }}">   {{
+                                                product.featured_image
+                                                    | image_url: width: collection_image.width
+                                                    | image_tag:
+                                                loading: 'lazy',
+                                                widths: '360, 535, 720, 940, 1070, 1200, 1500, 1780, 2000, 2400, 2800, 3200',
+                                                sizes: sizes
+                                            }} </a>
+                                    </div>
+                            </div>
+                            <div class="collection-content {{ product.compare_at_price }} ">
+                            <h4 class="collection-title"><a href='{{ product.url }}'class='collections-list__link' aria-label='{{ product.title }}'>{{ product.title }}</a></h4>
+                            {% render 'price', product: product , price_class: '' %}
+                              <button
+                                  type="button"
+                                  class="add-to-bundle-btn button button--primary dot_active focus-inset"
+                                  data-product-id="{{ product.selected_or_first_available_variant.id }}"
+                                  data-title="{{ product.title | escape }}"
+                                  data-price="{{ product.selected_or_first_available_variant.price }}"
+                                  data-compare="{{ product.selected_or_first_available_variant.compare_at_price }}"
+                                  data-image="{{ product.featured_image | img_url: 'small' }}"
+                                >
+                                <span>Add</span>
+                              </button>
+
+                            <div class="qty-controls hidden" data-qty-controls="{{ product.selected_or_first_available_variant.id }}">
+                              <button class="qty-minus" data-product-id="{{ product.selected_or_first_available_variant.id }}">{% render 'icon-minus' %}</button>
+                              <span class="qty-number" data-qty="{{ product.selected_or_first_available_variant.id }}">1</span>
+                              <button class="qty-plus" data-product-id="{{ product.selected_or_first_available_variant.id }}">{% render 'icon-plus' %}</button>
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+        </div>
+         <div class="column-grid-right">
+            <div class="cart-content">
+            <div id="bundle-box" class="bundle-box">
+                    <h3>Your Bundle (<span id="bundle-count">0</span>)</h3>
+                    <div id="bundle-items"></div>
+                    <div class="bundle-summary">
+                        Products Total: <span id="bundle-total">$0.00</span><br>
+                        Bundle Savings: <span id="bundle-savings">–$0.00</span><br>
+                        <strong>Subtotal: <span id="bundle-subtotal">$0.00</span></strong>
+                    </div>
+                        <button id="bundle-add-to-cart" class="button button--primary" data-product-id="{{ product.selected_or_first_available_variant.id }}" >Add to Cart</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+       
+    </div>
+</div>
+
+<script>
+let bundle = {};
+
+function formatMoney(cents) {
+  return (cents / 100).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  });
+}
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".add-to-bundle-btn")) {
+    let btn = e.target.closest(".add-to-bundle-btn");
+    let id = btn.dataset.productId;
+    bundle[id] = {
+      id: id,
+      title: btn.dataset.title,
+      price: parseInt(btn.dataset.price),
+      compare: btn.dataset.compare,
+      image: btn.dataset.image,
+      qty: 1
+    };
+    console.log('this should print');
+    console.log(bundle);
+    btn.classList.add("hidden");
+    document.querySelector(`[data-qty-controls="${id}"]`).classList.remove("hidden");
+    updateBundleUI();
+  }
+  if (e.target.classList.contains("qty-plus")) {
+    let id = e.target.dataset.productId;
+    bundle[id].qty++;
+    document.querySelector(`[data-qty="${id}"]`).innerText = bundle[id].qty;
+    updateBundleUI();
+  }
+  if (e.target.classList.contains("qty-minus")) {
+    let id = e.target.dataset.productId;
+    bundle[id].qty--;
+
+    if (bundle[id].qty <= 0) {
+      delete bundle[id];
+      document.querySelector(`[data-qty-controls="${id}"]`).classList.add("hidden");
+      document.querySelector(`[data-product-id="${id}"].add-to-bundle-btn`).classList.remove("hidden");
+    } else {
+      document.querySelector(`[data-qty="${id}"]`).innerText = bundle[id].qty;
+    }
+    updateBundleUI();
+  }
+  if (e.target.classList.contains("bundle-plus")) {
+    let id = e.target.dataset.id;
+    bundle[id].qty++;
+    document.querySelector(`[data-qty="${id}"]`).innerText = bundle[id].qty;
+    updateBundleUI();
+  }
+  if (e.target.classList.contains("bundle-minus")) {
+    let id = e.target.dataset.id;
+    bundle[id].qty--;
+    if (bundle[id].qty <= 0) {
+      delete bundle[id];
+      document.querySelector(`[data-qty-controls="${id}"]`).classList.add("hidden");
+      document.querySelector(`[data-product-id="${id}"].add-to-bundle-btn`).classList.remove("hidden");
+    }
+    updateBundleUI();
+  }
+});
+function updateBundleUI() {
+  const container = document.getElementById("bundle-items");
+  container.innerHTML = "";
+  let total = 0;
+  let count = 0;
+  let compareprice = 0;
+  Object.values(bundle).forEach(item => {
+    let itemPrice = parseInt(item.price);
+    let itemCompare = parseInt(item.compare);
+    count += item.qty;
+    total += itemPrice * item.qty;
+    if (!isNaN(itemCompare) && itemCompare > itemPrice) {
+      compareprice += (itemCompare - itemPrice) * item.qty;
+    }
+    container.innerHTML += `
+      <div class="bundle-item">
+        <img src="${item.image}">
+        <div class="bundle-product-title">
+          <strong>${item.title}</strong><br>
+          ${formatMoney(itemPrice)}
+        </div>
+        <div class="qty-controls-box">
+          <button class="bundle-minus" data-id="${item.id}">{% render 'icon-minus' %}</button>
+          <span>${item.qty}</span>
+          <button class="bundle-plus" data-id="${item.id}">{% render 'icon-plus' %}</button>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById("bundle-count").innerText = count;
+  document.getElementById("bundle-total").innerText = formatMoney(total);
+  document.getElementById("bundle-savings").innerText = "–" + formatMoney(compareprice);
+  document.getElementById("bundle-subtotal").innerText = formatMoney(total);
+}
+document.getElementById("bundle-add-to-cart").addEventListener("click", function(e) {
+  e.preventDefault();   
+  addBundleToCart();    
+});
+function addBundleToCart() {
+  const items = [];
+  Object.values(bundle).forEach(item => {
+    items.push({
+      id: item.id, 
+      quantity: item.qty
+    });
+  });
+  if (items.length === 0) {
+    alert("Your bundle is empty.");
+    return;
+  }
+  console.log('list of items in cart');
+  console.log(items);
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ items })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('My Bundle added successfully:', data);
+
+    window.location.href = '/cart';
+  })
+  .catch(error => {
+    console.error('Error in adding bundle:', error);
+  });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Bundle feature section",
+  "class": "custom_collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection_product",
+      "label": "Select collection"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "default": "#f2f2f2",
+      "label": "Collection card Background-color"
+    },
+    {
+			"type": "range",
+			"id": "columns_per_row",
+			"min": 2,
+			"max": 4,
+			"step": 1,
+			"default": 2,
+			"label": "t:sections.all.columns.label",
+	},
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_top_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "bundle feature section"
+    }
+  ]
+}
+{% endschema %}

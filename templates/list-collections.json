@@ -1,0 +1,75 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_collection_list_YkehUb": {
+      "type": "main-collection-list",
+      "name": "Collection list",
+      "settings": {
+        "title": "Collections",
+        "image_source": "featured_image",
+        "card_background": "#f2f2f2",
+        "columns_per_row": 4,
+        "columns_mobile": "1",
+        "margin_top": "no-indent",
+        "margin_bottom": "no-indent",
+        "enable_mobile_spacing": false,
+        "margin_top_m": "s",
+        "margin_bottom_m": "s"
+      }
+    },
+    "main-list-collections": {
+      "type": "main-list-collections",
+      "disabled": true,
+      "settings": {
+        "title": "Collections",
+        "section_layout": "full",
+        "section_heading_size": "h1",
+        "color_scheme": "",
+        "collections_to_show": 12,
+        "columns_per_row": 2,
+        "sort": "date_reversed",
+        "collection_heading_size": "h2",
+        "swipe_on_mobile": false,
+        "image_source": "featured_image",
+        "container-index": "odd",
+        "image_ratio": "1/1",
+        "overlay_enable": true,
+        "overlay_opacity": 0.2,
+        "margin_top": "no-indent",
+        "margin_bottom": "xl"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "color_scheme": "background-1",
+        "v_align": "column",
+        "heading": "Heading for subscribe form",
+        "heading_size": "h1",
+        "newsletter_text": "",
+        "section_button_style": "primary",
+        "button_dot": true,
+        "margin_top": "m",
+        "margin_bottom": "m",
+        "enable_mobile_spacing": false,
+        "margin_top_m": "s",
+        "margin_bottom_m": "s",
+        "padding_top": "m",
+        "padding_bottom": "m"
+      }
+    }
+  },
+  "order": [
+    "main_collection_list_YkehUb",
+    "main-list-collections",
+    "newsletter"
+  ]
+}

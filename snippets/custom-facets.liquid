@@ -1,0 +1,321 @@
+{%- if enable_filtering -%}
+  <facet-filters-form class="facets small-hide">
+    <form
+      id="FacetFiltersForm"
+      class="facets__form"
+    >
+          <div
+            id="FacetsWrapperDesktop"
+            class="facets__wrapper">
+            
+            <div class="facets__wrapper-container">
+              {%- for filter in results.filters -%}
+                {% liquid
+                  assign presentation = filter.presentation | default: default_presentation
+                %}
+                {%- assign total_active_values = total_active_values | plus: filter.active_values.size -%}
+                {% case filter.type %}
+                  {% when 'boolean', 'list' %}
+                    {% liquid
+                      assign color_trigger = settings.trigger_swatch | handle | strip
+                      assign name_option = filter.label | handle | strip
+                    %}
+                    <details
+                      id="Details-{{ forloop.index }}-{{ section.id }}"
+                      class="disclosure-has-popup facets__disclosure js-filter"
+                      data-index="{{ forloop.index }}"
+                    >
+                      <summary class="facets__summary focus-inset">
+                        <div class="facets__summary-inner">
+                          <div class="facets__summary-title">
+                            {{ filter.label | escape }}
+                            {% if filter.active_values.size > 0 %}
+                              <facet-remove>
+                                <a
+                                  href="{{ filter.url_to_remove }}"
+                                  class="facets__reset focus-inset"
+                                  aria-label="{{ 'products.facets.reset' | t }}"
+                                >
+                                  <span>{{ 'products.facets.reset' | t }}</span>
+                                </a>
+                              </facet-remove>
+                            {% endif %}
+                          </div>
+                          <div class='facets__summary-icon'>
+                            {% render 'icon-minus' %}
+                            {% render 'icon-plus' %}
+                          </div>
+                        </div>
+                      </summary>
+                      <div
+                        id="Facet-{{ forloop.index }}-{{ section.id }}"
+                        class="facets__display"
+                      >
+                        <ul
+                          class="facets__list list-unstyled{% if settings.type_color_swatch == 'custom' and color_trigger == name_option %} facets__list--color{% elsif settings.type_color_swatch == 'standart' and presentation == 'swatch' %} facets__list--color{% elsif presentation == 'image' %} facets__list--image{% endif %}"
+                          role="list"
+                          style= "--image_filter_columns: {{ image_filter_columns }};"
+                        >
+                          {%- for value in filter.values -%}
+                            {% liquid
+                              if settings.type_color_swatch == 'custom' and color_trigger == name_option
+                                if value.value contains "TaxonomyValue"
+                                  assign color_value = value.label | handle | strip
+                                else
+                                  assign color_value = value.value | handle | strip
+                                endif
+                                assign color_value_custom = color_value
+
+                                if settings.custom_colors != blank
+                                  assign custom_colors_string = settings.custom_colors | strip
+                                  assign custom_colors_obj = custom_colors_string | newline_to_br | split: '<br />'
+
+                                  for obj in custom_colors_obj
+                                    assign obj_strip = obj | strip
+                                    assign obj_key = obj_strip | split: ':' | first
+                                    assign obj_value = obj_strip | split: ':' | last
+                                    assign obj_color_name = obj_key | handle | strip
+
+                                    if color_value == obj_color_name
+                                      assign obj_color_value = obj_value
+                                      assign color_value_custom = obj_color_value | strip
+                                      break
+                                    endif
+                                  endfor
+                                endif
+                              endif
+
+                              assign swatch_value = null
+                              if presentation == 'swatch'
+                                assign swatch = value.swatch
+                                if swatch.image
+                                  assign image_url = swatch.image | image_url: width: 50
+                                  assign swatch_value = 'url(' | append: image_url | append: ')'
+                                  assign swatch_focal_point = swatch.image.presentation.focal_point
+                                elsif swatch.color
+                                  assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
+                                endif
+                              endif
+                            %}
+                            {% liquid
+                              if color_value_custom == 'white' or color_value_custom == '#fff' or color_value_custom == '#ffffff' or color_value_custom == '255,255,255' or color_value_custom == '255,255,255,1'
+                                assign isWhite = true
+                              else
+                                assign isWhite = false
+                              endif
+                        
+                              if color_value_custom == 'black' or color_value_custom == '#000' or color_value_custom == '#000000' or color_value_custom == '0,0,0' or color_value_custom == '0,0,0,1'
+                                assign isBlack = true
+                              else
+                                assign isBlack = false
+                              endif
+                            %}
+                            <li
+                              class="list-menu__item facets__item{% if settings.type_color_swatch == 'custom' and color_trigger == name_option %} facets__item--color{% elsif settings.type_color_swatch == 'standart' and presentation == 'swatch' %} facets__item--color{% elsif presentation == 'image' %} facets__item--image{% endif %}"
+                              {% if settings.type_color_swatch == 'custom' and color_trigger == name_option %}
+                                style="--swatch-color: {{ color_value_custom | remove: '-' }}"
+                              {% elsif settings.type_color_swatch == 'standart' and presentation == 'swatch' %}
+                                style="--swatch-color: {{ swatch_value }}; {% if swatch_focal_point %} --swatch-focal-point: {{ swatch_focal_point }};{% endif %}"
+                              {% endif %}
+                            >
+                              <input
+                                type="checkbox"
+                                class="focus-inset"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                id="Filter-{{ filter.label | escape }}-{{ forloop.index }}"
+                                {% if value.active %}
+                                  checked
+                                {% endif %}
+                                {% if value.count == 0 and value.active == false %}
+                                  disabled
+                                {% endif %}
+                              >
+                              <label
+                                for="Filter-{{ filter.label | escape }}-{{ forloop.index }}"
+                                class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}{% if settings.type_color_swatch == 'custom' and color_trigger == name_option %} facet-checkbox--color{% if isWhite %} color-white{% endif %}{% if isBlack %} color-black{% endif %}{% elsif settings.type_color_swatch == 'standart' and presentation == 'swatch' %} facet-checkbox--color facet-checkbox--standart{% elsif presentation == 'image' %} facet-checkbox--image{% endif %}"
+                              >
+                                {% if presentation == 'image' %}
+                                  <div class="facets__image-wrapper"
+                                    style = "--image_filter_ratio: {{ image_filter_ratio }}; --image_filter_fit: {{ image_filter_fit }};"
+                                  >
+                                    {% liquid
+                                      assign width = 1000 | divided_by: image_filter_columns
+                                    %}
+                                    {% if value.image %}
+                                      {{
+                                        value.image
+                                        | image_url: width: width
+                                        | image_tag: class: 'facets__image', alt: value.alt
+                                      }}
+                                    {% endif %}
+                                  </div>
+                                {% else %}
+                                  <span class='icon icon-checkmark'></span>
+                                {% endif %}
+                                <span class="facet-checkbox__label">
+                                  {{ value.label | escape }}
+                                </span>
+                              </label>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    </details>
+                  {% when 'price_range' %}
+                    {% liquid
+                      assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+                      assign uses_comma_decimals = false
+                      if currencies_using_comma_decimals contains cart.currency.iso_code
+                        assign uses_comma_decimals = true
+                      endif
+                    %}
+
+                    {%- assign max_price_amount = filter.range_max
+                      | money
+                      | strip_html
+                      | escape
+                    -%}
+
+                    {% if filter.range_max != 0 %}
+                      <details
+                        id="Details-{{ forloop.index }}-{{ section.id }}"
+                        class="disclosure-has-popup facets__disclosure facets__disclosure-price js-filter"
+                        data-index="{{ forloop.index }}"
+                      >
+                        <summary class="facets__summary focus-inset">
+                          <div class="facets__summary-inner">
+                            <span class="facets__summary-title">
+                              {{ filter.label | escape }}
+                              {% if filter.min_value.value or filter.max_value.value %}
+                                <facet-remove>
+                                  <a
+                                    href="{{ filter.url_to_remove }}"
+                                    class="facets__reset focus-inset link"
+                                  >
+                                    <span>{{ 'products.facets.reset' | t }}</span>
+                                  </a>
+                                </facet-remove>
+                              {% endif %}
+                            </span>
+                            <div class='facets__summary-icon'>
+                              {% render 'icon-minus' %}
+                              {% render 'icon-plus' %}
+                            </div>
+                          </div>
+                        </summary>
+                        <div
+                          id="Facet-{{ forloop.index }}-{{ section.id }}"
+                          class="facets__display"
+                        >
+                          <price-range class="facets__price">
+                            {% liquid 
+                              assign min_value = filter.min_value.value | default: 0.0 | divided_by: 100.0 
+                              assign max_value = filter.max_value.value | default: filter.range_max | divided_by: 100.0 
+                              assign filter_range_max = filter.range_max | divided_by: 100.0 | ceil 
+                              assign range_min = min_value | divided_by: filter_range_max | times: 100.0 
+                              assign range_max = max_value | divided_by: filter_range_max | times: 100.0 
+                            %}
+
+                            <div class="facets__price-wrapper">
+                              <div class="field-wrapper">
+                                <label
+                                  for="Filter-{{ filter.label | escape }}-GTE"
+                                >
+                                  {{ 'products.facets.from' | t }}
+                                </label>
+                                <div class="field">
+                                  <span class="field__currency">
+                                    {{- cart.currency.symbol -}}
+                                  </span>
+                                  <input
+                                    class="field__input"
+                                    name="{{ filter.min_value.param_name }}"
+                                    id="Filter-{{ filter.label | escape }}-GTE"
+                                    {% if filter.min_value.value %}
+                                      value="{{ min_value | ceil }}"
+                                    {% endif %}
+                                    type="number"
+                                    placeholder="0"
+                                    min="0"
+                                    max="{{ max_value | ceil }}"
+                                    step="1"
+                                    autocomplete="off"
+                                  >
+                                </div>
+                              </div>
+                              <div class="field-wrapper">
+                                <label
+                                  class="font-weight-medium"
+                                  for="Filter-{{ filter.label | escape }}-LTE"
+                                >
+                                  {{ 'products.facets.to' | t }}
+                                </label>
+                                <div class="field">
+                                  <span class="field__currency">
+                                    {{- cart.currency.symbol -}}
+                                  </span>
+                                  <input
+                                    class="field__input"
+                                    name="{{ filter.max_value.param_name }}"
+                                    id="Filter-{{ filter.label | escape }}-LTE"
+                                    {% if filter.max_value.value %}
+                                      value="{{ max_value | ceil }}"
+                                    {% endif %}
+                                    type="number"
+                                    min="0"
+                                    max="{{ filter_range_max | ceil }}"
+                                    step="1"
+                                    placeholder="{{ filter_range_max | ceil }}"
+                                  >
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              class="facets__range"
+                              style="--range-min: {{ range_min }}%; --range-max: {{ range_max }}%"
+                            >
+                              <label
+                                class="visually-hidden"
+                                for="Filter-{{ filter.label | escape }}-Min"
+                              >
+                                {{- 'products.facets.from' | t -}}
+                              </label>
+                              <input
+                                type="range"
+                                value="{{ min_value | ceil }}"
+                                min="0"
+                                max="{{ filter_range_max | ceil }}"
+                                step="1"
+                                class="field__range"
+                                id="Filter-{{ filter.label | escape }}-Min"
+                              >
+                              <label
+                                class="visually-hidden"
+                                for="Filter-{{ filter.label | escape }}-Max"
+                              >
+                                {{- 'products.facets.to' | t -}}
+                              </label>
+                              <input
+                                type="range"
+                                value="{{ max_value | ceil }}"
+                                min="0"
+                                max="{{ filter_range_max | ceil }}"
+                                step="1"
+                                class="field__range"
+                                id="Filter-{{ filter.label | escape }}-Max"
+                              >
+                            </div>
+                          </price-range>
+                        </div>
+                      </details>
+                    {% endif %}
+                {% endcase %}
+              {%- endfor -%}
+            </div>
+          
+          </div>
+    </form>
+  </facet-filters-form>
+{%- endif -%}

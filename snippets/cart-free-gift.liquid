@@ -1,0 +1,42 @@
+{%- if settings.enable_b2b_free_pro -%}
+  {%- liquid
+    assign remove_free_product = false
+    assign free_product = settings.b2b_free_product
+    assign variant = free_product.variants.first
+
+    assign cart_has_free_pro = cart | line_items_for: variant
+    assign crt_free_pro_size = cart_has_free_pro | size						
+
+    if cart.item_count == 1 and crt_free_pro_size == 1
+      assign remove_free_product = true
+    elsif cart.item_count > 0
+      assign add_free_product = true
+    endif
+  -%}
+  {%- if free_product.available and cart.item_count > 0 -%}
+    <script type="appliction/json" class="freeProductJson">
+      {
+        {%- if remove_free_product -%}
+          "removeFreePro": true,
+        {%- elsif add_free_product and crt_free_pro_size == 0 -%}
+          "addFreePro": true,
+        {%- else -%}
+          "removeFreePro": false,
+          "addFreePro": false,
+        {%- endif -%}								
+        "variant_id": {{ free_product.selected_or_first_available_variant.id }},
+        "type": {{free_product.type | json }},								
+        {%- if crt_free_pro_size > 0 -%}
+          {%- for item in cart_has_free_pro -%}	
+            {%- if item.properties['_free_product'] -%}
+              "free_product": {{ item | json }},
+              "variant_index": {{ item.index | plus: 1 }},
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+        "cart_refrence_product": {%- for item in cart.items -%}{%- if item.title != free_product.title  -%}{{ item | json }}{%- break -%}{%- endif -%}{%- endfor -%}
+      }
+    </script>
+  {% endif %}
+{%- endif -%}

@@ -1,0 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "section_heading_size": "h1",
+        "cart_drawer_empty_subtitle": "Your cart may be empty now, but let us help you fill it up with amazing products.",
+        "show_cart_note": true,
+        "button_style": "primary",
+        "button_dot": true,
+        "margin_top": "no-indent",
+        "margin_bottom": "no-indent"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "color_scheme": "background-1",
+        "v_align": "column",
+        "heading": "Heading for subscribe form",
+        "heading_size": "h1",
+        "newsletter_text": "",
+        "section_button_style": "primary",
+        "button_dot": true,
+        "margin_top": "m",
+        "margin_bottom": "no-indent",
+        "padding_top": "m",
+        "padding_bottom": "m"
+      }
+    }
+  },
+  "order": [
+    "cart-items",
+    "newsletter"
+  ]
+}

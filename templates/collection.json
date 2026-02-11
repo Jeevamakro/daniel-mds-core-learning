@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "header_overlay": true,
+        "full_width": true,
+        "color_scheme": "",
+        "overlay_opacity": 0,
+        "show_collection_description": false,
+        "show_collection_image": true,
+        "image_ratio": "21/9",
+        "margin_top": "no-indent",
+        "margin_bottom": "no-indent"
+      }
+    },
+    "collection_category_grid_98hA7L": {
+      "type": "collection-category-grid",
+      "name": "Collection category",
+      "settings": {
+        "collection_category_grid": "all-product",
+        "margin_top": "m",
+        "margin_bottom": "xs",
+        "enable_mobile_spacing": true,
+        "margin_top_m": "s",
+        "margin_bottom_m": "s"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 6,
+        "pf-title": "",
+        "columns_mobile": "1",
+        "color_scheme": "background-1",
+        "card_background": "#f2f2f2",
+        "image_ratio": "square",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_sku": true,
+        "show_collection": false,
+        "show_desc": false,
+        "enable_sidebar": true,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "enable_layout_view": true,
+        "enable_compare": false,
+        "image_filter_ratio": "1/1",
+        "image_filter_fit": "cover",
+        "image_filter_columns": 4,
+        "margin_top": "xs",
+        "margin_bottom": "xl"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "collection_category_grid_98hA7L",
+    "product-grid"
+  ]
+}

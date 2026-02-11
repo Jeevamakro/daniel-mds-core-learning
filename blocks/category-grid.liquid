@@ -1,0 +1,223 @@
+{%- comment -%}
+
+  SECTION: Collection Category Grid
+  DESCRIPTION:
+  - Need to create metaobject for attach grid values
+  - Displays a category grid sourced from a collection metafield 
+    (namespace: custom, key: collection_category_grid).
+  - Each grid item includes an image, title, and link.
+  - Swiper.js used for horizontal scrolling.
+  - Fully responsive with lazy loading and accessibility tags.
+
+  DEPENDENCIES:
+  - CSS: assets/collection-category-grid.css
+  - JS:  assets/collection-category-grid.js
+  - Snippet: section-margin.liquid
+  - Library: Swiper.js (must be globally available or imported in theme.js)
+  
+{%- endcomment -%}
+
+{{ 'collection-category-grid.css' | asset_url | stylesheet_tag }}
+<script src='{{ 'collection-category-grid.js' | asset_url }}' defer='defer'></script>
+{%- style -%}
+  {% render 'section-margin', section:block %}
+{%- endstyle -%}
+{% assign coll_values = block.settings.collection_category_grid %}
+{% if coll_values.sub_categories != blank %}
+  <div class="collList-wrapper container full-container-width grid-section">
+    <div class="collList-grid swiper">
+     <div class="swiper-wrapper">
+      {% for coll_obj in coll_values.sub_categories.value %}
+        <div class="collList-item swiper-slide">
+          <a class="absolute-link" href="{{ coll_obj.link.value }}" title=""></a>
+            <div class="collList-item-img">
+                {{
+                    coll_obj.image.value
+                    | image_url: width: 354
+                    | image_tag:
+                        loading: 'lazy',
+                        widths: '90,177,266,354',
+                        sizes: '(max-width: 400px) 90px, (max-width: 768px) 177px, 177px',
+                        width: 177,
+                        class: 'responsive-image'
+                }}
+            </div>
+          <h6 class="collList-item-title">{{ coll_obj.title.value }}</h6>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collection category",
+  "class": "custom-collection-grid",
+  "blocks": [
+    {
+        "type": "@theme"
+    }
+  ],
+  "settings": [
+    {
+      "type": "metaobject",
+      "id": "collection_category_grid",
+      "label": "Collection category grid",
+      "metaobject_type": "collection_category",
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    },
+    {
+      "type": "checkbox",
+      "label": "Mobile spacing",
+      "id": "enable_mobile_spacing"
+    },
+    {
+      "type": "select",
+      "id": "margin_top_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label",
+      "visible_if": "{{ block.settings.enable_mobile_spacing == true }}"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label",
+      "visible_if": "{{ block.settings.enable_mobile_spacing == true }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection category"
+    }
+  ]
+}
+{% endschema %}

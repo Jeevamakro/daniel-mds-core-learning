@@ -1,0 +1,22 @@
+{%- liquid
+  assign removal_service = all_products['removal-service']
+  assign move_old_service = all_products['move-old-service']
+  assign refrigeration_set_up_service = all_products['refrigeration-set-up-service']
+
+  assign id = item.id
+-%}
+
+<div class="cart_item--list-warpper additional-services">
+  <div class="cart_item--list-heading h5">Additional Services</div>
+  <div class="cart_item--list services-list">
+    {%- if removal_service -%}
+      {%- render 'snippet-service-item', product: removal_service, item: item, service: "removal", swapped: 'swapped'  -%}    
+    {%- endif -%}
+    {%- if move_old_service -%}
+      {%- render 'snippet-service-item', product: move_old_service, item: item, service: "move", swapped: 'swapped' -%}    
+    {%- endif -%}
+    {%- if refrigeration_set_up_service -%}
+      {%- render 'snippet-service-item', product: refrigeration_set_up_service, item: item, service: "refri_set_up"  -%}    
+    {%- endif -%}
+  </div>
+</div>

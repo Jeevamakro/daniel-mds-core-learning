@@ -1,0 +1,74 @@
+<modal-opener class="no-js-hidden" data-modal="#PopupModal-store-availability">
+    <div class="product-offers" id="ProductPopup-store-availability" aria-haspopup="dialog" type="button" >
+            <div class="store-availability-content">
+                <div class="store-availability-content">
+                    <button id="ProductPopup-store-availability" class=" see-more-btn" type="button" aria-haspopup="dialog">
+                        <span>{{ block.settings.btn_text | default:'See store availability' }}</span> <span>{% render 'custom-arrow-right' %}</span>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+</modal-opener>
+<modal-dialog id="PopupModal-store-availability" class="product-popup-modal product-spec-popup-modal product-store-avail-popup-modal" aria-hidden="true">
+<div role="dialog" aria-label="store-avaiability" aria-modal="true" class="product-popup-modal__dialog" tabindex="-1">
+    <button id="ModalClose-store-availability" type="button" class="product-popup-modal__close modal-close-button focus-inset" aria-label="{{ 'accessibility.close' | t }}">
+    {% render 'icon-close' %}
+    </button>
+    <h4 class="product-popup-modal__title h4">{{ block.settings.title | default:'In stock locations' }}</h4>
+    <div class="product-popup-modal__content">
+        <div class="store-drawer-inner">
+            <div class="store-content">
+                <div class="store-detail-item">    
+                    <div class="store-detail">
+                        <div class="store-detail-content">
+                            <h4 class="store-name h4">Store Name</h4>
+                            <p class="store-address">3072 HWY 83 N<br>Seeley Lake, MT 89868<br>United States</p>
+                            <a href="tel:5377328283" class="store-phone">5377328283</a>
+                        </div>
+                        <div class="store-stock-status in-stock">
+                            <span class="in-stock product__inventory-inner">In Stock</span>
+                        </div>
+                    </div>
+                    <div class="store-time-direcions">
+                        <span class="store-time">Open today: 9:00 - 20:00</span>
+                        <a href="#" class="store-directions">Show Directions {% render 'custom-arrow-right' %}</a>
+                    </div>
+                </div>
+                <div class="store-detail-item">    
+                    <div class="store-detail">
+                        <div class="store-detail-content">
+                            <h4 class="store-name h4">Store Name</h4>
+                            <p class="store-address">3072 HWY 83 N<br>Seeley Lake, MT 89868<br>United States</p>
+                            <a href="tel:5377328283" class="store-phone">5377328283</a>
+                        </div>
+                        <div class="store-stock-status in-stock">
+                            <span class="in-stock product__inventory-inner">In Stock</span>
+                        </div>
+                    </div>
+                    <div class="store-time-direcions">
+                        <span class="store-time">Open today: 9:00 - 20:00</span>
+                        <a href="#" class="store-directions">Show Directions {% render 'custom-arrow-right' %}</a>
+                    </div>
+                </div>
+                <div class="store-detail-item">    
+                    <div class="store-detail">
+                        <div class="store-detail-content">
+                            <h4 class="store-name h4">Store Name</h4>
+                            <p class="store-address">3072 HWY 83 N<br>Seeley Lake, MT 89868<br>United States</p>
+                            <a href="tel:5377328283" class="store-phone">5377328283</a>
+                        </div>
+                        <div class="store-stock-status in-stock">
+                            <span class="in-stock product__inventory-inner product__inventory-inner--empty">Out of Stock</span>
+                        </div>
+                    </div>
+                    <div class="store-time-direcions">
+                        <span class="store-time">Open today: 9:00 - 20:00</span>
+                        <a href="#" class="store-directions">Show Directions {% render 'custom-arrow-right' %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>                   
+</div>
+</modal-dialog>

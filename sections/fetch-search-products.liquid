@@ -1,0 +1,47 @@
+{%- if search.performed -%}
+<div class="result-div">
+    {% paginate search.results by 24 %}
+        {%- if search.results.size == 0 -%}
+            <div class="suggested-product">
+                <div class="product-title">No Products</div>
+            </div>
+        {%- else -%}
+            {% for prod in search.results %}
+                <div class="suggested-product">
+                    <div class="suggest-product-wrapper">
+                        <div class="image"><img src="{{ prod.featured_image | image_url: width:100, height:100 }}" alt="image" height="auto" width="auto"></div>
+                        <div class="product-details">
+                            <div class="product-title">{{prod.title}}</div>
+                            <div class="sku">{{prod.variants[0].sku}}</div>
+                        </div>
+                    </div>
+                    <div class="quantity-btn-wrp">
+                        <quantity-input class="quantity">
+                            <button class="quantity__button no-js-hidden focus-inset disabled" name="minus" type="button">
+                            <span class="quantity__button_minus">-</span>
+                            </button>
+                            <input class="quantity__input focus-inset" type="number" name="quantity" id="Quantity-template--20245889286400__main-product" data-cart-quantity="0" data-min="1" min="1" step="1" value="1" form="product-form-template--20245889286400__main-product">
+                            <label class="visually-hidden" for="Quantity-template--20245889286400__main-product">
+                            Quantity
+                            </label>
+                            <button class="quantity__button no-js-hidden focus-inset" name="plus" type="button">
+                            <span class="quantity__button_plus">+</span>
+                            </button>
+                        </quantity-input>
+                        <button class="button button--primary {% unless prod.available %}disabled{% endunless %}" onclick="addprodlist(this)" data-id="{{prod.variants[0].id}}" data-price="{{prod.variants[0].price}}" data-cprice="{{prod.variants[0].compare_price}}">{% unless prod.available %}Out Of Stock{% else %}Add to List{% endunless %}</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {%- endif -%}
+    {% endpaginate %}
+</div>
+{%- endif -%}
+  
+
+{% schema %}
+{
+  "name": "fetch Product",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

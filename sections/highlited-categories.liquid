@@ -1,0 +1,520 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+  SECTION: Highlited Categories
+  FILE: highlited-categories.liquid
+
+  PURPOSE:
+  Displays a customizable list of highlighted category cards with image,
+  heading, and optional CTA link. Supports grid layout on desktop and
+  optional Swiper-based carousel on mobile.
+
+  LOGIC OVERVIEW:
+  - Renders category cards using section blocks
+  - Desktop layout uses CSS grid with configurable columns
+  - Mobile layout supports grid or Swiper slider (swipe_on_mobile)
+  - Image aspect ratio handled via CSS custom property (--aspect-ratio)
+  - Section spacing (margin & padding) handled via shared snippets
+
+  DEPENDENCIES:
+  - CSS: highlited-categories-section.css
+  - JS: highlited-categories-section.js
+  - Snippets:
+    - section-header
+    - section-margin
+    - section-padding
+    - link-arrow
+  - Library:
+    - Swiper (only enabled when swipe_on_mobile is true)
+
+  SETTINGS:
+  - Desktop columns per row
+  - Mobile columns & swipe toggle
+  - Section heading, subheading, heading sizes, and dot indicator
+  - Card heading size
+  - Image aspect ratio (fixed or adapt)
+  - Color scheme
+  - Section margin & padding controls
+
+  BLOCKS:
+  - Category Card
+    - Image
+    - Heading text
+    - Optional CTA label and link
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+
+{{ 'highlited-categories-section.css' | asset_url | stylesheet_tag }}
+<script src='{{ 'highlited-categories-section.js' | asset_url }}' defer='defer'></script>
+
+{% liquid
+	assign columns_per_row = section.settings.columns_per_row
+%}
+
+{%- style -%}
+	{% render 'section-margin' %}
+    {% render 'section-padding' %}
+	{% for block in section.blocks %}
+	.shop-category-section .version1 .card-list__item_img{  background-color:{{ section.settings.card_background }}; } 
+	{% endfor %}
+{%- endstyle -%}
+
+<div 
+	class='card-listt color-{{ section.settings.color_scheme }}'
+	data-id='shopify-section-{{ section.id }}'
+	id="card-list"
+>
+	<div class='container section-{{ section.id }}-padding'>
+		{% render 'section-header',
+			section_heading: section.settings.section_heading,
+			section_subheading: section.settings.subheading,
+			section_heading_size: section.settings.section_heading_size,
+			dot: section.settings.dot
+		%}
+          {% comment %} version 1 {% endcomment %}         
+
+            <div class='{% if section.settings.swipe_on_mobile %}swiper category-list__swiper{% endif %} {{ section.settings.versions }}'>
+                <div class='card-list-pagination swiper-pagination'></div> 
+                <ul class='card-list__list card-list__list--{{ columns_per_row }} {% if section.settings.swipe_on_mobile %}swiper-wrapper{% endif %} columns_mobile--{{section.settings.columns_mobile}}'>
+                    {% for block in section.blocks %}
+                        
+                        <li
+                            class='card-list__item {% if block.settings.text != blank %} card-list__item_active {% endif %} {% if section.settings.swipe_on_mobile %}swiper-slide{% endif %}'
+                            data-id='{{ block.id }}'
+                        >
+                        
+                        {% if block.settings.image %}
+                            {% liquid
+                                assign adapt_height = 1 | divided_by: block.settings.image.aspect_ratio | times: 100 
+                            %}
+                        {% else %}
+                            {% liquid
+                                assign adapt_height = 58 
+                            %}
+                        {% endif %}
+                        {% style %}
+                            #shopify-section-{{ section.id }} [data-id="{{ block.id }}"].card-list__item .card-list__item_img  {
+                                {% if section.settings.image_ratio == 'adapt' %}
+                                    --aspect-ratio: {{adapt_height}};
+                                {% else %}
+                                    --aspect-ratio: {{ section.settings.image_ratio }};
+                                {% endif %}
+                            }
+                        {% endstyle %}
+                            <div class='card-list__item_img {% if block.settings.text != blank %} card-list__item_img_active {% endif %} {% if section.settings.image_ratio != 'adapt' %} item_aspect_ratio {% endif %}  '>
+                                {%- if block.settings.image != blank -%}
+                                    {%- assign widths = '360, 535, 720, 940, 1070, 1200, 1500, 1780, 2000, 2400, 2800' -%}
+                                    {%- capture sizes -%}
+                                        (min-width: 1200px) calc((100vw - 128px)), calc((100vw - 40px))
+                                        {%- endcapture -%}
+                                    {{
+                                        block.settings.image
+                                        | image_url: width: block.settings.image.width
+                                        | image_tag: loading: 'lazy', sizes: sizes, widths: widths
+                                    }}
+                                {%- else -%}
+                                    {{ 'hero-apparel-1' | placeholder_svg_tag }}
+                                {% endif %}
+                            </div>
+                            {%- if block.settings.text != blank -%}
+                                <div class='block-text {{ section.settings.card_heading_size }}'>
+                                    {{ block.settings.text }}
+                                </div>
+                            {% endif %}
+                            {% if block.settings.text_link and block.settings.shop_text != blank %}<a class="shop-card-link" href="{{ block.settings.text_link }}" aria-label="Card link">{{ block.settings.shop_text }} {% render 'link-arrow' %}</a> {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "Highlited Categories",
+	"class": "highlited-categories-section",
+	"tag": "section",
+	"enabled_on": {
+		"templates": ["*"]
+	},
+	"settings": [
+        {
+			"type": "header",
+			"content": "Columns per row range slider"
+		},
+		{
+			"type": "range",
+			"id": "columns_per_row",
+			"min": 2,
+			"max": 4,
+			"step": 1,
+			"default": 4,
+			"label": "Columns per row",
+			"info": "Options: 3, 4. Applies to desktop"
+		},
+        {
+			"type": "header",
+			"content": "Choose Color"
+		},
+        {
+			"type": "color_scheme",
+			"id": "color_scheme",
+			"default": "background-1",
+			"label": "t:sections.all.color_scheme.label"
+		},
+		{
+			"type": "header",
+			"content": "Subheading input field"
+		},
+		{
+			"type": "text",
+			"id": "subheading",
+			"default": "Subheading",
+			"label": "t:sections.all.section-header.subheading.label"
+		},
+		{
+			"type": "header",
+			"content": "Subheading dot toggle"
+		},
+		{
+			"type": "checkbox",
+			"id": "dot",
+			"default": true,
+			"label": "t:sections.all.section-header.dot.label"
+		},
+		{
+			"type": "header",
+			"content": "Heading input field"
+		},
+		{
+			"type": "text",
+			"id": "section_heading",
+			"default": "Some heading for this section",
+			"label": "t:sections.all.section-header.heading.label"
+		},
+		{
+			"type": "header",
+			"content": "Heading size dropdown"
+		},
+		{
+			"type": "select",
+			"id": "section_heading_size",
+			"options": [
+				{
+					"value": "h4",
+					"label": "Small"
+				},
+				{
+					"value": "h3",
+					"label": "Medium"
+				},
+				{
+					"value": "h2",
+					"label": "Large"
+				},
+				{
+					"value": "h1",
+					"label": "Extra Large"
+				}
+			],
+			"default": "h3",
+			"label": "t:sections.all.heading_size.label",
+            "info": "Dropdown Options: Extra Large (H1), Large (H2), Medium (H3), Small (H4)"
+		},
+		{
+			"type": "header",
+			"content": "Card heading size dropdown"
+		},
+		{
+			"type": "select",
+			"id": "card_heading_size",
+			"options": [
+				{
+					"value": "h3",
+					"label": "Medium"
+				},
+				{
+					"value": "h4",
+					"label": "Small"
+				},
+				{
+					"value": "h5",
+					"label": "Extra Small"
+				},
+				{
+					"value": "h6",
+					"label": "Extra Extra Small"
+				},
+			],
+			"default": "h6",
+			"label": "Card heading size",
+            "info": "Dropdown Options: Medium (H3), Small (H4), Extra Small (H5), Extra Extra Small (H6). Applies to each card"
+		},
+		{
+			"type": "header",
+			"content": "Image aspect ratio dropdown"
+		},
+		{
+			"type": "select",
+			"id": "image_ratio",
+			"default": "3/4",
+			"label": "t:sections.all.image.aspect_ratio.label",
+			"options": [
+				{
+					"value": "1/1",
+					"label": "t:sections.all.image.aspect_ratio.options__1.label"
+				},
+				{
+					"value": "3/2",
+					"label": "t:sections.all.image.aspect_ratio.options__2.label"
+				},
+				{
+					"value": "3/4",
+					"label": "t:sections.all.image.aspect_ratio.options__3.label"
+				},
+				{
+					"value": "4/3",
+					"label": "t:sections.all.image.aspect_ratio.options__4.label"
+				},
+				{
+					"value": "16/9",
+					"label": "t:sections.all.image.aspect_ratio.options__5.label"
+				},
+				{
+					"value": "21/9",
+					"label": "t:sections.all.image.aspect_ratio.options__6.label"
+				}
+			]
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.mobile_options.header.content"
+		},
+		{
+			"type": "select",
+			"id": "columns_mobile",
+			"default": "1",
+			"label": "t:sections.all.mobile_options.columns.label",
+			"options": [
+				{
+					"value": "1",
+					"label": "t:sections.all.mobile_options.columns.options__1.label"
+				},
+				{
+					"value": "2",
+					"label": "t:sections.all.mobile_options.columns.options__2.label"
+				}
+			]
+		},
+		{
+			"type": "checkbox",
+			"id": "swipe_on_mobile",
+			"default": false,
+			"label": "t:sections.all.mobile_options.swipe.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-margin.header.content"
+		},
+
+		{
+			"type": "select",
+			"id": "margin_top",
+			"options": [
+				{
+					"value": "no-indent",
+					"label": "t:sections.all.section-margin.options__1.label"
+				},
+				{
+					"value": "xs",
+					"label": "t:sections.all.section-margin.options__2.label"
+				},
+				{
+					"value": "s",
+					"label": "t:sections.all.section-margin.options__3.label"
+				},
+				{
+					"value": "m",
+					"label": "t:sections.all.section-margin.options__4.label"
+				},
+				{
+					"value": "l",
+					"label": "t:sections.all.section-margin.options__5.label"
+				},
+				{
+					"value": "xl",
+					"label": "t:sections.all.section-margin.options__6.label"
+				}
+			],
+			"default": "s",
+			"label": "t:sections.all.section-margin.margin_top.label"
+		},
+		{
+			"type": "select",
+			"id": "margin_bottom",
+			"options": [
+				{
+					"value": "no-indent",
+					"label": "t:sections.all.section-margin.options__1.label"
+				},
+				{
+					"value": "xs",
+					"label": "t:sections.all.section-margin.options__2.label"
+				},
+				{
+					"value": "s",
+					"label": "t:sections.all.section-margin.options__3.label"
+				},
+				{
+					"value": "m",
+					"label": "t:sections.all.section-margin.options__4.label"
+				},
+				{
+					"value": "l",
+					"label": "t:sections.all.section-margin.options__5.label"
+				},
+				{
+					"value": "xl",
+					"label": "t:sections.all.section-margin.options__6.label"
+				}
+			],
+			"default": "s",
+			"label": "t:sections.all.section-margin.margin_bottom.label"
+		},
+        	{
+			"type": "header",
+			"content": "t:sections.all.section-padding.header.content"
+		},
+		{
+			"type": "select",
+			"id": "padding_top",
+			"options": [
+				{
+					"value": "no-indent",
+					"label": "t:sections.all.section-padding.options__1.label"
+				},
+				{
+					"value": "xs",
+					"label": "t:sections.all.section-padding.options__2.label"
+				},
+				{
+					"value": "s",
+					"label": "t:sections.all.section-padding.options__3.label"
+				},
+				{
+					"value": "m",
+					"label": "t:sections.all.section-padding.options__4.label"
+				},
+				{
+					"value": "l",
+					"label": "t:sections.all.section-padding.options__5.label"
+				},
+				{
+					"value": "xl",
+					"label": "t:sections.all.section-padding.options__6.label"
+				}
+			],
+			"default": "m",
+			"label": "t:sections.all.section-padding.padding_top.label"
+		},
+		{
+			"type": "select",
+			"id": "padding_bottom",
+			"options": [
+				{
+					"value": "no-indent",
+					"label": "t:sections.all.section-padding.options__1.label"
+				},
+				{
+					"value": "xs",
+					"label": "t:sections.all.section-padding.options__2.label"
+				},
+				{
+					"value": "s",
+					"label": "t:sections.all.section-padding.options__3.label"
+				},
+				{
+					"value": "m",
+					"label": "t:sections.all.section-padding.options__4.label"
+				},
+				{
+					"value": "l",
+					"label": "t:sections.all.section-padding.options__5.label"
+				},
+				{
+					"value": "xl",
+					"label": "t:sections.all.section-padding.options__6.label"
+				}
+			],
+			"default": "m",
+			"label": "t:sections.all.section-padding.padding_bottom.label"
+		}
+	],
+	"blocks": [
+		{
+			"type": "card",
+			"name": "Category Card",
+			"settings": [
+				{
+					"type": "header",
+					"content": "Card heading input field"
+		        },
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "header",
+					"content": "Image select button"
+		        },
+				{
+					"type": "text",
+					"id": "text",
+					"label": "Heading",
+					"default": "Category"
+				},
+                {
+					"type": "header",
+					"content": "Button label input field"
+		        },
+                {
+					"type": "text",
+					"id": "shop_text",
+					"label": "Link"
+				},
+				{
+					"type": "header",
+					"content": "Link input field"
+		        },
+                {
+					"type": "url",
+					"id": "text_link",
+					"label": "Link"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Highlited Categories",
+			"blocks": [
+				{
+					"type": "card"
+				},
+				{
+					"type": "card"
+				},
+				{
+					"type": "card"
+				},
+				{
+					"type": "card"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

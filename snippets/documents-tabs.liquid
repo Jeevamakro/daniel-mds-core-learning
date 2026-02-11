@@ -1,0 +1,65 @@
+<modal-opener class="no-js-hidden" data-modal="#PopupModal-specification-tab-documents">
+  <button
+    id="ProductPopup-specification-tab"
+    class="button product-spec-popup-btn focus-inset h3"
+    type="button"
+    aria-haspopup="dialog"
+  >
+    <span>Documents</span> <span class="pop-up-icon">{% render 'icon-arrow' %}</span>
+  </button>
+</modal-opener>
+<modal-dialog
+  id="PopupModal-specification-tab-documents"
+  class="product-popup-modal product-spec-popup-modal"
+  aria-hidden="true"
+>
+  <div role="dialog" aria-label="Specification" aria-modal="true" class="product-popup-modal__dialog" tabindex="-1">
+    <button
+      id="ModalClose-specification"
+      type="button"
+      class="product-popup-modal__close modal-close-button focus-inset"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {% render 'icon-close' %}
+    </button>
+    <h4 class="product-popup-modal__title h4">Documents</h4>
+    <div class="product-popup-modal__content">
+      <div class="product-document-wrapper">
+        <ul class="product-document-list">
+          <li class="product-document-item">
+            <a href="#" class="h4 product-document-link" target="_blank" rel="noopener">
+              <span class="product-document-icon">
+                {% render 'icon-document' %}
+              </span>
+              <span class="product-document-name">Installation Guide</span>
+            </a>
+          </li>
+          <li class="product-document-item">
+            <a href="#" class="h4 product-document-link" target="_blank" rel="noopener">
+              <span class="product-document-icon">
+                {% render 'icon-document' %}
+              </span>
+              <span class="product-document-name">Owner's Manual</span>
+            </a>
+          </li>
+          <li class="product-document-item">
+            <a href="#" class="h4 product-document-link" target="_blank" rel="noopener">
+              <span class="product-document-icon">
+                {% render 'icon-document' %}
+              </span>
+              <span class="product-document-name">Installation Guide</span>
+            </a>
+          </li>
+          <li class="product-document-item">
+            <a href="#" class="h4 product-document-link" target="_blank" rel="noopener">
+              <span class="product-document-icon">
+                {% render 'icon-document' %}
+              </span>
+              <span class="product-document-name">Owner's Manual</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</modal-dialog>

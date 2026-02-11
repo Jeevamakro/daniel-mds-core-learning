@@ -1,0 +1,57 @@
+    .custom-collection-grid .collections-list__wrapper.version-2{  display:grid;  grid-template-columns: 1fr 1fr; row-gap:40px; column-gap:16px; }
+    .custom-collection-grid .collections-list__item svg.placeholder-svg{ width:100%; height:100%; }
+    .custom-collection-grid .collection-path{ border-radius: calc(var(--border-radius-main) - 4px); }
+    .custom-collection-grid .collections-list__wrapper.version-2 .collections-list__item img{ width:100%; height:100%; object-fit: cover; mix-blend-mode: multiply;  }
+    .custom-collection-grid .collections-list__wrapper.version-2{ grid-template-columns: repeat(3, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-2 .collections-list__item .collection-inner{ width:100%; height:100%; border-radius: calc(var(--border-radius-main) - 4px); }
+    .custom-collection-grid .collections-list__wrapper.version-2 .collections-list__item .collection-title{ margin:0; }
+    .custom-collection-grid .collections-list__wrapper.version-2 .collections-list__item .collection-title a{ text-decoration:none; }
+    .custom-collection-grid .collections-list__wrapper.version-2 .collections-list__item{  position: relative; height: auto; display: flex;flex-direction: column;gap: 1.6rem; }
+    .custom-collection-grid  h1.main-page-title.page-title.title--page{ margin-top:32px; margin-bottom:64px; }
+    .custom-collection-grid .collections-list__wrapper.version-2  .collection-path{ padding:20px; width:100%; height:100%; border-radius:calc(var(--border-radius-main) - 4px); }
+    
+
+    .custom-collection-grid .collections-list__wrapper.version-1{  display:grid;  grid-template-columns: 1fr 1fr; row-gap:16px; column-gap:16px; }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item img{ width:100%; height:100%; object-fit: cover; mix-blend-mode: multiply;  }
+    .custom-collection-grid .collections-list__wrapper.version-1{ grid-template-columns: repeat(3, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item .collection-inner{ width:100%; height:100%; border-radius: calc(var(--border-radius-main) - 4px); max-height:80px;  }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item .collection-title{ margin:0; }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item .collection-title a{ text-decoration:none; }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item{  position: relative; height: auto; display: flex; align-items: center; gap: 1.6rem; justify-content:space-between; border-radius: calc(var(--border-radius-main) - 4px); } 
+    .custom-collection-grid .collections-list__wrapper.version-1 .collection-link a{ padding:0; width:30px; height:30px; }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collection-inner{ max-width:80px; } 
+/*    .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper--4  .collection-content{  max-width: 157px; width: 100%;  }   */
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item{ background-color: rgb(var(--color-background-secondary)); padding:12px; }  
+    .custom-collection-grid .collections-list__wrapper.version-1 .collections-list__item .collection-title{ font-size: calc(var(--font-heading-h5-scale) * 1.8rem); } 
+    .custom-collection-grid .collections-list__wrapper.version-1 .collection-path{ padding:10px; max-height:80px;  }
+
+    .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper--2 .collection-content{max-width: initial;  width: 100%; }
+@media screen and (min-width:1024px){
+    .custom-collection-grid .collections-list__wrapper.version-2 .collection-path{ padding:50px; }
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper--3{ grid-template-columns: repeat(3, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper--4{ grid-template-columns: repeat(4, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper--5{ grid-template-columns: repeat(5, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper--6{ grid-template-columns: repeat(6, 1fr); }
+
+    .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper--3{ grid-template-columns: repeat(3, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper--4{ grid-template-columns: repeat(4, 1fr); }
+}
+@media screen and (min-width:768px){
+.custom-collection-grid  .collections-list__wrapper.collections-list__wrapper--2{ grid-template-columns: repeat(2, 1fr); }
+.custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper--4 .collection-content{ max-width: 153px; width: 100%;  }
+.custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper--3 .collection-content{max-width: 270px; width: 100%; }
+}
+@media screen and (max-width:767px){
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper{ row-gap:24px; }
+    .custom-collection-grid h1.main-page-title.page-title.title--page{ margin-top:20px; margin-bottom:36px; }
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper-mobile--2{  grid-template-columns: repeat(2, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-2.collections-list__wrapper-mobile--1{  grid-template-columns: repeat(1, 1fr); }
+    /* .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper-mobile--2{  grid-template-columns: repeat(2, 1fr); } */
+    .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper-mobile--1{  grid-template-columns: repeat(1, 1fr); }
+    .custom-collection-grid .collections-list__wrapper.version-1.collections-list__wrapper{ row-gap:16px; }
+
+    .custom-collection-grid .collections-list__wrapper.version-1 .collection-content{ max-width: initial;  width: 100%; }
+    .custom-collection-grid .collections-list__wrapper.version-1 .collection-inner{ max-width:72px; max-height:72px; }
+    .custom-collection-grid .collections-list__wrapper.version-1{grid-template-columns: repeat(1, 1fr);  }
+}
+  

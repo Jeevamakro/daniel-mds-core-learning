@@ -1,0 +1,6392 @@
+{% comment %}
+Section:Shop by brand (A–Z cumulative filtering) which has 27 blocks each block item has 10items
+Dependencies
+Css:shop-by-brand.css
+js:shop-by-brand.js
+{% endcomment %}
+
+{{  'shop-by-brand.css' | asset_url | stylesheet_tag }}
+<script src='{{ 'shop-by-brand.js' | asset_url }}' defer='defer'></script>
+{%- style -%}
+  {% render 'section-margin' %}
+{%- endstyle -%}
+
+<section id="shop-by-brand" class="shop-by-brand">
+  <div class="shop-by-brand-wrapper">
+  <div class="alphabet-tabs container">
+    <div class="alphabet-tabs-inner">
+    <button class="tab all active" data-letter="all">All</button>
+    {% assign available_letters = '' %}
+    {% for block in section.blocks %}
+    {% if block.type == "item_numb" %}
+      {% assign available_letters = available_letters | append: "#" | append: "," %}
+    {% else %}
+      {% assign block_type = block.type | replace: 'item_', '' | upcase %}
+      {% assign available_letters = available_letters | append: block_type | append: "," %}
+    {% endif %}
+    {% endfor %}
+    {% assign all_letters = '#,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z' | split: ',' %}
+    {% for letter in all_letters %}
+      {% if available_letters contains letter %}
+        <button class="tab" data-letter="{{ letter }}">{{ letter }}</button>
+      {% else %}
+        <button class="tab disabled" data-letter="{{ letter }}" disabled>{{ letter }}</button>
+      {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+    <div class="alphabet-blocks container">
+    {% for block in section.blocks %}
+     {% case block.type %}
+     {% when 'item_numb' %}
+      <div class="alphabet-block" data-letter="#">
+        <h3 class="alphabet-title">#</h3>
+        <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+  {% when 'item_a' %}
+    <div class="alphabet-block" data-letter="A">
+      <h3 class="alphabet-title">A</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_b' %}
+    <div class="alphabet-block" data-letter="B">
+      <h3 class="alphabet-title">B</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_c' %}
+    <div class="alphabet-block" data-letter="C">  
+      <h3 class="alphabet-title">C</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_d' %}
+    <div class="alphabet-block" data-letter="D">
+      <h3 class="alphabet-title">D</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_e' %}
+    <div class="alphabet-block" data-letter="E">
+      <h3 class="alphabet-title">E</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_f' %}
+    <div class="alphabet-block" data-letter="F">
+      <h3 class="alphabet-title">F</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_g' %}
+    <div class="alphabet-block" data-letter="G">
+      <h3 class="alphabet-title">G</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_h' %}
+    <div class="alphabet-block" data-letter="H">
+      <h3 class="alphabet-title">H</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_i' %}
+    <div class="alphabet-block" data-letter="I">
+      <h3 class="alphabet-title">I</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_j' %}
+    <div class="alphabet-block" data-letter="J">
+      <h3 class="alphabet-title">J</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_k' %}
+    <div class="alphabet-block" data-letter="K">
+      <h3 class="alphabet-title">K</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_l' %}
+    <div class="alphabet-block" data-letter="L">
+      <h3 class="alphabet-title">L</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_m' %}
+    <div class="alphabet-block" data-letter="M">
+      <h3 class="alphabet-title">M</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_n' %}
+    <div class="alphabet-block" data-letter="N">
+      <h3 class="alphabet-title">N</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_o' %}
+    <div class="alphabet-block" data-letter="O">
+      <h3 class="alphabet-title">O</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_p' %}
+    <div class="alphabet-block" data-letter="P">
+      <h3 class="alphabet-title">P</h3>
+     <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_q' %}
+    <div class="alphabet-block" data-letter="Q">
+      <h3 class="alphabet-title">Q</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_r' %}
+    <div class="alphabet-block" data-letter="R">
+      <h3 class="alphabet-title">R</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_s' %}
+    <div class="alphabet-block" data-letter="S">
+      <h3 class="alphabet-title">S</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_t' %}
+    <div class="alphabet-block" data-letter="T">
+      <h3 class="alphabet-title">T</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_u' %}
+    <div class="alphabet-block" data-letter="U">
+      <h3 class="alphabet-title">U</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_v' %}
+    <div class="alphabet-block" data-letter="V">
+      <h3 class="alphabet-title">V</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_w' %}
+    <div class="alphabet-block" data-letter="W">
+      <h3 class="alphabet-title">W</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_x' %}
+    <div class="alphabet-block" data-letter="X">
+      <h3 class="alphabet-title">X</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_y' %}
+    <div class="alphabet-block" data-letter="Y">
+      <h3 class="alphabet-title">Y</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+  {% when 'item_z' %}
+    <div class="alphabet-block" data-letter="Z">
+      <h3 class="alphabet-title">Z</h3>
+      <div class="alphabet-item-wrapper">
+          {% for i in (1..10) %}
+            {% assign image_key = 'image' | append: i %}
+            {% assign title_key = 'title' | append: i %}
+            {% assign link_key = 'link' | append: i %}
+            {% if block.settings[image_key] != blank or block.settings[title_key] != blank %}
+              <div class="alphabet-item">
+                <a href="{{ block.settings[link_key] }}" class="overlay-link"></a>
+                {% if block.settings[image_key] != blank %}
+                  <img 
+                  src="{{ block.settings[image_key] | image_url: width: 500 }}" 
+                  alt="{{ block.settings[title_key] }}" 
+                  width="auto" height="auto">
+                {% endif %}
+                {% if block.settings[title_key] != blank %}
+                  <h5 class="block-inner-item-title"><a href="{{ block.settings[link_key] }}" class="btn">{{ block.settings[title_key] }}</a></h5>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+  {% endcase %}
+  {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+
+{% schema %}
+{
+  "name": "Alphabetical Filter Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "m",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "m",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ],
+  "blocks": [
+  {
+    "type": "item_numb",
+    "name": "Item Number",
+    "limit": 1,
+    "settings": [
+      {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+   {
+    "type": "item_a",
+    "name": "Item A",
+    "limit": 1,
+    "settings": [
+      {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_b",
+    "name": "Item B",
+    "limit": 1,
+    "settings": [
+      {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_c",
+    "name": "Item C",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_d",
+    "name": "Item D",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_e",
+    "name": "Item E",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_f",
+    "name": "Item F",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_g",
+    "name": "Item G",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_h",
+    "name": "Item H",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_i",
+    "name": "Item I",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_j",
+    "name": "Item J",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_k",
+    "name": "Item K",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_l",
+    "name": "Item L",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_m",
+    "name": "Item M",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_n",
+    "name": "Item N",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_o",
+    "name": "Item O",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_p",
+    "name": "Item P",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_q",
+    "name": "Item Q",
+    "limit": 1,
+    "settings": [
+      {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_r",
+    "name": "Item R",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_s",
+    "name": "Item S",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_t",
+    "name": "Item T",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_u",
+    "name": "Item U",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_v",
+    "name": "Item V",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_w",
+    "name": "Item W",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_x",
+    "name": "Item X",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_y",
+    "name": "Item Y",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  },
+  {
+    "type": "item_z",
+    "name": "Item Z",
+    "limit": 1,
+    "settings": [
+       {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link 1"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link 2"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link 3"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 4"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 5"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link 5"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image6",
+      "label": "Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 6"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link 6"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image7",
+      "label": "Image 7"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Title 7"
+    },
+    {
+      "type": "url",
+      "id": "link7",
+      "label": "Link 7"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image8",
+      "label": "Image 8"
+    },
+    {
+      "type": "text",
+      "id": "title8",
+      "label": "Title 8"
+    },
+    {
+      "type": "url",
+      "id": "link8",
+      "label": "Link 8"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image9",
+      "label": "Image 9"
+    },
+    {
+      "type": "text",
+      "id": "title9",
+      "label": "Title 9"
+    },
+    {
+      "type": "url",
+      "id": "link9",
+      "label": "Link 9"
+    },
+
+    {
+      "type": "header",
+      "content": "Item 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "image10",
+      "label": "Image 10"
+    },
+    {
+      "type": "text",
+      "id": "title10",
+      "label": "Title 10"
+    },
+    {
+      "type": "url",
+      "id": "link10",
+      "label": "Link 10"
+    }
+    ]
+  }
+  ],
+  "presets": [
+    {
+      "name": "Shop By Brand"
+    }
+  ]
+}
+{% endschema %}

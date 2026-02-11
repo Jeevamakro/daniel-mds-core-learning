@@ -1,0 +1,893 @@
+{% comment %}
+		Renders a product card
+		Accepts:
+		- product_card_product: {Object} Product Liquid object (optional)
+		- media_size: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+		- show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+		- show_vendor: {Boolean} Show the product vendor. Default: true
+		- show_desc: {Boolean} Show the product vendor. Default: false
+		- section_id: {String} The ID of the section that contains this card.
+		- show_sku: {Boolean} Show sku. Default: false
+		Usage:
+	{% render 'main-collection-listview-product-card', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+{% comment %}
+------------------------------------------------------------------------------
+MODIFICATION NOTES IN PRODUCT CARD FOR LAYOUT VIEW (LIST VIEW OR GRID VIEW )
+
+1.  Added new structural wrapper `.card-wrapper-right.list-view` to handle right-side layout elements (content alignment, responsive structure).
+2.  Added `product-spec` division - content in static.
+3.  Added `instock` label - static.
+4.  Integrated dynamic price block within `.card-wrapper-right` for list-view alignment.
+5.  Added Add to Cart button inside the list view layout
+6.  Integrated **Quick View** in two locations:
+   - Main desktop quick view within `.card-wrapper-right`
+   - Mobile quick view with icon inside `.custom-quick-add.mobile-view`
+7.  Added `{% render 'custom-quick-view-icon' %}` snippet for Quick View icon rendering on mobile.
+
+------------------------------------------------------------------------------
+ FILES ADDED:
+  Added: `snippets/custom-quick-view-icon.liquid` (for the new quick view icon)
+{% endcomment %}
+
+{%- if settings.quickview_button_type != 'none' -%}
+	<link
+		rel="preload"
+		href="{{ 'section-main-product.css' | asset_url }}"
+		as="style"
+		onload="this.onload=null;this.rel='stylesheet'"
+	>
+	<link
+		rel="stylesheet"
+		href="{{ 'component-deferred-media.css' | asset_url }}"
+		media="all"
+	>
+	<link
+		rel="preload"
+		href="{{ 'quick-add.css' | asset_url }}"
+		as="style"
+		onload="this.onload=null;this.rel='stylesheet'"
+	>
+	{%- assign first_3d_model = product_card_product.media
+		| where: 'media_type', 'model'
+		| first
+	-%}
+	{%- if first_3d_model -%}
+		{{ 'component-product-model.css' | asset_url | stylesheet_tag }}
+		<link
+			id="ModelViewerStyle"
+			rel="stylesheet"
+			href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
+			media="print"
+			onload="this.media='all'"
+		>
+		<link
+			id="ModelViewerOverride"
+			rel="stylesheet"
+			href="{{ 'component-model-viewer-ui.css' | asset_url }}"
+			media="print"
+			onload="this.media='all'"
+		>
+	{%- endif -%}
+	{%- if first_3d_model -%}
+		<script type="application/json" id="ProductJSON-{{ product.id }}">
+			{{ product_card_product.media | where: 'media_type', 'model' | json }}
+		</script>
+		<script src="{{ 'product-model.js' | asset_url }}" defer></script>
+	{%- endif -%}
+{%- endif -%}
+{% liquid
+	case media_size
+		when 'landscape'
+			assign image_size = '70%'
+		when 'portrait'
+			assign image_size = '130%'
+		when 'square'
+			assign image_size = '100%'
+		else
+			assign image_size = '130%'
+	endcase
+
+	if media_fit == blank
+		assign imgae_fit = 'cover'
+	else
+		assign imgae_fit = media_fit
+	endif
+
+	assign has_b2b = false
+	assign show_price = false
+	if customer and customer.b2b?
+		assign has_b2b = true	
+		assign show_price = true
+	endif	
+
+	if has_search and has_b2b
+		assign has_b2b = false
+	endif	
+%}
+{%- assign product_form_id = 'quick-add-'
+	| append: section_id
+	| append: product_card_product.id
+-%}
+
+{% liquid
+	assign swatch = false
+	if product_card_product.options[0] == settings.trigger_swatch and settings.type_color_swatch == 'custom'
+		assign swatch = true
+	elsif settings.type_color_swatch == 'standart'
+		assign swatch_focal_point = null
+		assign swatch_value = null
+		for option in product_card_product.options_with_values
+			for value in option.values
+				if value.swatch.image
+					assign image_url = value.swatch.image | image_url: width: 50
+					assign swatch_value = 'url(' | append: image_url | append: ')'
+					assign swatch_focal_point = value.swatch.image.presentation.focal_point
+					break
+				elsif value.swatch.color
+					assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+					break
+				else
+					assign swatch_value = null
+				endif
+			endfor
+		endfor
+		if swatch_value != null
+			assign swatch = true
+		endif
+	endif
+
+	assign quick_add = false
+	if product_card_product.options.size == 1 and swatch
+		assign quick_add = true
+	endif
+%}
+<div class="custom-quick-add mobile-view">
+	<div class="group-wrapper-inner">
+        <div class="card__badge">
+			{%- if product_card_product.available == false -%}
+				<span
+					class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+					aria-hidden="true"
+				>
+					{{- 'products.product.sold_out' | t -}}
+				</span>
+			{%- elsif product_card_product.compare_at_price
+					> product_card_product.price
+				and product_card_product.available
+			-%}
+				<span
+					class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+					aria-hidden="true"
+				>
+					{{- 'products.product.on_sale' | t -}}
+				</span>
+			{%- endif -%}
+		</div>
+		<div class="quick-add no-js-hidden">
+				<modal-opener data-modal="#QuickAdd-{{ product_card_product.id }}">
+					<button
+						id="{{ product_form_id }}-submit"
+						type="submit"
+						name="add"
+						class="card__link button button--tertiary card__link--{{ settings.quickview_button_layout }} {% if settings.quickview_show == false %}mobile-hide-desktop{% endif %} {% if settings.show_on_mobile == false %}mobile-hide{% endif %} card-focused"
+						aria-haspopup="dialog"
+						aria-label="quick-view-button"
+						aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product_card_product.id }}"
+						data-product-url="{{ product_card_product.url }}"
+					>
+							<span class="card__quickview-text">
+								{% render 'custom-quick-view-icon' %}
+							</span>
+				
+						<b class="loading-overlay__spinner hidden">
+							<svg
+								aria-hidden="true"
+								focusable="false"
+								role="presentation"
+								class="spinner"
+								viewBox="0 0 66 66"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+							</svg>
+						</b>
+					</button>
+				</modal-opener>
+				<quick-add-modal
+					id="QuickAdd-{{ product_card_product.id }}"
+					class="quick-add-modal">
+					<div
+						role="dialog"
+						aria-label="{{ 'products.product.choose_product_options' | t: product_name: product_card_product.title | escape }}"
+						aria-modal="true"
+						class="quick-add-modal__content global-settings-popup"
+					>
+						<button
+							id="ModalClose-{{ product_card_product.id }}"
+							type="button"
+							class="quick-add-modal__toggle modal-close-button"
+							aria-label="{{ 'accessibility.close' | t }}"
+							tabindex="-1"
+						>
+							{% render 'icon-close' %}
+						</button>
+						<div class="quick-add-modal__content-wrapper">
+							<div
+								id="QuickAddInfo-{{ product_card_product.id }}"
+								class="quick-add-modal__content-info"
+							></div>
+						</div>
+						<div class="quick-add-modal__announcement-bar{% if product_card_product.media.size == 0 %} quick-add-modal__announcement-bar___full{% endif %} background color-{{ settings.quickview_announcement_color_scheme }}">
+							{{ settings.quickview_announcement }}
+						</div>
+					</div>
+				</quick-add-modal>
+	    </div>
+	 </div>
+	    
+</div>
+<div
+	class="product-card card-wrapper js-color-swatches-wrapper quickview{%- if settings.quickview_hover -%}--hover{% endif %}"
+	data-product="{{ product_card_product.handle }}"
+>
+	<span class="visually-hidden">{{ product_card_product.title | escape }}</span>
+	<div class="card card--product {{ media_size }}" tabindex="-1">
+		<a
+			href="{{ product_card_product.url | default: '#' }}"
+			class="media media--hover-effect js-color-swatches-link"
+			aria-label="{{ "accessibility.product_link" | t }}"
+			style="padding-bottom: {{ image_size }};"
+		>
+			{%- if product_card_product.featured_media -%}
+				{%- capture style -%}
+					object-position: {{ product_card_product.featured_media.presentation.focal_point }};
+					object-fit : {{ imgae_fit }};
+				{%- endcapture -%}
+				{{
+					product_card_product.featured_media
+					| image_url: width: 1920
+					| image_tag:
+						loading: 'lazy',
+						width: product_card_product.featured_media.width,
+						height: image_height,
+						sizes: '(max-width: 576px) 100vw, (max-width: 1200px) 50vw, 100vw',
+						widths: '375, 550, 750, 1100, 1500, 1700, 1900',
+						class: 'motion-reduce media--first',
+						style: style
+				}}
+				{%- if product_card_product.media[1] != null
+					and show_secondary_image
+				-%}
+					{%- capture style -%}
+							object-position: {{ product_card_product.media[1].presentation.focal_point }};
+							object-fit : {{ imgae_fit }};
+						{%- endcapture -%}
+					{{
+						product_card_product.media[1]
+						| image_url: width: 1920
+						| image_tag:
+							loading: 'lazy',
+							width: product_card_product.media[1].width,
+							height: image_height,
+							sizes: '(max-width: 576px) 100vw, (max-width: 1200px) 50vw, 100vw',
+							widths: '375, 550, 750, 1100, 1500, 1700, 1900',
+							class: 'motion-reduce media--second',
+							style: style
+					}}
+				{%- endif -%}
+			{%- else -%}
+				{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+			{%- endif -%}
+		</a>
+		
+		{%- if settings.add_to_cart_enabled and product_card_product.selected_or_first_available_variant.available
+			and product_card_product.has_only_default_variant
+			or quick_add
+		-%}
+			<product-form class="card__add-to-cart card__button {% if settings.add_to_cart_enabled == false %}mobile-hide{% endif %} {%- if settings.show_on_mobile == false -%}mobile-hide{%- endif -%}">
+				{%- form 'product',
+					product_card_product,
+					id: product_form_id,
+					class: 'form',
+					novalidate: 'novalidate',
+					data-type: 'add-to-cart-form'
+				-%}
+					<input
+						type="hidden"
+						name="id"
+						value="{{ product_card_product.selected_or_first_available_variant.id }}"
+						disabled
+					>
+					<button
+						id="{{ product_form_id }}-submit"
+						type="submit"
+						class="card__link button button--primary card__link--{{ settings.quickview_button_layout }} card-focused"
+						name="add"
+						aria-haspopup="dialog"
+						aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product_card_product.id }}"
+						aria-live="polite"
+						aria-label="quick-add"
+						data-sold-out-message="true"
+						{% if product_card_product.selected_or_first_available_variant.available
+								== false
+						%}
+							disabled
+						{% endif %} >
+							<span class="card__quickview-text">
+								{{- 'general.card.quick__add' | t -}}
+							</span>
+						<span class="sold-out-message hidden">
+							{{ 'products.product.sold_out' | t }}
+						</span>
+						<b class="loading-overlay__spinner hidden">
+							<svg
+								aria-hidden="true"
+								focusable="false"
+								role="presentation"
+								class="spinner"
+								viewBox="0 0 66 66"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+							</svg>
+						</b>
+					</button>
+				{%- endform -%}
+			</product-form>
+		{%- else -%}
+			<div class="quick-add no-js-hidden">
+				<modal-opener data-modal="#QuickAdd-{{ product_card_product.id }}">
+					<button
+						id="{{ product_form_id }}-submit"
+						type="submit"
+						name="add"
+						class="card__link button button--primary card__link--{{ settings.quickview_button_layout }} {% if settings.quickview_show == false %}mobile-hide-desktop{% endif %} {% if settings.show_on_mobile == false %}mobile-hide{% endif %} card-focused"
+						aria-haspopup="dialog"
+						aria-label="quick-view-button"
+						aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product_card_product.id }}"
+						data-product-url="{{ product_card_product.url }}"
+					>
+							<span class="card__quickview-text">
+								{{- 'general.card.quick__view' | t -}}
+							</span>
+				
+						<b class="loading-overlay__spinner hidden">
+							<svg
+								aria-hidden="true"
+								focusable="false"
+								role="presentation"
+								class="spinner"
+								viewBox="0 0 66 66"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+							</svg>
+						</b>
+					</button>
+				</modal-opener>
+				<quick-add-modal
+					id="QuickAdd-{{ product_card_product.id }}"
+					class="quick-add-modal"
+				>
+					<div
+						role="dialog"
+						aria-label="{{ 'products.product.choose_product_options' | t: product_name: product_card_product.title | escape }}"
+						aria-modal="true"
+						class="quick-add-modal__content global-settings-popup"
+					>
+						<button
+							id="ModalClose-{{ product_card_product.id }}"
+							type="button"
+							class="quick-add-modal__toggle modal-close-button"
+							aria-label="{{ 'accessibility.close' | t }}"
+							tabindex="-1"
+						>
+							{% render 'icon-close' %}
+						</button>
+						<div class="quick-add-modal__content-wrapper">
+							<div
+								id="QuickAddInfo-{{ product_card_product.id }}"
+								class="quick-add-modal__content-info"
+							></div>
+						</div>
+						<div class="quick-add-modal__announcement-bar{% if product_card_product.media.size == 0 %} quick-add-modal__announcement-bar___full{% endif %} background color-{{ settings.quickview_announcement_color_scheme }}">
+							{{ settings.quickview_announcement }}
+						</div>
+					</div>
+				</quick-add-modal>
+			</div>
+		{%- endif -%}
+		<div class="card__badge">
+			{%- if product_card_product.available == false -%}
+				<span
+					class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+					aria-hidden="true"
+				>
+					{{- 'products.product.sold_out' | t -}}
+				</span>
+			{%- elsif product_card_product.compare_at_price
+					> product_card_product.price
+				and product_card_product.available
+			-%}
+				<span
+					class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+					aria-hidden="true"
+				>
+					{{- 'products.product.on_sale' | t -}}
+				</span>
+			{%- endif -%}
+		</div>
+	</div>
+	<div class="card-information">
+		<div class="card-information__wrapper">
+		    <div class="group-wrapper">
+				{%- if show_vendor -%}
+					<span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+					{% comment %}<div class="caption-with-letter-spacing subtitle">
+						{{ product_card_product.vendor }}
+					</div>{% endcomment %}
+					{% if settings.enable_vendor_link %}
+						<a
+							href="{{ product_card_product.vendor | url_for_vendor }}"
+							class="unstyled-link caption-with-letter-spacing vendor-link subtitle"
+						>
+							{{ product_card_product.vendor }}
+						</a>
+					{% else %}
+						<div class="caption-with-letter-spacing subtitle card-vendor">
+							{{ product_card_product.vendor }}
+						</div>
+					{%- endif -%}
+				{%- endif -%}
+				{%- if show_sku and product_card_product.selected_or_first_available_variant.sku.size > 0 -%}
+						<p
+							class="card__sku extra_small-font no-js-hidden mobile-sku"
+							id="Sku-{{ section.id }}"
+							role="status"
+							{{ block.shopify_attributes }}
+						>
+							<span class="visually-hidden">{{ 'products.product.sku' | t }}:</span> {{- product_card_product.selected_or_first_available_variant.sku -}}
+						</p>
+				{%- endif -%}
+			</div>
+			<div class="card-information-block">
+				<h3 class="card__title">
+					<a
+						class="unstyled-link "
+						href="{{ product_card_product.url | default: '#' }}"
+						title="{{ product_card_product.title | escape }}"
+					>
+						{{ product_card_product.title | escape -}}
+					</a>
+				</h3>
+                {%- if show_desc -%}
+					{% liquid
+						assign check_des = product_card_product.description
+						if section.settings.show_description_type == 'des'
+							assign check_des = product_card_product.description | strip_html | truncate: 120
+						else
+							assign namespace = section.settings.show_description_meta_key | split: '.' | first
+							assign key = section.settings.show_description_meta_key | split: '.' | last
+							assign check_des = product_card_product.metafields[namespace][key] | strip_html | truncate: 120
+						endif
+					%}
+					{% if check_des != blank %}
+						<div class="card__description">{{check_des}}</div>
+					{% endif %}
+				{%- endif -%}
+				{%- if show_sku and product_card_product.selected_or_first_available_variant.sku.size > 0 -%}
+					<p
+						class="card__sku extra_small-font no-js-hidden desktop-sku"
+						id="Sku-{{ section.id }}"
+						role="status"
+						{{ block.shopify_attributes }}
+					>
+						<span class="visually-hidden">{{ 'products.product.sku' | t }}:</span> {{- product_card_product.selected_or_first_available_variant.sku -}}
+					</p>
+			    {%- endif -%}
+				{% render 'price', product: product_card_product, price_class: '' %}
+			</div>
+			
+			
+			{%- if show_collection_name -%}
+				{%- for collection in product_card_product.collections limit: 1 -%}
+					<a
+						href="{{ collection.url }}"
+						class="card__collection-title extra_small-font unstyled-link"
+					>
+						{{- collection.title | escape -}}
+					</a>
+				{%- endfor -%}
+			{%- endif -%}
+			{%- unless product_card_product.has_only_default_variant -%}
+				<div class="product-parameters no-js-hidden">
+					{%- for option in product_card_product.options_with_values -%}
+						{%- liquid
+							assign color_trigger = settings.trigger_swatch | handle | strip
+							assign name_option = option.name | handle | strip
+
+							assign swatch = false
+							if settings.type_color_swatch == 'custom' and color_trigger == name_option
+								assign swatch = true
+							elsif settings.type_color_swatch == 'standart'
+								assign swatch_focal_point = null
+								assign swatch_value = null
+								for value in option.values
+									if value.swatch.image
+										assign image_url = value.swatch.image | image_url: width: 50
+										assign swatch_value = 'url(' | append: image_url | append: ')'
+										assign swatch_focal_point = value.swatch.image.presentation.focal_point
+										break
+									elsif value.swatch.color
+										assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+										break
+									else
+										assign swatch_value = null
+									endif
+								endfor
+
+								if swatch_value != null
+									assign swatch = true
+								endif
+							endif
+						-%}
+						{%- if swatch and option.values.size > 1 -%}
+							<div class="product-form__controls js-color-swatches">
+								<div class="product-form__controls-group color--silwer">
+									{% render 'product-variant-options',
+										product: product_card_product,
+										option: option,
+										no_form_id: true
+									%}
+								</div>
+							</div>
+						{%- endif -%}
+					{%- endfor -%}
+				</div>
+			{% endunless %}
+			{% comment %} compare widget button start {% endcomment %}
+			 {% liquid
+			    assign productCode_tags = ''
+				for tag in product_card_product.tags
+					if tag contains 'TAProductCode_'
+						if productCode_tags == ''
+							assign productCode_tags = tag
+						else
+							assign productCode_tags = productCode_tags | append:',' | append:tag
+						endif
+					endif
+				endfor
+			 %}
+			{% if enable_compare %}
+				<div class="compare_product" 
+					onclick="addCompare(event,this)" 
+					data-all-tags='{{ product_card_product.tags | join: "," }}' 
+					data-tags='{{productCode_tags}}' 
+					data-id="{{product_card_product.id}}"
+					data-handle="{{product_card_product.handle}}"
+					data-vid="{{ product_card_product.selected_or_first_available_variant.id }}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+						<path d="M2.34375 7.5H12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						<path d="M7.5 2.34375V12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+					<span>Add to compare</span>
+				</div>
+			{% endif %}
+			{% comment %} compare widget button end {% endcomment %}
+            <div class="product-spec hidden">
+			<ul>
+			<li><div class="spec-title">Depth:</div><div class="spec-content">24.61 in / 62.5 cm</li>
+			<li><div class="spec-title">Weight:</div><div class="spec-content">87.3 lbs / 39.6 kg</li>
+			</ul>
+			</div>
+		
+		</div>
+		{%- if has_b2b -%}
+		{%- assign product = product_card_product -%}
+		<quick-order-list
+			class="section-{{ section.id }}-padding card-wrapper list-view-order-list"
+			id="{{ section.id }}-{{ product.id }}"
+			data-section="{{ section.id }}"
+			data-product-id="{{ product.id }}"
+			data-url="{{ collection.url }}"
+			data-handle="{{ product.handle }}"
+			data-product-type="{{ product.type | downcase }}"
+		>
+			<form
+				action="{{ routes.cart_update_url }}"
+				class="quick-order-list__contents critical-hidden product-detail"
+				method="post"
+				id="QuickOrderList"
+			>			
+				<div class="variant-item quick-order-list__table">
+					<div class="product-items-inner">
+						{% for variant in product.variants %}
+							<div class="variant-info variant-item" id="Variant-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+								{% if variant.featured_image %}
+									<div class="product-variant">
+										<img 
+											src="{{ variant.featured_image | img_url: '500x' }}" 
+											alt="{{ variant.title }}"
+											class="variant-image"
+										>
+									</div>
+								{% endif %}
+								
+									<p class="variant-name">
+										{{ variant.title }}
+									</p>
+									{%- liquid
+										assign check_against_inventory = true
+										if variant.inventory_management != 'shopify' or variant.inventory_policy == 'continue'
+											assign check_against_inventory = false
+										endif
+									%}
+									{% if variant.available %}
+										<p class="variant-stock in-stock">
+											{%- if check_against_inventory -%}
+												<span class="stock-count">{{ variant.inventory_quantity }}</span> in stock
+											{% else %}
+												<span class="stock-count">In stock</span>
+											{%- endif -%}
+											{% comment %} <span class="stock-count">120</span> in stock {% endcomment %}
+											{% comment %} {% if v.inventory_management != blank %} ({{ v.inventory_quantity }} available){% endif %} {% endcomment %}
+										</p>
+									{% else %}
+										<p class="variant-stock out-stock">Out of stock</p>
+									{% endif %}
+									{% if variant.compare_at_price > variant.price and not == true %}
+										<p class="variant-price">
+											<span class="sale-price">{{ variant.price | money }}</span>
+											<span class="compare-at">{{ variant.compare_at_price | money }}</span>
+										</p>
+									{% else %}
+										<p class="variant-price">{{ variant.price | money }}<span>/each</span></p>
+									{% endif %}
+								
+									{% comment %} TODO: Remove theme check {% endcomment %}
+									{% # theme-check-disable %}
+									{% assign cart_qty = cart | item_count_for_variant: variant.id %}
+									{% # theme-check-enable %}
+									{%- liquid      
+										if variant.quantity_rule.min > variant.inventory_quantity and check_against_inventory
+											assign quantity_rule_soldout = true
+										endif
+
+										assign has_qty_rules = false
+										if variant.quantity_rule.increment > 1 or variant.quantity_rule.min > 1 or variant.quantity_rule.max != null
+											assign has_qty_rules = true
+										endif
+
+										assign has_vol_pricing = false
+										if variant.quantity_price_breaks.size > 0
+											assign has_vol_pricing = true
+										endif
+
+										assign is_available = false
+										assign has_popover = false
+										unless variant.available == false or quantity_rule_soldout
+											assign is_available = true
+										endunless
+										if has_qty_rules or has_vol_pricing
+											assign has_popover = true
+										endif
+									-%}
+									<quantity-popover qty-box>
+										<div class="variant-item__quantity-wrapper quantity-popover-wrapper{% unless has_popover %} variant-item__quantity-wrapper--no-info{% endunless %}">
+											<label class="visually-hidden" for="Quantity-{{ variant.id }}">
+												{{ 'products.product.quantity.label' | t }}
+											</label>
+											<div class="quantity-popover-container{{  -}}
+												{%- if is_available and has_popover %} quantity-popover-container--hover{% endif -%}
+												{%- if cart_qty == 0 %} quantity-popover-container--empty{% endif -%}
+												{%- if variant.available == false or quantity_rule_soldout %} button button--tertiary{% endif -%}
+												"
+											>
+												{%- if has_qty_rules or has_vol_pricing -%}
+													<button
+														type="button"
+														aria-expanded="false"
+														aria-controls="quantity-popover-info-{{ variant.id }}"
+														aria-label="
+															{%- if has_vol_pricing -%}
+																{{ 'products.product.volume_pricing.note' | t }}
+															{%- elsif has_qty_rules -%}
+																{{ 'products.product.quantity.note' | t }}
+															{%- endif -%}
+														"
+														class="quantity-popover__info-button quantity-popover__info-button--icon-only button button--tertiary small-hide medium-hide no-js-hidden"
+													>														
+														{%- render 'icon-info' -%}
+													</button>
+													<div
+														class="global-settings-popup quantity-popover__info"
+														tabindex="-1"
+														hidden
+														id="quantity-popover-info-{{ variant.id }}"
+													>
+														{%- if has_qty_rules == false -%}
+															<span class="volume-pricing-label caption">{{ 'products.product.volume_pricing.title' | t }}</span>
+														{%- endif -%}
+														<div class="quantity__rules caption no-js-hidden">
+															{%- if variant.quantity_rule.increment > 1 -%}
+																<span class="divider">
+																	{{- 'products.product.quantity.multiples_of' | t: quantity: variant.quantity_rule.increment -}}
+																</span>
+															{%- endif -%}
+															{%- if variant.quantity_rule.min > 1 -%}
+																<span class="divider">
+																	{{- 'products.product.quantity.minimum_of' | t: quantity: variant.quantity_rule.min -}}
+																</span>
+															{%- endif -%}
+															{%- if variant.quantity_rule.max != null -%}
+																<span class="divider">
+																	{{- 'products.product.quantity.maximum_of' | t: quantity: variant.quantity_rule.max -}}
+																</span>
+															{%- endif -%}
+														</div>
+														<button
+															class="button-close button button--tertiary large-up-hide"
+															type="button"
+															aria-label="{{ 'accessibility.close' | t }}"
+														>                    
+															{%- render 'icon-close' -%}															
+														</button>														
+													</div>
+												{%- endif -%}
+												{%- if variant.available == false or quantity_rule_soldout -%}
+													<span class="variant-item__sold-out"> {{ 'products.product.sold_out' | t }} </span>
+												{%- else -%}
+													{% comment %} TODO: Remove theme check {% endcomment %}
+													{% # theme-check-disable %}
+													{% assign cart_qty = cart | item_count_for_variant: variant.id %}
+													{% # theme-check-enable %}
+													{% render 'quantity-input', variant: variant, min: 0, no_cart_value: false %}
+												{%- endif -%}
+											</div>											
+										</div>										
+										<div
+											class="variant-item__error large-up-hide"
+											id="Quick-order-list-item-error-mobile-{{ variant.id }}"
+											role="alert"
+										>
+											<small class="variant-item__error-text"></small>
+											<span class="svg-wrapper">												
+												{%- render 'icon-error' -%}
+											</span>
+										</div>
+									</quantity-popover>
+									<script type="application/json" class="variant_json">{{ variant | json }}</script>
+									{% comment %} <div class="qty-controls" data-qty-controls="{{ v.id }}">
+											<button class="qty-minus" data-product-id="{{ v.id }}">{% render 'icon-minus' %}</button>
+													<span class="qty-number" data-qty="{{ v.id }}">1</span>
+											<button class="qty-plus" data-product-id="{{ v.id }}">{% render 'icon-plus' %}</button>
+									</div> {% endcomment %}
+								{% if variant.compare_at_price > variant.price and not == true %}
+									<p class="exact-variant-price">
+										<span class="sale-price">{{ variant.price | money }}</span>
+										<span class="compare-at">{{ variant.compare_at_price | money }}</span>
+									</p>
+								{% else %}
+									{% assign added_varint_price = cart | item_count_for_variant: variant.id | times: variant.price %}
+									<p class="exact variant-price">
+										{{ added_varint_price | money }}
+										<b class="loading-overlay__spinner hidden">
+											<svg
+												aria-hidden="true"
+												focusable="false"
+												role="presentation"
+												class="spinner"
+												viewBox="0 0 66 66"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+											</svg>
+										</b>
+									</p>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</div>
+					{% comment %} <div class="product-items-inner mobile">
+						{% for v in product_card_product.variants %}
+							<div class="variant-info">
+							<div class="card-wraper">
+							<div class="inner-wrapper">
+								{% if v.featured_image %}
+									<div class="product-variant">
+										<img 
+											src="{{ v.featured_image | img_url: '500x' }}" 
+											alt="{{ v.title }}"
+											class="variant-image"
+										>
+									</div>
+								{% endif %}
+								</div>	
+									<div class="card-wrapper-content">								
+										<p class="variant-name">
+											{{ v.title }}
+										</p>
+										{% if v.available %}
+											<p class="variant-stock in-stock">
+											<span class="stock-count">120</span> In stock {% comment %} {% if v.inventory_management != blank %} ({{ v.inventory_quantity }} available){% endif %} {% endcomment %}
+											</p>
+										{% else %}
+											<p class="variant-stock out-stock">Out of stock</p>
+										{% endif %}
+										{% if v.compare_at_price > v.price %}
+											<p class="variant-price">
+											<span class="sale-price">{{ v.price | money }} </span>
+											<span class="compare-at">{{ v.compare_at_price | money }} <span>/each</span></span>
+											</p>
+										{% else %}
+											<p class="variant-price">{{ v.price | money }} <span>/each</span></p>
+										{% endif %}	
+									</div>
+								</div>								
+									<div class="qty-controls" data-qty-controls="{{ v.id }}">
+										<button class="qty-minus" data-product-id="{{ v.id }}">{% render 'icon-minus' %}</button>
+												<span class="qty-number" data-qty="{{ v.id }}">1</span>
+										<button class="qty-plus" data-product-id="{{ v.id }}">{% render 'icon-plus' %}</button>
+									</div>
+								
+								{% if v.compare_at_price > v.price %}
+									<p class="exact-variant-price">
+									<span class="sale-price">{{ v.price | money }}</span>
+									<span class="compare-at">{{ v.compare_at_price | money }}</span>
+									</p>
+								{% else %}
+								<p class="exact variant-price">{{ v.price | money }}</p>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</div> {% endcomment %}
+					<div class="variant-content quick-order-list__total">
+						<div class="variant-link-group">
+							<a href="javascript:void(0);" class="varint-text">Show</a>
+							<span class="variant-text-static">{{ product_card_product.variants.size }} variants</span><span class="custom-varriant-arrow">{% render 'main-collection-listview-variant-arrow' %}</span>
+						</div> 
+						{%- assign cart_total = cart | line_items_for: product | sum: 'original_line_price' -%}
+						<div class="total-variant{% if cart_total == 0 %} hidden{% endif %}">
+							<span class="total-value">Total:</span> <span class="totals__subtotal-value">{{ cart_total | money }}</span>
+						</div>
+						<div class="quick-order-list-error"></div>
+					</div>
+				</div>
+				<p
+					class="visually-hidden"
+					id="quick-order-list-live-region-text-{{ product.id }}"
+					aria-live="polite"
+					role="status"
+				></p>
+				<p
+					class="visually-hidden"
+					id="shopping-cart-variant-item-status"
+					aria-live="polite"
+					aria-hidden="true"
+					role="status"
+				>
+					{{ 'accessibility.loading' | t }}
+				</p>
+			</form>
+			
+
+			<script type="application/json" data-cart-contents>
+				{{ cart | line_items_for: product | map: "variant_id" | json }}
+			</script>
+		</quick-order-list>		
+		<template id="QuickOrderListErrorTemplate-{{ product.id }}">
+			<span class="svg-wrapper">
+				{{ 'icon-error.svg' | inline_asset_content }}
+			</span>
+			<span class="quick-order-list-error-message caption-large" role="alert"></span>
+		</template>
+		{%- endif -%}
+
+		<div class="grid-quick">
+		{%- assign quick_add_bulk = "bulk" -%}
+		{%- render 'product-card-bulk', quick_add_bulk: quick_add_bulk, product: product_card_product, has_b2b: has_b2b, section_id: section_id -%}
+		</div>
+	</div>
+	<a class="card-link--overlay" href="{{ product_card_product.url | default: '#' }}" aria-label="{{ "accessibility.product_link" | t }}"></a>
+</div>

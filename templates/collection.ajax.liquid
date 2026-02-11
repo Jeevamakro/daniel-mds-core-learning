@@ -1,0 +1,195 @@
+{% layout none %}
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by | split: ',' -%}
+    {%- for p in sort_by -%}
+
+    {% assign product_card_product = all_products[p] %}
+
+    {% if product_card_product.metafields.custom.specifications != blank %}
+
+    <div data-information data-tags="{{ product_card_product.tags | join:',' }}" class="specification_part-{{ forloop.index }}">{{ product_card_product.metafields.custom.specifications | replace:'=>',':' }}</div>
+    <script>
+        var tableJSON = "";
+        tableJSON = {{ product_card_product.metafields.custom.specifications | replace:'=>',':' }};
+        var data = tableJSON;
+
+        var lookup = {};
+        var result = [];
+        var data1 = data['Values'];
+
+        for (var data1, i = 0; item = data1[i++];) {
+            let has_additional = false;
+            if(item[1] == 'Additional Information' || item[1] == 'additional information'){
+            has_additional = true;          
+            lookup[item[1]] = [];          
+            lookup[item[1]]["hideKey"] = [];
+            if(item[2].includes("•")){
+                var removeDotFromData = item[2].replace(/<br\/?>/gi,'').replace(/[\r\n]+/g,'');
+                removeDotFromData = removeDotFromData.split("•");
+                for(let j=1; j<removeDotFromData.length; j++){
+                lookup[item[1]]["hideKey"].push(removeDotFromData[j].trim());
+                }
+            }else{
+                lookup[item[1]]["hideKey"].push(item[2]);
+            }
+            }
+            if( !has_additional ){
+            var name = item[0];
+            if (!(name in lookup)) {
+                lookup[name] = [];
+                result.push(name);
+                lookup[name].push({ [item[1]]: item[2] });
+            }else{
+                lookup[name].push({ [item[1]]: item[2] });
+            }
+            }        
+        }
+
+        html = '';
+        for( key in lookup ){
+
+            if(key == "Additional Information" || key == "Shipping Dimensions" || key == "UPC"){}else{
+                const keyValue = lookup[key];
+                const keyHeading = key;
+                html += `<table class="inner-compare-table">
+                                    <tbody>
+                                        <tr class="type-title-tr"><td class="type-title" colspan="100%"><h2 class="h4 h-m-tb">${keyHeading}</h2></td></tr>`;
+
+                if( keyValue.length ){
+                    for (let i = 0; i < keyValue.length; i++ ){
+                        var html_td = ``;
+                        for (const [key, value] of Object.entries(keyValue[i])) {
+                            html_td += `<tr class="data-tr only-title large-up-hide medium-hide"><th class="first-th">${key}</th></tr>
+                            <tr class="data-tr">
+                                <th class="first-th small-hide">${key}</th>
+                                <td class="data">${value}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>`;          
+                        }
+                        html += `${html_td}`;
+                    }
+                }       
+                html += `</tbody></table></td></tr>`;
+            }
+            
+        }     
+        document.querySelector('.specification_part-{{ forloop.index }}') && (document.querySelector('.specification_part-{{ forloop.index }}').innerHTML = html);
+    </script>
+
+    {% endif %}
+
+    {%- endfor -%}
+
+
+{% if sort_by.size == 1 %}
+    {%- liquid
+        assign product = all_products[sort_by[0]]
+        assign relatedPrice = product.price | plus: 0.0
+        assign product_brand = product.tags | find: 'Brand_' | default: ''
+        assign relatedhandle = product.handle
+        assign relatedTag = blank
+        assign relatedProductCount = 0  
+         for tag in product.tags
+           if tag contains 'TAProductCode_'
+             assign relatedTag = tag
+             break
+           endif
+         endfor
+      
+        assign lessThanPrice = relatedPrice | divided_by: 100.00 | times: 20 | minus: relatedPrice | abs
+        assign moreThanPrice = relatedPrice | divided_by: 100.00 | times: 20 | plus: relatedPrice | abs  
+      
+        assign max_number = 10
+        assign random_number_modulo = 'now' | date: "%N" | modulo: max_number
+        assign random_products = product.id | default: '' | append: ','
+      -%}
+
+    
+    <div class="hidden suggest-product">
+    {%- paginate collection.products by collection.products_count -%}
+        {%- for relatedProduct in collection.products -%}       
+        {%- if relatedProductCount > 2 -%}{%- break -%}{% endif -%}
+        {%- unless relatedProduct.handle == relatedhandle -%}
+            {%- assign has_similar_brand = relatedProduct.tags | has: product_brand -%}
+            {%- if has_similar_brand -%}
+                {%- assign tempPrice = relatedProduct.price | divided_by:100 -%}
+                {%- if tempPrice >= lessThanPrice and tempPrice <= moreThanPrice -%}
+                    <div class="compare-float--item comFloat-item--sugg" data-handle="{{ relatedProduct.handle }}">
+                        <div class="comFloat-item--image">
+                        <img src="{{ relatedProduct.featured_image | image_url:width:100 }}" loading="lazy" width="70" height="70" alt="">
+                        </div>
+                        <div class="comFloat-item--content">
+                        <h6 class="comFloat-item--title h-m-tb">{{ relatedProduct.vendor }}</h6>
+                        <span class="comFloat-item--sku">{{relatedProduct.variants[0].sku}}</span>
+                        <div class="compare_product" onclick="addCompare(event,this,true)"
+                            data-id="{{ relatedProduct.id }}"
+                            data-handle="{{ relatedProduct.handle }}"
+                            data-image="{{ relatedProduct.featured_image | image_url:width:800 }}"
+                            data-brand="{{ relatedProduct.vendor }}"
+                            data-title="{{ relatedProduct.title }}"
+                            data-tags="{{ product.tags | find:'TAProductCode_' }}"
+                            data-sku="{{ relatedProduct.variants[0].sku }}"
+                            data-vid="{{ relatedProduct.selected_or_first_available_variant.id }}"
+                            data-price="{{ relatedProduct.price | money }}"
+                            data-comparePrice="{% if relatedProduct.compare_at_price > relatedProduct.price %}{{ relatedProduct.compare_at_price | money  }}{% else %}null{% endif %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                    <path d="M2.34375 7.5H12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.5 2.34375V12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Add to compare</span>
+                        </div>
+                        </div>
+                    </div>
+                    {%- assign random_products = random_products | append: relatedProduct.id | append: ',' -%}
+                    {%- assign relatedProductCount = relatedProductCount | plus : 1 -%}
+                {%- endif -%}                
+            {%- endif -%}
+        {%- endunless -%}
+        {%- endfor -%}
+
+        
+
+        {% if relatedProductCount >= 0 %}
+            {%- for relatedProduct in collection.products -%}            
+            {%- if relatedProductCount > 2 -%}{%- break -%}{% endif -%}
+            {%- unless relatedProduct.handle == relatedhandle -%}
+                {%- assign has_similar_brand = relatedProduct.tags | has: product_brand -%}
+                {%- unless has_similar_brand -%}
+                    {%- assign tempPrice = relatedProduct.price -%}
+                    {%- if tempPrice >= lessThanPrice and tempPrice <= moreThanPrice -%}
+                        <div class="compare-float--item comFloat-item--sugg" data-handle="{{ relatedProduct.handle }}">
+                            <div class="comFloat-item--image">
+                            <img src="{{ relatedProduct.featured_image | image_url:width:100 }}" loading="lazy" width="70" height="70" alt="">
+                            </div>
+                            <div class="comFloat-item--content">
+                            <h6 class="comFloat-item--title h-m-tb">{{ relatedProduct.vendor }}</h6>
+                            <span class="comFloat-item--sku">{{relatedProduct.variants[0].sku}}</span>
+                            <div class="compare_product" onclick="addCompare(event,this,true)"
+                                data-id="{{ relatedProduct.id }}"
+                                data-handle="{{ relatedProduct.handle }}"
+                                data-image="{{ relatedProduct.featured_image | image_url:width:800 }}"
+                                data-brand="{{ relatedProduct.vendor }}"
+                                data-title="{{ relatedProduct.title }}"
+                                data-tags="{{ product.tags | find:'TAProductCode_' }}"
+                                data-sku="{{ relatedProduct.variants[0].sku }}"
+                                data-vid="{{ relatedProduct.selected_or_first_available_variant.id }}"
+                                data-price="{{ relatedProduct.price | money }}"
+                                data-comparePrice="{% if relatedProduct.compare_at_price > relatedProduct.price %}{{ relatedProduct.compare_at_price | money  }}{% else %}null{% endif %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                        <path d="M2.34375 7.5H12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M7.5 2.34375V12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Add to compare</span>
+                            </div>
+                            </div>
+                        </div>
+                        {%- assign random_products = random_products | append: relatedProduct.id | append: ',' -%}
+                        {%- assign relatedProductCount = relatedProductCount | plus : 1 -%}
+                    {%- endif -%}
+                {%- endunless -%}
+            {%- endunless -%}
+            {%- endfor -%}
+        {% endif %}
+    {%- endpaginate -%}
+    </div>
+{% endif %}

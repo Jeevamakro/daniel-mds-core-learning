@@ -1,0 +1,736 @@
+{% capture media_cap %}media="(max-width: 999px)"{% endcapture %}
+{{ 'global_mobile-menu.css' | asset_url | stylesheet_tag | replace: 'media="all"', media_cap }}
+
+<nav class="header__mobile-nav large-up-hide">
+  <button class="header__mobile-nav-toggle icon-state touch-area">
+    <svg
+      width="25"
+      height="16"
+      viewBox="0 0 25 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="icon icon--hamburger-two"
+    >
+      <line y1="1.25" x2="25" y2="1.25" stroke="#001424" stroke-width="1.5"/>
+      <line y1="8.25" x2="25" y2="8.25" stroke="#001424" stroke-width="1.5"/>
+      <line y1="15.25" x2="25" y2="15.25" stroke="#001424" stroke-width="1.5"/>
+    </svg>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="25"
+      height="26"
+      viewBox="0 0 25 26"
+      fill="none"
+      class="icon icon--close"
+    >
+      <path d="M19.5312 5.96875L5.46875 20.0312" stroke="#001424" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19.5312 20.0312L5.46875 5.96875" stroke="#001424" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <button class="header__mobile-search-toggle icon-state touch-area">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="25"
+      height="26"
+      viewBox="0 0 25 26"
+      fill="none"
+      class="icon icon--close"
+    >
+      <path d="M19.5312 5.96875L5.46875 20.0312" stroke="#001424" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19.5312 20.0312L5.46875 5.96875" stroke="#001424" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true" style="">
+    <svg focusable="false" class="icon icon--nav-triangle-borderless" viewBox="0 0 20 9" role="presentation">
+      <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+    </svg>
+    <div class="mobile-menu__inner">
+      <div class="mobile-menu__panel">
+        <div class="mobile-menu__section">
+          <ul class="mobile-menu__nav" data-type="menu" role="list">
+            {%- for link in linklists[section.settings.menu].links -%}
+              <li class="mobile-menu__nav-item">
+                {%- assign has_megamenu = false -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'mega_menu_block' -%}
+                    {%- assign blockmenu_title = block.settings['menu-title'] | handleize -%}
+                    {%- if blockmenu_title == link.handle -%}
+                      {%- assign has_megamenu = true -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if has_megamenu == true -%}
+                  <button
+                    class="mobile-menu__nav-link"
+                    data-type="menuitem"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                    aria-controls="{{link.handle}}-mobile"
+                    data-action="open-panel"
+                  >
+                    {{ link.title }}
+                    {%- capture right_arrow -%}
+                      <div class="icon-arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" viewBox="0 0 14 15" fill="none" class="icon">
+                          <path d="M4.89844 3.125L9.27344 7.5L4.89844 11.875" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </div>
+                    {%- endcapture -%}
+                    {{- right_arrow -}}
+                  </button>
+                {%- else -%}
+                  {%- if link.title == 'Brands' -%}
+                    <button
+                      class="mobile-menu__nav-link"
+                      data-type="menuitem"
+                      aria-haspopup="true"
+                      aria-expanded="true"
+                      aria-controls="{{link.handle}}-mobile"
+                      data-action="open-panel"
+                    >
+                      {{ link.title }}
+                      {%- capture right_arrow -%}
+                        <div class="icon-arrow">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" viewBox="0 0 14 15" fill="none" class="icon">
+                            <path d="M4.89844 3.125L9.27344 7.5L4.89844 11.875" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                      {%- endcapture -%}
+                      {{- right_arrow -}}
+                    </button>
+                  {%- else -%}
+                    <a
+                      class="mobile-menu__nav-link"
+                      href="{{link.url}}"
+                    >
+                      {{ link.title }}
+                    </a>
+                  {%- endif -%}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="menu-drawer-bottom-links">
+          <div class="menu-drawer__utility-links">
+            {%- if shop.customer_accounts_enabled -%}
+              {%- if customer -%}
+                <div class="menu-drawer__utility-account">
+                  <div class="menu-drawer__utility-account-header">
+                    <span class="menu-drawer__utility-name">
+                      {{- customer.name -}}
+                    </span>
+                    <a
+                      class="menu-drawer__utility-logout"
+                      href="{{ routes.account_logout_url }}"
+                      aria-label="{{ 'customer.log_out' | t }}"
+                    >
+                      {{- 'customer.log_out' | t -}}
+                    </a>
+                  </div>
+                  <ul class="menu-drawer__utility-account-body">
+                    <li class="menu-drawer__utility-account-cart">
+                      <a
+                        href="{{ routes.cart_url }}"
+                        aria-label="{{ 'customer.account.shopping_cart' | t }}"
+                      >
+                        {{- 'customer.account.shopping_cart' | t -}}
+                      </a>
+                      {%- if cart != empty -%}
+                        <div class="cart-count-bubble">
+                          {%- if cart.item_count < 100 -%}
+                            {%- render 'snippet-cart-count' -%}
+                            {% comment %} <span aria-hidden="true">
+                              {{- cart.item_count -}}
+                            </span> {% endcomment %}
+                          {%- endif -%}
+                          <span class="visually-hidden">
+                            {{-
+                              'sections.header.cart_count'
+                              | t: count: cart.item_count
+                            -}}
+                          </span>
+                        </div>
+                      {%- endif -%}
+                    </li>
+                    <li class="menu-drawer__utility-account-link">
+                      <a
+                        href="{{ routes.account_url }}"
+                        aria-label="{{ 'customer.account.title' | t }}"
+                      >
+                        {{ 'customer.account.title' | t }}
+                      </a>
+                    </li>
+                    <li class="menu-drawer__utility-account-address">
+                      <a
+                        href="{{ routes.account_addresses_url }}"
+                        aria-label="{{ 'customer.addresses.book' | t }}"
+                      >
+                        {{- 'customer.addresses.book' | t -}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              {%- else -%}
+                <a
+                  href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                  class="button button--primary button--primary-size menu-drawer__account link focus-inset"
+                  {% if customer %}
+                    aria-label="{{ 'customer.account_fallback' | t }}"
+                  {% else %}
+                    aria-label="{{ 'customer.log_in' | t }}"
+                  {% endif %}
+                >
+                  {%- liquid
+                    if customer
+                      echo 'customer.account_fallback' | t
+                    else
+                      echo 'customer.log_in' | t
+                    endif
+                  -%}
+                </a>
+                <div class="menu-drawer__account-register">
+                  <span>
+                    {{- 'customer.activate_account.no_account_yet' | t -}}
+                  </span>
+                  <a
+                    href="{{ routes.account_register_url }}"
+                    aria-label="{{ 'customer.login_page.create_account' | t }}"
+                  >
+                    {{- 'customer.login_page.create_account' | t -}}
+                  </a>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+          <div class="menu-drawer__bottom">
+              {%- if section.settings.enable_country_selector
+                or section.settings.enable_language_selector
+              -%}
+                <div class="menu-drawer__localization-wrapper">
+                  {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+                    <div class="header__localization menu-drawer__localization">
+                      <localization-form>
+                        {%- form 'localization',
+                          id: 'HeaderCountryFormMobile',
+                          class: 'localization-form'
+                        -%}
+                          <div class="no-js-hidden">
+                            <div class="disclosure">
+                              <button
+                                type="button"
+                                class="header__localization-button disclosure__button localization-form__select localization-selector link link--text caption-large focus-inset"
+                                aria-expanded="false"
+                                aria-controls="HeaderCountryListMobile"
+                                aria-describedby="HeaderCountryLabel"
+                              >
+                                <span class="currency-country">
+                                  {{- localization.country.currency.iso_code -}}
+                                </span>
+                                {% render 'icon-caret' %}
+                              </button>
+                              <ul
+                                id="HeaderCountryListMobile"
+                                role="list"
+                                class="disclosure__list list-unstyled color-background-1"
+                                hidden
+                              >
+                                {%- for country in localization.available_countries -%}
+                                  <li class="disclosure__item" tabindex="-1">
+                                    <a
+                                      class="link link--text disclosure__link disclosure__link--flag caption-large{% if country.iso_code == localization.country.iso_code %} disclosure__link--active{% endif %} focus-inset"
+                                      href="#"
+                                      {% if country.iso_code == localization.country.iso_code %}
+                                        aria-current="true"
+                                      {% endif %}
+                                      aria-label="{{ country.name }}"
+                                      data-value="{{ country.iso_code }}"
+                                      data-flag="{{ country.currency.iso_code }}"
+                                    >
+                                      <span>
+                                        {{ country.name }}
+                                        <span class="localization-form__currency"
+                                          >({{ country.currency.iso_code }}
+                                          {{ country.currency.symbol }})</span
+                                        >
+                                      </span>
+                                    </a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            </div>
+                            <input
+                              type="hidden"
+                              name="country_code"
+                              value="{{ localization.country.iso_code }}"
+                            >
+                          </div>
+                        {%- endform -%}
+                      </localization-form>
+                    </div>
+                  {%- endif -%}
+                  {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+                    <div class="header__localization menu-drawer__localization header__localization--language">
+                      <localization-form>
+                        {%- form 'localization',
+                          id: 'HeaderLanguageFormMobile',
+                          class: 'localization-form'
+                        -%}
+                          <div class="no-js-hidden">
+                            <div class="disclosure">
+                              <button
+                                type="button"
+                                class="disclosure__button header__localization-lang-button localization-form__select localization-selector link link--text focus-inset"
+                                aria-expanded="false"
+                                aria-controls="HeaderLanguageListMobile"
+                                aria-describedby="HeaderLanguageLabel"
+                              >
+                                <span class="value">
+                                  {{- localization.language.iso_code | upcase }}
+                                </span>
+                                {% render 'icon-caret' -%}
+                              </button>
+                              <ul
+                                id="HeaderLanguageListMobile"
+                                role="list"
+                                class="disclosure__list list-unstyled color-background-1"
+                                hidden
+                              >
+                                {%- for language in localization.available_languages -%}
+                                  <li class="disclosure__item" tabindex="-1">
+                                    <a
+                                      class="link link--text disclosure__link caption-large{% if language.iso_code == localization.language.iso_code %} disclosure__link--active{% endif %} focus-inset"
+                                      href="#"
+                                      hreflang="{{ language.iso_code }}"
+                                      lang="{{ language.iso_code }}"
+                                      {% if language.iso_code == localization.language.iso_code %}
+                                        aria-current="true"
+                                      {% endif %}
+                                      aria-label="{{ language.endonym_name }}"
+                                      data-value="{{ language.iso_code }}"
+                                    >
+                                      <span>
+                                        {{ language.endonym_name | capitalize }}
+                                      </span>
+                                    </a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            </div>
+                            <input
+                              type="hidden"
+                              name="locale_code"
+                              value="{{ localization.language.iso_code }}"
+                            >
+                          </div>
+                        {%- endform -%}
+                      </localization-form>
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div class="menu-drawer__bottom-right">
+                {% render 'color-scheme' %}
+
+                {%- if section.settings.enable_search  -%}
+                  <div class="header__search">
+                    <a href="{{ routes.search_url }}" class="header__icon header__icon--search link--text  header__icon--summary focus-inset" title="{{ 'general.search.search' | t }}" aria-label="{{ 'general.search.search' | t }}">
+                      <span>
+                        {{ 'general.search.search' | t }}
+                      </span>
+                    </a>
+                  </div>
+                  <noscript>
+                    <div class="header__search">
+                      <a href="{{ routes.search_url }}" class="header__icon header__icon--search link--text  header__icon--summary focus-inset" title="{{ 'general.search.search' | t }}" aria-label="{{ 'general.search.search' | t }}">
+                        <span>
+                          {{ 'general.search.search' | t }}
+                        </span>
+                      </a>
+                    </div>
+                  </noscript>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+      </div>
+
+      {%- capture third_level_menu -%}{%- endcapture -%}
+      {%- capture forth_level_menu -%}{%- endcapture -%}
+      {%- for link in linklists[section.settings.menu].links -%}
+        {{-  -}}
+        {%- assign has_megamenu = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'mega_menu_block' -%}
+            {%- assign blockmenu_title = block.settings['menu-title'] | handleize -%}
+            {%- if blockmenu_title == link.handle -%}
+              {%- assign has_megamenu = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if has_megamenu == true -%}
+          <div id="{{link.handle}}-mobile" class="mobi-child-level-one mobile-menu__panel is-nested">
+            <noscript class="contentString">
+              {%- capture noscript_cap -%}
+              <div class="mobile-menu__section is-sticky">
+                <a href="{{link.url}}" class="mobile-menu__nav-link text--strong">{{link.title}}</a>
+                <button class="mobile-menu__back-button" data-action="close-panel">
+
+                  <svg class="icon icon--arrow-left" xmlns="http://www.w3.org/2000/svg" width="13" height="11" viewBox="0 0 13 11" fill="none">
+                    <path d="M11.6562 5.5L1.34375 5.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.5625 9.71875L1.34375 5.5L5.5625 1.28125" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Back
+                </button>
+              </div>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'mega_menu_block' -%}
+                  {%- assign blockmenu_title = block.settings.menu-title | handleize -%}
+                  {%- if blockmenu_title == link.handle -%}
+                    {%- if block.settings.inner_menu_list != blank -%}
+                      <div class="mobile-menu__section">
+                        <ul class="mobile-menu__nav" data-type="menu" role="list">
+                          {{- -}}
+                          {%- for innerlink in linklists[block.settings.inner_menu_list].links -%}
+                            <li class="mobile-menu__nav-item">
+                              <button
+                                class="mobile-menu__nav-link"
+                                data-type="menuitem"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="{{innerlink.handle}}"
+                                data-action="open-panel"
+                              >
+                                {%- assign file_name = innerlink.title | handle | append: '.svg' | file_url -%}
+                                {%- assign appendEx = '.svg' -%}
+                                {%- unless file_name contains '?v=' -%}
+                                  {%- assign file_name = innerlink.title | handle | append: '.png' | file_url -%}
+                                  {%- assign appendEx = '.png' -%}  
+                                {%- endunless -%}
+                                {%- if file_name contains '?v=' -%}
+                                  <i class="cat-icon"><img src="{{ innerlink.title | handle | append:appendEx  | file_url }}" alt="{{ innerlink.title }}"></i>
+                                {%- endif -%}
+                                {{innerlink.title}} {%- if innerlink.links != blank -%}{{right_arrow}}{%- endif -%}
+                              </button>
+                            </li>
+                            {{- -}}
+                            {%- if innerlink.links != blank -%}
+                              {{- -}}
+                              {%- capture third_level_menu -%}
+                                {{ third_level_menu }}
+                                <div id="{{innerlink.handle}}" class="mobi-child-level-two mobile-menu__panel is-nested">
+                                  <div class="mobile-menu__section is-sticky">
+                                    <a href="{{innerlink.url}}" class="mobile-menu__nav-link text--strong">
+                                      {%- assign file_name = innerlink.title | handle | append: '.svg' | file_url -%}
+                                      {%- assign appendEx = '.svg' -%}
+                                      {%- unless file_name contains '?v=' -%}
+                                        {%- assign file_name = innerlink.title | handle | append: '.png' | file_url -%}
+                                        {%- assign appendEx = '.png' -%}  
+                                      {%- endunless -%}
+                                      {%- if file_name contains '?v=' -%}
+                                        <i class="cat-icon"><img src="{{ innerlink.title | handle | append:appendEx  | file_url }}" alt="{{ innerlink.title }}"></i>
+                                      {%- endif -%}
+                                      {{innerlink.title}}</a>
+                                      <button class="mobile-menu__back-button" data-action="close-panel">
+                                        <svg class="icon icon--arrow-left" xmlns="http://www.w3.org/2000/svg" width="13" height="11" viewBox="0 0 13 11" fill="none">
+                                          <path d="M11.6562 5.5L1.34375 5.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                          <path d="M5.5625 9.71875L1.34375 5.5L5.5625 1.28125" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Back
+                                      </button>
+                                  </div>
+                                  <div class="mobile-menu__section">
+                                    <ul class="mobile-menu__nav" data-type="menu" role="list">
+                                      {%- for childlink in innerlink.links -%}
+                                        {%- assign guide_counter = 0 -%}
+                                        <li class="mobile-menu__nav-item">
+                                          <button
+                                            class="mobile-menu__nav-link"
+                                            data-type="menuitem"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                            aria-controls="{{childlink.handle}}"
+                                            data-action="open-panel"
+                                          >
+                                            {{- childlink.title -}}
+                                            {%- if childlink.links != blank -%}
+                                              {{- right_arrow -}}
+                                            {%- endif -%}
+                                          </button> 
+                                        </li>
+                                        {{- -}}
+                                        {%- if childlink.links != blank -%}
+                                          {%- capture forth_level_menu -%}
+                                            {{- forth_level_menu -}}
+                                            {{- -}}
+                                            {%- assign count_grid = 0 -%}
+                                            {%- for innerchild in childlink.links -%}
+                                              {%- unless innerchild.handle contains 'guide' -%}
+                                                {%- assign count_grid = count_grid | plus:1 -%}
+                                              {%- endunless -%}
+                                            {%- endfor -%}
+                                            {{- -}}
+                                            {%- for block in section.blocks -%}
+                                              {%- assign downcase_block_menu_item = block.settings.menu_item | downcase | strip -%}
+                                              {%- assign downcase_title = innerlink.title | downcase | strip -%}
+                                              {%- assign curentDate = 'now' | date: '%Y-%m-%d' | date: '%s' -%}
+                                              {%- assign promo1Flag = false -%}
+                                              {%- assign promo2Flag = false -%}
+                                              {%- assign promo3Flag = false -%}
+                                              {%- assign promo4Flag = false -%}
+                                              {%- assign promo5Flag = false -%}
+                                              {%- assign promo6Flag = false -%}
+                                              {%- assign mainCount = 0 -%}                                              
+                                              {%- if downcase_block_menu_item == downcase_title -%}                                                
+                                                {%- capture promotion_text -%}
+                                                  {%- if block.settings.promo_1_st_date != blank and block.settings.promo_1_end_date != blank -%}{%- assign startDate = block.settings.promo_1_st_date | date: '%Y-%m-%d' | date: '%s' -%}{%- assign endDate = block.settings.promo_1_end_date | date: '%Y-%m-%d' | date: '%s' -%}{%- if startDate <= curentDate and endDate >= curentDate -%}{%- if block.settings.promo_1_text != blank -%}{%- assign promo1Flag = true -%}{%- assign mainCount = mainCount | plus: 1 -%}<a href="{% if block.settings.promo_1_banner_link != blank %}{{block.settings.promo_1_banner_link}}{% else %}javascript:void(0);{% endif %}">{{block.settings.promo_1_text}}</a>{%- endif -%}{%- endif -%}
+                                                  {%- endif -%}
+                                                  {%- if block.settings.promo_2_st_date != blank and block.settings.promo_2_end_date != blank -%}{%- assign startDate = block.settings.promo_2_st_date | date: '%Y-%m-%d' | date: '%s' %}{%- assign endDate = block.settings.promo_2_end_date | date: '%Y-%m-%d' | date: '%s' %}{%- if startDate <= curentDate and endDate >= curentDate -%}{%- if block.settings.promo_2_text != blank -%}{%- assign promo2Flag = true -%}{%- assign mainCount = mainCount | plus: 1 -%}<a href="{% if block.settings.promo_2_banner_link != blank %}{{block.settings.promo_2_banner_link}}{% else %}javascript:void(0);{% endif %}">{{block.settings.promo_2_text}}</a>{%- endif -%}{%- endif -%}{%- endif -%}                                                  
+                                                  {%- if mainCount < 3 -%}
+                                                    {%- if block.settings.promo_3_st_date != blank and block.settings.promo_3_end_date != blank -%}{%- assign startDate = block.settings.promo_3_st_date | date: '%Y-%m-%d' | date: '%s' -%}{%- assign endDate = block.settings.promo_3_end_date | date: '%Y-%m-%d' | date: '%s' -%}{%- if startDate <= curentDate and endDate >= curentDate -%}{%- if block.settings.promo_3_text != blank -%}{%- assign promo3Flag = true -%}{%- assign mainCount = mainCount | plus: 1 -%}<a href="{% if block.settings.promo_3_banner_link != blank %}{{block.settings.promo_3_banner_link}}{% else %}javascript:void(0);{% endif %}">{{block.settings.promo_3_text}}</a>{%- endif -%}{%- endif -%}{%- endif -%}                                                  
+                                                    {%- if block.settings.promo_4_st_date != blank and block.settings.promo_4_end_date != blank -%}
+                                                      {%- assign startDate = block.settings.promo_4_st_date | date: '%Y-%m-%d' | date: '%s' -%}
+                                                      {%- assign endDate = block.settings.promo_4_end_date | date: '%Y-%m-%d' | date: '%s' -%}
+                                                      {%- if startDate <= curentDate and endDate >= curentDate -%}
+                                                        {%- if block.settings.promo_4_text != blank -%}
+                                                          {%- assign promo4Flag = true -%}
+                                                          {%- assign mainCount = mainCount | plus: 1 -%}
+                                                          <a href="{% if block.settings.promo_4_banner_link != blank %}{{block.settings.promo_4_banner_link}}{% else %}javascript:void(0);{% endif %}">{{block.settings.promo_4_text}}</a>
+                                                        {%- endif -%}
+                                                      {%- endif -%}
+                                                    {%- endif -%}
+                                                    {%- if block.settings.promo_5_st_date != blank and block.settings.promo_5_end_date != blank -%}
+                                                      {%- assign startDate = block.settings.promo_5_st_date | date: '%Y-%m-%d' | date: '%s' -%}
+                                                      {%- assign endDate = block.settings.promo_5_end_date | date: '%Y-%m-%d' | date: '%s' -%}
+                                                      {%- if startDate <= curentDate and endDate >= curentDate -%}
+                                                        {%- if block.settings.promo_5_text != blank -%}
+                                                          {%- assign promo5Flag = true -%}
+                                                          {%- assign mainCount = mainCount | plus: 1 -%}
+                                                          <a href="{% if block.settings.promo_5_banner_link != blank %}{{block.settings.promo_5_banner_link}}{% else %}javascript:void(0);{% endif %}">{{block.settings.promo_5_text}}</a>
+                                                        {%- endif -%}
+                                                      {%- endif -%}
+                                                    {%- endif -%}
+                                                    {%- if block.settings.promo_6_st_date != blank and block.settings.promo_6_end_date != blank -%}
+                                                      {%- assign startDate = block.settings.promo_6_st_date | date: '%Y-%m-%d' | date: '%s' -%}
+                                                      {%- assign endDate = block.settings.promo_6_end_date | date: '%Y-%m-%d' | date: '%s' -%}
+                                                      {%- if startDate <= curentDate and endDate >= curentDate -%}
+                                                        {%- if block.settings.promo_6_text != blank -%}
+                                                          {%- assign promo6Flag = true -%}
+                                                          {%- assign mainCount = mainCount | plus: 1 -%}
+                                                          <a href="{% if block.settings.promo_6_banner_link != blank %}{{block.settings.promo_6_banner_link}}{% else %}javascript:void(0);{% endif %}">{{block.settings.promo_6_text}}</a>
+                                                        {%- endif -%}
+                                                      {%- endif -%}
+                                                    {%- endif -%}
+                                                  {%- endif -%}
+                                                {%- endcapture -%}
+                                              {%- endif -%}
+                                            {%- endfor -%}
+                                            {{- -}}
+                                            <div id="{{childlink.handle}}" class="mobi-child-level-three mobile-menu__panel is-nested">
+                                              <div class="mobile-menu__section is-sticky">
+                                                <a href="{{childlink.url}}" class="mobile-menu__nav-link text--strong">{{childlink.title}}</a>
+                                                <button class="mobile-menu__back-button" data-action="close-panel">
+                                                  <svg focusable="false" class="icon icon--arrow-left" viewBox="0 0 8 12" role="presentation">
+                                                    <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+                                                  </svg>
+                                                  Back
+                                                </button>
+                                              </div>
+                                              <div class="mobile-menu__section">
+                                                <ul class="mobile-menu__nav" data-type="menu" role="list">
+                                                  {{- -}}
+                                                  {%- if childlink.url != blank -%}
+                                                    <li><a href="{{childlink.url}}" class="view-all mobile-menu__nav-link">View All</a></li>
+                                                  {%- endif -%}
+                                                  {{- -}} 
+                                                  {%- assign guidecounter = 0 -%}
+                                                  {%- assign guidehtml = '' -%}
+                                                  {%- for innerchild in childlink.links -%}
+                                                    {{- -}}
+                                                    {%- if innerchild.handle contains 'guide' -%}
+                                                      {%- if guide_counter == 0 -%}
+                                                        {%- assign guidehtml = innerchild.title | append:',' | append:innerchild.url -%}
+                                                      {%- else -%}
+                                                        {%- assign guidehtml = guidehtml | append:'|' | append:innerchild.title | append:',' | append:innerchild.url -%}
+                                                      {%- endif -%}
+                                                      {%- assign guide_counter = guide_counter | plus:1 -%}
+                                                    {%- else -%}
+                                                      {%- if innerchild.type == 'collection_link' -%}
+                                                        {%- assign handle_obj_old = innerchild.url | replace:'/collections/','' -%}
+                                                        {%- assign handle_obj = collections[handle_obj_old] -%}
+                                                        {%- if handle_obj.products.size > 0 -%}
+                                                          <li data-type="{{ innerchild.type }}"><a href="{{innerchild.url}}" class="mobile-menu__nav-link">{{innerchild.title}}</a></li>
+                                                        {%- endif -%}
+                                                      {%- else -%}
+                                                        <li data-type="{{ innerchild.type }}"><a href="{{innerchild.url}}" class="mobile-menu__nav-link">{{innerchild.title}}</a></li>
+                                                      {%- endif -%}
+                                                    {%- endif -%}
+                                                  {%- endfor -%}
+                                                </ul>
+                                                {{- -}}
+                                                <div class="guide-and-promos">
+                                                  {%- if guidehtml != '' -%}
+                                                    <div class="guide-wrapper">
+                                                      {%- if guidehtml contains '|' -%}
+                                                        {%- assign splitmaincode =  guidehtml | split:'|' -%}
+                                                        {%- for innerhtml in splitmaincode -%}
+                                                          {%- assign splithtml_guide = innerhtml | split:',' -%}
+                                                          <a href="{{splithtml_guide[1]}}">
+                                                            <i> <svg width="13" height="10" viewBox="0 0 13 10" class="icon icon--download" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                              <path d="M6.25 7.5L8.75 4.375H6.875V0H5.625V4.375H3.75L6.25 7.5Z" fill="currentColor"></path>  <path d="M11.25 8.75H1.25V4.375H0V8.75C0 9.43937 0.560625 10 1.25 10H11.25C11.9394 10 12.5 9.43937 12.5 8.75V4.375H11.25V8.75Z" fill="currentColor"></path>
+                                                            </svg></i>
+                                                            <span>{{splithtml_guide[0]}}</span>
+                                                          </a>
+                                                        {%- endfor -%}
+                                                      {%- else -%}
+                                                        {%- assign splithtml_guide = guidehtml | split:',' -%}
+                                                        <a href="{{splithtml_guide[1]}}"><i>{%- render 'icon', icon: 'download' -%}</i><span>{{splithtml_guide[0]}}</span></a>
+                                                      {%- endif -%}
+                                                    </div>
+                                                    {{- -}} 
+                                                    <div class="promos-wrapper {% if promotion_text == blank %}no-border{% endif %}">{%- if promotion_text != blank -%}{{- promotion_text | strip_newlines -}}{%- endif -%}</div>
+                                                  {%- endif -%}
+                                                </div>
+                                              </div>
+                                            </div>
+                                            {{- -}}
+                                            {{- -}}
+                                          {%- endcapture -%}
+                                        {%- endif -%}
+                                        {{- -}}
+                                      {%- endfor -%}
+                                      {{- -}}
+                                      <li class="view-all-link">
+                                        <a href="{{innerlink.url}}" class="mobile-menu__nav-link">View all</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  {{- -}}
+                                  {{- forth_level_menu -}}
+                                </div>
+                              {%- endcapture -%}
+                              {{- -}}
+                            {%- endif -%}
+                          {%- endfor -%}
+                          {{- -}}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {{- -}}
+              {{- third_level_menu  | strip_newlines | replace:'  ',' ' | replace:'  ',' ' | replace:'  ',' ' | replace:'  ',' ' -}}
+            {%- endcapture -%}
+              {{
+                noscript_cap
+                | strip_newlines
+                | replace: '  ', ' '
+                | replace: '  ', ' '
+                | replace: '  ', ' '
+                | replace: '  ', ' '
+              }}
+            </noscript>
+          </div>
+        {%- else -%}
+          {%- if link.title == 'Brands' -%}
+            <div id="{{link.handle}}-mobile" class="mobi-child-level-one mobile-menu__panel is-nested brand-menu-mobile">
+              {% comment %} <noscript class="contentString">
+                {%- capture noscript_cap -%} {% endcomment %}
+                <div class="mobile-menu__section is-sticky">
+                  <span class="mobile-menu__nav-link text--strong">{{link.title}}</span>
+                  <button class="mobile-menu__back-button" data-action="close-panel">
+                    <svg focusable="false" class="icon icon--arrow-left" viewBox="0 0 8 12" role="presentation">
+                      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+                    </svg>
+                    Back 
+                  </button>
+                </div>
+                <div class="mobile-menu__section">
+                  {%- assign brand_menu = linklists['shop-by-brand'] -%}
+                  {%- capture brand_inner_data -%}{%- endcapture -%}
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    <li class="mobile-menu__nav-item mobile-brand">
+                      {%- for link_1 in brand_menu.links -%}
+                      <button
+                        class="mobile-menu__nav-link"
+                        data-type="menuitem"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        aria-controls="{{ link_1.handle }}"
+                        data-action="open-panel"
+                      >
+                        {{link_1.title}}
+                        {{right_arrow}}
+                      </button>
+                      {%- capture brand_inner_data -%}
+                        {{ brand_inner_data }}
+                        <div id="{{ link_1.handle }}" class="mobile-menu__panel is-nested">
+                          <div class="mobile-menu__section is-sticky">
+                            <span class="mobile-menu__nav-link text--strong">{{link_1.title}}</span
+                            ><button class="mobile-menu__back-button" data-action="close-panel">
+                              <svg class="icon icon--arrow-left" xmlns="http://www.w3.org/2000/svg" width="13" height="11" viewBox="0 0 13 11" fill="none">
+                              <path d="M11.6562 5.5L1.34375 5.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M5.5625 9.71875L1.34375 5.5L5.5625 1.28125" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                              Back
+                            </button>
+                          </div>
+                          <div class="mobile-menu__section">
+                            <ul class="mobile-menu__nav" data-type="menu" role="list">
+                              {%- for link_2 in link_1.links -%}
+                              <li class="active"><a href="{{ link_2.url }}" data-tab-title="3m-filterete">{{ link_2.title }}</a></li>
+                            {%- endfor -%}                      
+                            </ul>
+                          </div>
+                        </div>
+                      {%- endcapture -%}
+                      {%- endfor -%}
+                    </li>
+                  </ul>
+                </div>
+                {{ brand_inner_data }}
+              {% comment %} {%- endcapture -%}
+                {{
+                  noscript_cap
+                  | strip_newlines
+                  | replace: '  ', ' '
+                  | replace: '  ', ' '
+                  | replace: '  ', ' '
+                  | replace: '  ', ' '
+                }}
+              </noscript> {% endcomment %}
+            </div>
+          {%- else -%}
+            {%- if link.links != blank -%}
+              <div id="{{link.handle}}" class="mobi-child-level-three mobile-menu__panel is-nested">
+                <div class="mobile-menu__section is-sticky">
+                  <span class="mobile-menu__nav-link text--strong">{{ link.title }}</span
+                  ><button class="mobile-menu__back-button" data-action="close-panel">
+                    <svg focusable="false" class="icon icon--arrow-left" viewBox="0 0 8 12" role="presentation">
+                      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+                    </svg>
+                    Back
+                  </button>
+                </div>
+                <div class="mobile-menu__section">
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    {%- for maininner in link.links -%}
+                      <li>
+                        <a class="mobile-menu__nav-link" href="{{maininner.url}}">{{ maininner.title }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+            {%- endif -%}
+            {{-  -}}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,7 @@
+{% liquid
+    assign block_settings = block.settings
+    assign plain_text = block_settings.text | strip_newlines | strip_html | strip
+  %}
+  
+  <div>{{plain_text}}</div>
+  

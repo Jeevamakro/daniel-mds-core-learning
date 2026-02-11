@@ -1,0 +1,30 @@
+{% if section.settings.recomand-prod != blank %}
+{{ 'recommended-replacement.css' | asset_url | stylesheet_tag }}
+
+<div class="replacement-product">
+  {% if section.settings.replacement_heading != blank %}<h4 class="replacement-title h4">{{section.settings.replacement_heading}}</h4>{% endif %}
+
+  <div class="replacement-wrapper">
+    <div class="replacement-card">
+        <div class="replacement-image">
+            <img src="{{ section.settings.recomand-prod.featured_image | image_url:width:400 }}" alt="Product" height="auto" width="auto">
+        </div>
+
+        <div class="replacement-info">
+            <h6 class="product-name section-title h6">{{section.settings.recomand-prod.title}}</h6>
+            {% if section.settings.recomand-prod.selected_or_first_available_variant.sku != blank %}
+              <p class="product-sku">{{section.settings.recomand-prod.selected_or_first_available_variant.sku}}</p>
+            {% endif %}
+            <div class="product-price">
+                <span class="current-price">{{ section.settings.recomand-prod.price | money }}</span>
+                {% if section.settings.recomand-prod.compare_at_price > section.settings.recomand-prod.price %}
+                  <span class="compare-price">{{ section.settings.recomand-prod.compare_at_price | money }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <a href="#" class="view-btn button button--secondary">View</a>
+    </div>
+  </div>
+</div>
+{% endif %}

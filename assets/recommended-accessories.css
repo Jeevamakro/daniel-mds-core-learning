@@ -1,0 +1,93 @@
+.quick-add-modal .recommended-accessories-section { display: none; }
+.recommended-accessories-section {
+    margin-top: 3rem;
+    position: relative;
+  }
+  .recommended-accessories-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.6rem;
+  }
+  .recommended-accessories-section .swiper-buttons {
+    display: flex;
+    gap: 1.6rem;
+    align-items: flex-end;
+  }
+  .recommended-accessories-section .swiper-button-prev,
+  .recommended-accessories-section .swiper-button-next {
+    width: 10px;
+    height: 10px;
+    position: static;
+  }
+  .recommended-accessories-section .swiper-button-prev::after,
+  .recommended-accessories-section .swiper-button-next::after {
+    font-size: 10px;
+  }
+  .accessory-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+  }
+  .accessory-card a.accessory-link {
+    background: rgb(243 243 243);
+    border-radius: 6px;
+    padding: 2rem;
+    position: relative;
+  }
+  .accessory-image {
+    width: 100%;
+    transition: transform 0.2s ease;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+  .accessory-image:hover {
+    transform: scale(1.05);
+  }
+  .accessory-title {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .recommended-accessories-section .accessory-card .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .recommended-accessories-section .accessory-card .content .checkbox-item label {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 30px;
+  }
+  .recommended-accessories-section .accessory-card .content .checkbox-item .price {
+    align-items: flex-end;
+    flex-wrap: nowrap;
+  }
+  .recommended-accessories-section .accessory-card .content .pro-price {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #3f3f3f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .recommended-accessories-section .accessory-card .content .pro-price.sale-price .compare_price_box_wrap {
+    font-size: 12px;
+    text-decoration: line-through;
+    margin: 0 .5rem;
+  }
+  .accessory-add-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Swiper spacing */
+  .accessories-swiper .swiper-slide {
+    width: auto;
+  }

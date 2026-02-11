@@ -1,0 +1,31 @@
+{% render 'text', block: block %}
+
+{% schema %}
+{
+  "name": "text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text",
+      "category": "Basic",
+      "settings": {
+        "text": "<p>Text Basic</p>"
+      }
+    },
+    {
+      "name": "Heading",
+      "category": "Basic",
+      "settings": {
+        "text": "<p>Heading Basic</p>"
+      }
+    }
+  ]
+}
+{% endschema %}

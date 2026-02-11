@@ -1,0 +1,426 @@
+.section-my-lists p.empty-text {
+    margin: 0;
+}
+.section-my-lists .section-heading-wrapper {
+    margin: 0 0 3.2rem;
+}
+.section-my-lists .heading-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.section-my-lists .table-header {
+    border-radius: var(--border-radius-main, 4px);
+    background: #00365C;
+    display: flex;
+    padding: 12px 16px;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    display: flex;
+    gap: 1.6rem;
+}
+.section-my-lists .table-header > div {
+    flex: 1;
+    color: #E8F2FC;
+    font-family: var(--font-subtitle-family, Poppins);
+    font-size: var(--font-size-subtitle, 12px);
+    font-weight: var(--font-subtitle-weight, 600);
+    line-height: 120%; 
+    letter-spacing: var(--font-subtitle-letter-spacing, 0.3px);
+    text-transform: uppercase;
+    margin: 0;
+}
+.section-my-lists .table-row {
+    display: flex;
+    height: 80px;
+    padding: 16px;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+    border-bottom: 1px solid rgb(var(--color-border, #E5E5E5));
+}
+.section-my-lists .table-row > div {
+    flex: 1;
+}
+.section-my-lists .table-row .list-name a {
+    color: rgb(var(--color-foreground-tertiary, #0061A8));
+    font-family: var(--font-body-family, Poppins);
+    font-size: var(--font-size-body, 16px);
+    font-weight: var(--font-button-weight, 600);
+    line-height: var(--font-body-line-height, 150%);
+    letter-spacing: var(--font-body-letter-spacing, -0.1px);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+}
+.section-my-lists .table-row .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    align-self: stretch;
+}
+.section-my-lists .table-row .actions button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.section-my-lists .lists-layout {
+    margin-top: 4rem;
+    display: inline-block;
+    width: 100%;
+}
+.section-my-lists button.button--delete {
+    gap: 6px;
+    padding: 0;
+    height: auto;
+    color: #E31A36;
+    font-family: var(--font-body-family, Poppins);
+    font-size: 14px;
+    font-weight: var(--font-button-weight, 600);
+    letter-spacing: var(--font-body-letter-spacing, -0.1px);
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    display: flex;
+    align-items: center;
+}
+/*---------------list created--------------------*/
+.section-my-lists .back-button {
+    text-decoration: none;
+    color: rgb(var(--color-foreground, #1A313C));
+    text-align: center;
+    font-family: var(--font-body-family, Poppins);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--font-button-weight, 600);
+    line-height: 150%;
+    letter-spacing: var(--font-body-letter-spacing, -0.1px);
+}
+.section-my-lists .page-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.section-my-lists .list-created .lists-name, .section-my-lists .add-producttolist .add-pdp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-width: calc(75.9% - 1.6rem);
+    margin-bottom: 3.2rem;
+}
+.section-my-lists .list-created input[type="text"] {
+    border-radius: var(--border-radius-button, 6px);
+    border: 1px solid rgb(var(--color-border-input, #E5E5E5));
+    background: rgb(var(--color-background-input, #F6F7F9));
+    display: flex;
+    padding: 13px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    color: rgb(var(--color-foreground, #1A313C));
+    font-family: var(--font-body-family, Poppins);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--font-body-weight, 400);
+    line-height: 130%; /* 15.6px */
+    letter-spacing: var(--font-body-letter-spacing, -0.1px);
+    outline: none;
+    width: 100%;
+}
+.section-my-lists .list-created input[type="text"]::placeholder {
+    opacity: 0.4;
+}
+.section-my-lists .product-input {
+    position: relative;
+    width: 100%;
+}
+.section-my-lists .search-icon {
+    position: absolute;
+    left: 24px;
+    top: 15px;
+    bottom: auto;
+    margin: auto;
+    line-height: 0;
+}
+.section-my-lists .list-created .product-input input[type="text"] { 
+    padding-left: 4.6rem;
+    background: #ffffff;
+}
+.section-my-lists .add-producttolist .add-pdp-list {
+    border-radius: var(--border-radius-main, 4px);
+    background: rgb(var(--color-background-secondary, #F6F7F9));
+    padding: 24px;
+    flex: 1;
+    position: relative;
+    margin-bottom: 1.6rem;
+}
+.section-my-lists .product-lists-wrapper {
+    display: flex;
+    gap: 1.6rem;
+}
+.section-my-lists .list-total-price {
+    display: flex;
+    width: 100%;
+    padding: 24px;
+    flex-direction: column;
+    gap: 16px;
+    border-radius: var(--border-radius-main, 4px);
+    background: rgb(var(--color-background-secondary, #F6F7F9));
+    max-width: 24.1%;
+    height: 100%;
+}
+.section-my-lists .total-price {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.section-my-lists .suggested-product-list {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 4px);
+    width: 100%;
+    border-radius: var(--border-radius-main, 4px);
+    background: rgb(var(--color-background, #FFF));
+    box-shadow: 0 2px 20px #0000000f;
+    z-index: 99;
+    height: 300px;
+    overflow: auto;
+}
+.section-my-lists .suggested-product {
+    width: 100%;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+.section-my-lists .suggest-product-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.section-my-lists .suggest-product-wrapper .image {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+.section-my-lists .suggest-product-wrapper .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+.section-my-lists .suggest-product-wrapper .product-details .product-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+.section-my-lists .suggest-product-wrapper .product-details  .sku {
+    color: rgb(var(--color-foreground-title, #1A313C));
+    font-family: var(--font-subtitle-family, Poppins);
+    font-size: var(--font-size-subtitle, 12px);
+    font-weight: var(--font-body-weight, 400);
+    line-height: 120%;
+    letter-spacing: var(--font-subtitle-letter-spacing, 0.3px);
+}
+.section-my-lists .quantity-btn-wrp {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.section-my-lists .success-message {
+    border-radius: var(--border-radius-main, 4px);
+    background: #E5F3EA;
+    display: flex;
+    padding: 8px 10px;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    color:#367B60;
+    font-family: var(--font-body-family, Poppins);
+    font-size: var(--font-size-subtitle, 12px);
+    font-weight: var(--font-body-weight, 400);
+    line-height: 130%;
+    letter-spacing: var(--font-body-letter-spacing, -0.1px);
+    max-width: calc(75.9% - 1.6rem);
+}
+.section-my-lists .error-message {
+    border-radius: var(--border-radius-main, 4px);
+    background: #f3e5e5;
+    display: flex;
+    padding: 8px 10px;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    color: #d95353;
+    font-family: var(--font-body-family, Poppins);
+    font-size: var(--font-size-subtitle, 12px);
+    font-weight: var(--font-body-weight, 400);
+    line-height: 130%;
+    letter-spacing: var(--font-body-letter-spacing, -.1px);
+    max-width: 100%;
+}
+/*---------------list created--------------------*/
+/*---------------list product--------------------*/
+.section-my-lists .product-table .title {
+    min-width: 31%;
+    max-width: 31%;
+    padding-right: 16px;
+}
+.section-my-lists .product-table .qty {
+    max-width: 16%;
+}
+.section-my-lists .product-table .delete-icon {
+    max-width: 24px;
+    display: flex;
+    width: 24px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    cursor: pointer;
+}
+.section-my-lists .product-table .table-row {
+    height: auto;
+}
+.section-my-lists .product-table .table-row .title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-right: 16px;
+    margin: 0;
+}
+.section-my-lists .product-table .table-row .title .image {
+    height: 70px;
+    width: 70px;
+    position: relative;
+}
+.section-my-lists .product-table .table-row .title .image img {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    object-fit: cover;
+}
+.section-my-lists .product-table .table-row .title .product-title {
+    font-weight: 500;
+}
+.section-my-lists .product-table .table-row .product-price div {
+    display: flex;
+    flex-direction: column;
+}
+.section-my-lists .product-table .table-row .product-price span {
+    color: #57646B;
+}
+.section-my-lists .product-table {
+    margin-top: 40px;
+}
+.section-my-lists .saved-success-message.success-message {
+    max-width: 100%;
+    margin-bottom: 3.2rem;
+}
+/*---------------list product--------------------*/
+@media screen and (max-width: 989px) {
+    .section-my-lists .list-created .lists-name, .section-my-lists .add-producttolist .add-pdp-list { max-width: 100%; }
+    .section-my-lists .list-total-price { max-width: 100%; order: -1;}
+    .section-my-lists .product-lists-wrapper { flex-direction: column; }
+    .section-my-lists .list-created .section-heading-wrapper {flex-direction: column; gap: 16px; align-items: normal; }
+    .section-my-lists .product-table .table-row {
+        flex-direction: row;
+        align-items: flex-start;
+        width: 100%;
+        border-radius: var(--border-radius-main, 4px);
+        border: 1px solid rgb(var(--color-border, #E5E5E5));
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        padding: 16px;
+    }
+    .section-my-lists .product-table .table-row .title {
+        padding-right: 0;
+        max-width: 100%;
+        min-width: 100%;
+    }
+    .section-my-lists .product-table .table-row .sku {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-top: 1px solid rgb(var(--color-border, #E5E5E5));
+    }
+    .section-my-lists .product-table .table-row .product-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        border-top: 1px solid rgb(var(--color-border, #E5E5E5));
+        width: 100%;
+        padding: 12px 0;
+        flex: unset;
+        border-bottom: 1px solid rgb(var(--color-border, #E5E5E5));
+        margin-bottom: 20px;
+    }
+    .section-my-lists .product-table .qty {
+        max-width: 50%;
+        order: 1;
+        width: 50%;
+        display: flex;
+        padding: 0;
+    }
+    .section-my-lists .product-table .table-row .product-price div { text-align: right;}
+    .section-my-lists .product-table .delete-icon {
+        max-width: 50%;
+        width: 50%;
+        order: 1;
+        justify-content: center;
+    }
+    .section-my-lists .success-message { max-width: 100%; }
+}
+@media screen and (max-width: 767px) {
+    .section-my-lists .section-heading-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.6rem;
+    }
+    .section-my-lists .table-row {
+        flex-direction: column;
+        height: 100%;
+        border-radius: var(--border-radius-main, 4px);
+        border: 1px solid rgb(var(--color-border, #E5E5E5));
+        align-items: flex-start;
+        padding: 0;
+        gap: 0;
+    }
+    .section-my-lists .table-row .list-name {
+        border-radius: var(--border-radius-main, 4px) var(--border-radius-main, 4px) 0 0;
+        background: rgb(var(--color-background-secondary, #F6F7F9));
+    }
+    .section-my-lists .table-row>div {
+        padding: 16px;
+        width: 100%;
+        display: flex;
+        gap: 8px;
+    }
+    .section-my-lists .table-row>div > * {
+        flex: 1;
+    }
+    .section-my-lists .table-row .actions {
+        border-top: 1px solid rgb(var(--color-border, #E5E5E5));
+        padding: 20px 16px;
+    }
+    .section-my-lists .lists-layout {margin-top: 3.2rem;}
+    .section-my-lists .section-heading-wrapper > * { width: 100%; }
+    .section-my-lists .product-table .table-row .title .image {
+        height: 60px;
+        width: 60px;
+    }
+    .section-my-lists .suggested-product {
+        flex-direction: column;
+        padding: 12px 16px;
+    }
+}

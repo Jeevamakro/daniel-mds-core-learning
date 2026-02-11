@@ -1,0 +1,28 @@
+{% render 'store-availaibility', block: block %}
+
+{% schema %}
+{
+  "name": "store availaibility",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "text"
+    }
+  ],
+  "blocks": [
+    {
+        "type": "@theme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "store availaibility",
+      "category": "Product",
+      "settings": {
+        "text": "<p>Text Basic</p>"
+      }
+    }
+  ]
+}
+{% endschema %}

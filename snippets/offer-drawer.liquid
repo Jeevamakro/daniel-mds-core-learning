@@ -1,0 +1,77 @@
+<modal-opener class="no-js-hidden" data-modal="#PopupModal-offer">
+
+    <div class="product-offers" id="ProductPopup-offer" aria-haspopup="dialog" type="button" >
+            <div class="offer-content">
+                <div class="icon-offer">
+                    {% render 'icon-offer' %}
+                </div>
+                <div class="offer-wrapper">
+                    <p class="offer-text">3 offers available for this product</p>
+                        <button id="ProductPopup-offer" class=" see-more-btn" type="button" aria-haspopup="dialog">
+                           <span>See All</span> <span>{% render 'custom-arrow-right' %}</span>
+                         </button>
+                  
+                </div>
+            </div>
+        </div>
+</modal-opener>
+<modal-dialog id="PopupModal-offer" class="product-popup-modal product-spec-popup-modal product-offer-popup-modal" aria-hidden="true">
+<div role="dialog" aria-label="Specification" aria-modal="true" class="product-popup-modal__dialog" tabindex="-1">
+    <button id="ModalClose-specification" type="button" class="product-popup-modal__close modal-close-button focus-inset" aria-label="{{ 'accessibility.close' | t }}">
+    {% render 'icon-close' %}
+    </button>
+    <h4 class="product-popup-modal__title h4">
+    Offer
+    </h4>
+    <div class="product-popup-modal__content">
+    <div class="offer-drawer-inner">
+        <div class="offers-content">
+            <div class="offer-item">
+            <div class="offer-image">
+                <img src="https://cdn.shopify.com/s/files/1/0771/6438/0373/files/Image_a75c2bf6-01d5-4a5e-b0cc-433f5d559ac4.png?v=1762849726" alt="Promotion image">
+            </div>
+            <div class="offer-details">
+                <h4>Promotion Title</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae.</p>
+                <div class="offer-meta">
+                {% render 'offer-meta' %}
+                <span>Valid until November 5, 2025</span>
+                </div>
+                <a href="#" class="offer-link">See Products {% render 'offer-arrow' %}</a>
+            </div>
+            </div>
+
+            <div class="offer-item">
+            <div class="offer-image">
+                <img src="https://cdn.shopify.com/s/files/1/0771/6438/0373/files/Image_a75c2bf6-01d5-4a5e-b0cc-433f5d559ac4.png?v=1762849726" alt="Promotion image">
+            </div>
+            <div class="offer-details">
+                <h4>Promotion Title</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae.</p>
+                <div class="offer-meta">
+                {% render 'offer-meta' %}
+                <span>Valid until November 5, 2025</span>
+                </div>
+                <a href="#" class="offer-link">See Products {% render 'offer-arrow' %}</a>
+            </div>
+            </div>
+
+            <div class="offer-item">
+            <div class="offer-image">
+                <img src="https://cdn.shopify.com/s/files/1/0771/6438/0373/files/Image_a75c2bf6-01d5-4a5e-b0cc-433f5d559ac4.png?v=1762849726" alt="Promotion image">
+            </div>
+            <div class="offer-details">
+                <h4>Promotion Title</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae.</p>
+                <div class="offer-meta">
+                {% render 'offer-meta' %}
+                <span>Valid until November 5, 2025</span>
+                </div>
+                <a href="#" class="offer-link">See Products {% render 'offer-arrow' %}</a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>                   
+</div>
+</modal-dialog>

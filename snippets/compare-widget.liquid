@@ -1,0 +1,67 @@
+{% comment %}
+  DEPENDENCIES: 
+    -compare-widget.css
+    -icon-plus.liquid , snippet
+    -compare-widget.js , import in theme.liquid
+    - need to create collection template collection.ajax.liquid
+{% endcomment %}
+
+{{ 'compare-widget.css' | asset_url | stylesheet_tag }}
+
+<div class="compare-bottom-wrap compare-float hidden">
+  <div class="container">
+    <div class="compare-float--header order-top">
+      <h5 class="h6 compare-float--title h-m-tb">
+        Compare Products <span class="added-count">(<span class="limit-text">2 of 4</span><span class="small-hide"> added</span>)</span>
+      </h5>
+      <div class="compare-float--hideShow" onclick="toggleWidget(this)">
+        <span data-toggle-text="Show">Show</span>
+        {%- render 'icon-plus', type: 1 -%}
+      </div>
+    </div>
+    <div class="compare-float--content">
+
+      {%- for i in (1..4) -%}
+        <div class="compare-float--item item-empty">
+          <span>You can select up to 4 products</span>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="compare-float--suggestion _show hidden">
+      <div class="comFloat-sugg--header">
+        <h5 class="h-m-tb h6">Looking for similar products?</h5>
+        <span class="short-info">Try comparing with these</span>
+      </div>
+      <div class="comFloat-sugg--content">        
+        {%- for i in (1..3) -%}
+        <div class="compare-float--item comFloat-item--sugg">
+          <div class="comFloat-item--image">
+            <img src="https://www.taappliance.com/cdn/shop/products/738987_1.jpg?v=1665693171&width=100" loading="lazy" width="70" height="70" alt="" />
+          </div>
+          <div class="comFloat-item--content">
+            <h6 class="comFloat-item--title h-m-tb">Whirlpool</h6>
+            <span class="comFloat-item--sku">WDP540HAMZ</span>
+            <div class="compare_product">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <path d="M2.34375 7.5H12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7.5 2.34375V12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Add to compare</span>
+            </div>
+          </div>
+        </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="compare-error hidden">
+      <span class="error-text" >
+        You can compare up to 4 products at a time
+      </span>
+    </div>
+    <div class="compare-float--buttons order-last">
+      <button class="button button--primary button-compare-products" type="button" onclick="goToCompare()">Compare Now</button>
+      <button class="button button--tertiary button-clear-products" type="button" onclick="clearCompare()">Clear All</button>
+    </div>
+    <div class="info-add-pro order-last large-up-hide">You can select up to 4 products</div>
+  </div>
+</div>

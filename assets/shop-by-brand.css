@@ -1,0 +1,162 @@
+    .shop-by-brand-title {
+        width: 100%;
+        margin-top: 32px;
+        margin-bottom: 0;
+    }
+     .alphabet-item {
+        position: relative;
+     }
+     .alphabet-item .overlay-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: block;
+        height: 100%;
+        z-index: 1;
+        cursor: pointer;
+     }
+     .alphabet-item:hover .block-inner-item-title{
+        opacity: 0.5;
+     }
+    .alphabet-tabs .tab {
+        display: flex;
+        /* min-width: 16px;
+      min-height: 16px; */
+        padding: 12px 16px;
+        justify-content: center;
+        border-radius: 100px;
+        align-items: center;
+        cursor: pointer;
+        border-width: 0;
+        font-size: calc(var(--font-subtitle-scale) * 1rem);
+        font-weight: var(--font-subtitle-family-weight);
+        font-family: var(--font-subtitle-family);
+        opacity: 1;
+        background-color: rgb(var(--color-button-tertiary-background), 1);
+        text-transform: uppercase;
+    }
+    .alphabet-tabs .tab.disabled{opacity: 0.5;cursor: not-allowed;}
+
+
+    .alphabet-tabs .tab.active {
+        background-color: rgb(var(--color-foreground), 1);
+        color: rgb(var(--color-button-secondary-text), 1);
+    }
+
+    .alphabet-block {
+        margin-bottom: 20px;
+    }
+
+    .alphabet-item img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        margin-bottom: 8px;
+    }
+
+    .alphabet-block.active {
+        display: block;
+    }
+
+    .alphabet-item-wrapper {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 32px 16px;
+    }
+
+    .alphabet-block:not(:last-child, :only-child) {
+        margin-bottom: 56px;
+    }
+
+    .alphabet-title {
+        margin: 0 0 24px 0;
+    }
+
+    .block-inner-item-title {
+        margin: 0 0;
+    }
+    .block-inner-item-title a {
+        text-decoration: none;
+    }
+    .shop-by-brand .breadcrumb {
+        margin-bottom: 36px;
+    }
+    .alphabet-tabs.sticky-filter{
+        position: fixed;
+        top: calc(var(--header-height) - 1px);
+        left: 0;
+        right: 0;
+        z-index: 3;
+        padding-left: 2.4rem;
+        padding-right: 2.4rem;
+    }
+    .alphabet-tabs.sticky-filter .alphabet-tabs-inner{
+        padding-top: 16px;
+        padding-bottom: 16px;
+        background: rgb(var(--color-background-secondary));
+        box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.06);
+        max-width: calc(100% - 4.8rem);
+        padding-left: 2.4rem;
+        padding-right: 2.4rem;
+        margin: 0 auto;
+        gap: 6px;
+    }
+    .alphabet-tabs .alphabet-tabs-inner {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+    }
+        .alphabet-tabs:not(.sticky-filter) {
+            margin-bottom: 50px;
+            padding-bottom: 10px;
+        }
+    @media screen and (min-width: 1200px) {
+        .shop-by-brand .breadcrumb {
+            margin-bottom: 64px;
+        }
+    }
+    @media screen and (min-width: 1360px) {
+        .shop-by-brand .breadcrumb {
+            margin-bottom: 64px;
+        }
+    }
+    
+    @media screen and (max-width: 1199px) {
+        .alphabet-tabs.sticky-filter .alphabet-tabs-inner {
+            max-width: 100%;
+        }
+    }
+    @media only screen and (max-width: 1199px) {
+        .alphabet-item-wrapper {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media only screen and (max-width: 749px) {
+         .alphabet-tabs.sticky-filter {padding-right: 0;padding-left: 0;}
+         .alphabet-tabs .alphabet-tabs-inner {
+            display: flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            justify-content: flex-start;
+        }
+        .shop-by-brand-title {
+            margin-top: 20px;
+        }
+        .alphabet-tabs .alphabet-tabs-inner::-webkit-scrollbar {
+            display: none;
+        }
+
+        .alphabet-item-wrapper {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px 16px;
+        }
+
+        .alphabet-block:not(:last-child, :only-child) {
+            margin-bottom: 48px;
+        }
+    }

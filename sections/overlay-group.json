@@ -1,0 +1,7 @@
+{
+	"type": "custom.overlay",
+	"name": "t:sections.overlay-group.name",
+	"sections": {
+	},
+	"order": []
+}

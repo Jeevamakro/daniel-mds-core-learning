@@ -1,0 +1,480 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+  SECTION: Simple Popup
+  FILE: simple-popup.liquid
+
+  PURPOSE:
+  Displays a configurable modal popup with optional image, heading,
+  description, and CTA buttons. Popup supports multiple animations,
+  overlay behavior, accessibility controls, and device-based disabling.
+
+  LOGIC OVERVIEW:
+  - Renders a modal using <modal-dialog> for accessibility compliance
+  - Modal opens automatically on page load
+  - Open and exit animations are controlled via section settings
+  - Supports optional image placement (top, bottom, left, right)
+  - Content is driven by section blocks (heading, description, buttons)
+  - Popup close behavior supports:
+    - Close button
+    - Overlay click (optional)
+    - ESC key (optional)
+  - Page scrolling can be disabled while popup is active
+  - Mobile display can be disabled via setting
+  - All animation classes are injected dynamically via JS
+
+  DEPENDENCIES:
+  - CSS: simple-popup.css
+  - JS: simple-popup.js
+  - Snippets:
+    - button - Existing file
+    - icon-close - Existing file
+  - Uses native <modal-dialog> element for accessibility
+
+  SETTINGS:
+  - Image picker with position & fit options
+  - Popup open & exit animation selectors
+  - Overlay visibility toggle
+  - Disable popup on mobile
+  - Disable background scrolling
+  - Overlay click close toggle
+  - ESC key close toggle - not done
+  - F4 close toggle (reserved for future JS support) - not done
+
+  BLOCKS:
+  - Heading (single)
+    - Popup title text
+  - Description (single)
+    - Popup body text
+  - Button (up to 3)
+    - Primary & secondary button labels
+    - Button links
+    - Button styles (primary / secondary / tertiary)
+  NOTES:
+  - Popup is auto-triggered on DOMContentLoaded
+  - Animation timing controlled via JS timeout
+  - CSS classes are scoped to avoid global conflicts
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{{ 'simple-popup.css' | asset_url | stylesheet_tag }}
+<script src='{{ 'simple-popup.js' | asset_url }}' defer='defer'></script>
+
+
+<div class='simple-popup color-{{ section.settings.color_scheme }}' data-id='shopify-section-{{ section.id }}' id="simple-popup">
+    <div class='container section-{{ section.id }}-padding'>
+              <div class="simple-popup color-{{ section.settings.color_scheme }}" data-id="shopify-section-{{ section.id }}">
+                  <div class="container section-{{ section.id }}-padding">
+                        {% assign modal_id = 'PopupModal-' | append: section.id %}
+                        <modal-dialog id="{{ modal_id }}" class="simpled-popup-modals {% if section.settings.show_overlay %} has-overlay {% endif %} {% if section.settings.overlay_click_close %} overlay_click_close {% else %} notclosing-overlay   {% endif %}  {% if  section.settings.mobile_disable %} mobile_disable {% endif %}">
+                              <div
+                                    role="dialog"
+                                    aria-modal="true"
+                                    class="simpled-popup-modal__dialog   {{ section.settings.popup_open_animation }}
+                                    {% if section.settings.image != blank %} overallspacing {% endif %}" tabindex="-1">
+                                    <button
+                                    id="ModalClose-{{ section.id }}"
+                                    type="button"
+                                    class="simpled-popup-modal__close modal-close-button focus-inset"
+                                    aria-label="{{ 'accessibility.close' | t }}"
+                                    >
+                                    {% render 'icon-close' %}
+                                    </button>
+
+                                    <div class="simpled-popup-modal__content">
+                                      <div class="simple-popup-inner">
+                                          <div class="custom-popup-card image-{{ section.settings.image_position }}">
+                                            <div class="custom-popup-image  image-fit-{{ section.settings.image_fit }} ">
+                                                {%- if section.settings.image != blank -%}
+                                                        {%- assign widths = '360, 535, 720, 940, 1070, 1200, 1500, 1780, 2000, 2400, 2800' -%}
+                                                        {%- capture sizes -%}
+                                                            (min-width: 1200px) calc((100vw - 128px)), calc((100vw - 40px))
+                                                        {%- endcapture -%}
+
+                                                        {{
+                                                            section.settings.image
+                                                            | image_url: width: 500
+                                                            | image_tag:
+                                                            loading: 'lazy',
+                                                            sizes: sizes,
+                                                            widths: widths,
+                                                            class: 'popup-image'
+                                                        }}
+                                                {%- endif -%}
+                                                </div>
+                                                <div class="inner-popup {% if section.settings.image == blank %} outerspacing {% endif %}">
+                                                      {% for block in section.blocks %}
+                                                        {% if block.type == 'heading' and block.settings.heading_text != blank %}
+                                                        <h3 class="popup-heading">{{ block.settings.heading_text }}</h3>
+                                                        {% endif %}
+                                                        {% if block.type == 'description' and block.settings.description_text != blank %}
+                                                        <p class="popup-description">{{ block.settings.description_text }}</p>
+                                                        {% endif %}
+                                                      {% endfor %}
+                                                    <div class="button-group">
+                                                        {%- for block in section.blocks -%}
+                                                            {% render 'button',
+                                                                btn_label: block.settings.button_label1,
+                                                                btn_link: block.settings.button_link1,
+                                                                btn_style: block.settings.button_style1,
+                                                                add_classes: 'primary__button'
+                                                            %}
+                                                            {% render 'button',
+                                                                btn_label: block.settings.button_label2,
+                                                                btn_link: block.settings.button_link2,
+                                                                btn_style: block.settings.button_style2,
+                                                                add_classes: 'secondary__button'
+                                                            %}
+                                                          {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                </div>
+                        </modal-dialog>
+                  </div>
+              </div>   
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('{{ modal_id }}');
+  const dialog = modal?.querySelector('.simpled-popup-modal__dialog');
+  const closeBtn = modal?.querySelector('.modal-close-button');
+  if (!modal || !dialog) return;
+  const OPEN_CLASS = '{{ section.settings.popup_open_animation }}';
+  const EXIT_CLASS = '{{ section.settings.popup_exit_animation }}';
+  const DURATION = 600; 
+  const ALLOW_OVERLAY_CLOSE = {{ section.settings.click_overlay_close | json }};
+  const ALLOW_ESC_CLOSE = {{ section.settings.press_esc_close | json }};
+  const DISABLE_SCROLLING = {{ section.settings.disable_scrolling | json }};
+  modal.addEventListener('cancel', function (e) {
+    if (!ALLOW_ESC_CLOSE) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    } else {
+      e.preventDefault();
+      closeWithAnimation();
+    }
+  });
+  modal.show();
+  if (!DISABLE_SCROLLING) {
+    document.body.classList.add('overflow-hide-modal');
+  }
+ function closeWithAnimation() {
+  if (dialog.classList.contains('is-exiting')) return;
+
+  dialog.classList.remove(OPEN_CLASS);
+  dialog.classList.add('is-exiting', EXIT_CLASS);
+
+  setTimeout(() => {
+    modal.style.display = 'none'; 
+    document.body.classList.remove('overflow-hide-modal');
+    dialog.classList.remove('is-exiting', EXIT_CLASS);
+  }, DURATION);
+}
+  closeBtn?.addEventListener(
+    'click',
+    function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      closeWithAnimation();
+    },
+    true
+  );
+modal.addEventListener('click', function (e) {
+  if (ALLOW_OVERLAY_CLOSE) return;
+  if (modal.style.display === 'none') return;
+  if (!modal.classList.contains('has-overlay')) return;
+  let clickedInsideDialog = dialog.contains(e.target);
+  if (clickedInsideDialog) return;
+  closeWithAnimation();
+});
+  
+  $(document).keyup(function (e) {
+  if (e.key === 'Escape') {
+    const $modal = $('.simpled-popup-modals');
+    const $dialog = $modal.find('.simpled-popup-modal__dialog');
+
+    if (!$modal.length || !$modal.is(':visible')) return;
+    if ($dialog.hasClass('is-exiting')) return;
+    const EXIT_CLASS = '{{ section.settings.popup_exit_animation }}';
+    const DURATION = 600;
+    $dialog
+      .removeClass('{{ section.settings.popup_open_animation }}')
+      .addClass('is-exiting ' + EXIT_CLASS);
+    setTimeout(function () {
+      $modal.hide();
+      $('body').removeClass('overflow-hidden-modal');
+      $dialog.removeClass('is-exiting ' + EXIT_CLASS);
+    }, DURATION);
+  }
+});
+});
+</script>
+
+{% schema %}
+{
+  "name": "Simple Popup",
+  "tag": "section",
+  "class": "simple-popup-section",
+  "enabled_on": {
+    "templates": ["*"]
+  },
+  "settings": [
+                {
+                    "type": "header",
+                    "content": "Image select button"
+                },
+                {
+                  "type": "image_picker",
+                  "id": "image",
+                  "label": "Image"
+                },
+                {
+                    "type": "header",
+                    "content": "Image layout dropdown"
+                },	
+                {
+                    "type": "select",
+                    "id": "image_position",
+                    "label": "Image aspect ratio",
+                    "default": "top",
+                    "info": "Dropdown Options: Left, Right, Top, Bottom",
+                    "options": [
+                        { "value": "left", "label": "Left" },
+                        { "value": "right", "label": "Right" },
+                        { "value": "top", "label": "Top" },
+                        { "value": "bottom", "label": "Bottom" }
+                    ]
+                },
+                {
+                    "type": "header",
+                    "content": "Product image fit selector"
+                },
+                {
+                    "type": "select",
+                    "id": "image_fit",
+                    "label": "Image fit",
+                    "default": "cover",
+                    "info": "Options: Contain, Cover",
+                    "options": [
+                        { "value": "cover", "label": "Cover" },
+                        { "value": "contain", "label": "Contain" }
+                    ]
+                },
+                {
+                  "type": "header",
+                  "content": "Open animation dropdown"
+                },
+                {
+                    "type": "select",
+                    "id": "popup_open_animation",
+                    "label": "Open animation",
+                    "info": "Dropdown Options: Fade, Slide, Zoom,Slide and Fade",
+                    
+                    "default": "popupOpenZoom",
+           
+                    "options": [
+                        { "value": "popupOpenFade", "label": "Fade" },
+                        { "value": "popupOpenSlide", "label": "Slide" },
+                        { "value": "popupOpenZoom", "label": "Zoom" },
+                        { "value": "popupOpenSlideFade", "label": "Slide and Fade" }
+                    ]
+                },
+                {
+                  "type": "header",
+                  "content": "Exit animation dropdown"
+		            },
+                {
+                    "type": "select",
+                    "id": "popup_exit_animation",
+                    "label": "Exit animation",
+                    "info": "Dropdown Options: Fade, Slide, Zoom,Slide and Fade",
+                    "default": "popupExitZoom",
+                   
+                    "options": [
+                        { "value": "popupExitFade", "label": "Fade" },
+                        { "value": "popupExitSlide", "label": "Slide" },
+                        { "value": "popupExitZoom", "label": "Zoom" },
+                        { "value": "popupExitSlideFade", "label": "Slide and Fade" }
+                    ]
+                },
+                {
+                  "type": "header",
+                  "content": "Overlay toggle"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "show_overlay",
+                  "label": "Show overlay",
+                  "default": true
+                },
+                {
+                  "type": "header",
+                  "content": "Mobile disable toggle"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "mobile_disable",
+                  "label": "Disable popup on mobile",
+                  "default": false
+                },
+                {
+                  "type": "header",
+                  "content": "Disable scrolling toggle"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "disable_scrolling",
+                  "label": "Disable page scrolling",
+                  "default": true
+                },
+                {
+                  "type": "header",
+                  "content": "Click overlay to close toggle"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "overlay_click_close",
+                  "label": "Click overlay to close",
+                  "default": true
+                },
+                {
+                  "type": "header",
+                  "content": "Press ESC to close toggle"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "esc_close",
+                  "label": "Press ESC to close",
+                  "default": true
+                },
+                {
+                  "type": "header",
+                  "content": "Press F4 to close toggle"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "f4_close",
+                  "label": "Press F4 to close",
+                  "default": false
+                }
+
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_text",
+          "label": "Heading",
+          "default": "Simple Popup"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "description_text",
+          "label": "Description",
+          "default": "Add your popup description here"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 3,
+      "settings": [
+     
+        {
+					"type": "header",
+					"content": "t:sections.all.button.header_button.content"
+				},
+				{
+					"type": "text",
+					"id": "button_label1",
+					"default": "Shop Now",
+					"label": "t:sections.all.button.button_label.label",
+					"info": "t:sections.all.button.button_label.info"
+				},
+				{
+					"type": "url",
+					"id": "button_link1",
+					"label": "t:sections.all.button.button_link.label"
+				},
+				{
+					"type": "select",
+					"id": "button_style1",
+					"options": [
+						{
+							"value": "primary",
+							"label": "t:sections.all.button.button_style.options__1.label"
+						},
+						{
+							"value": "secondary",
+							"label": "t:sections.all.button.button_style.options__2.label"
+						},
+						{
+							"value": "tertiary",
+							"label": "t:sections.all.button.button_style.options__3.label"
+						}
+					],
+					"default": "primary",
+					"label": "t:sections.all.button.button_style.label"
+				},
+                	{
+					"type": "text",
+					"id": "button_label2",
+					"default": "Shop Now",
+					"label": "t:sections.all.button.button_label.label",
+					"info": "t:sections.all.button.button_label.info"
+				},
+				{
+					"type": "url",
+					"id": "button_link2",
+					"label": "t:sections.all.button.button_link.label"
+				},
+				{
+					"type": "select",
+					"id": "button_style2",
+					"options": [
+						{
+							"value": "primary",
+							"label": "t:sections.all.button.button_style.options__1.label"
+						},
+						{
+							"value": "secondary",
+							"label": "t:sections.all.button.button_style.options__2.label"
+						},
+						{
+							"value": "tertiary",
+							"label": "t:sections.all.button.button_style.options__3.label"
+						}
+					],
+					"default": "primary",
+					"label": "t:sections.all.button.button_style.label"
+				}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simple Popup",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "description" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

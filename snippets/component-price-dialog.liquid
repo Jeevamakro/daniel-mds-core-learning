@@ -1,0 +1,314 @@
+{{ 'component-price-dialog.css' | asset_url | stylesheet_tag }}
+
+<modal-opener class="no-js-hidden" data-modal="#PopupModal-price">
+  <div class="product-prices" id="ProductPopup-price" aria-haspopup="dialog" type="button">
+    <div class="price-content">
+      <div class="offer-wrapper">
+        <button id="ProductPopup-price" class=" see-more-btn" type="button" aria-haspopup="dialog">
+          <span>Found a Better Price?</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</modal-opener>
+<modal-dialog
+  id="PopupModal-price"
+  class="product-popup-modal product-spec-popup-modal product-price-popup-modal price-match-popup submit-a-price-wrapper"
+  aria-hidden="true"
+>
+  <div role="dialog" aria-label="Specification" aria-modal="true" class="product-popup-modal__dialog" tabindex="-1">
+    <button
+      id="ModalClose-specification"
+      type="button"
+      class="product-popup-modal__close modal-close-button focus-inset"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {% render 'icon-close' %}
+    </button>
+    <div class="first-popup-custom" style="display: flex;">
+      <h3 class="product-popup-modal__title h3">Best Price Guarantee</h3>
+      <div class="product-popup-modal__content">
+        <div class="offer-drawer-inner">
+          <div class="offers-content">
+            <div class="price-match-upper-part">
+              <p>
+                We are confident that we provide the BEST prices! If you find a better price we will match and beat it
+                by 10% of the difference for up to 30 days after delivery!
+              </p>
+              <a
+                href="#"
+                title=""
+                >See full price guarantee details<span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    class="icon icon-arrow"
+                  >
+                    <path d="M2.34375 7.5H12.6562" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8.4375 3.28125L12.6562 7.5L8.4375 11.7188" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></span
+              ></a>
+            </div>
+
+            <div class="price-match-middel-conent">
+              <h4>Terms:</h4>
+              <div class="termsBox-list">
+                <div class="termsBox-list-item">
+                  <span class="terBox-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 6.6875C12.4487 6.6875 12.8125 7.05127 12.8125 7.5C12.8125 7.94873 12.4487 8.3125 12 8.3125C11.5513 8.3125 11.1875 7.94873 11.1875 7.5C11.1875 7.05127 11.5513 6.6875 12 6.6875Z" fill="#3F3F3F" stroke="#3F3F3F"/>
+                      <path d="M17.25 7.5C17.25 12.75 12 15.75 12 15.75C12 15.75 6.75 12.75 6.75 7.5C6.75 6.10761 7.30312 4.77226 8.28769 3.78769C9.27226 2.80312 10.6076 2.25 12 2.25C13.3924 2.25 14.7277 2.80312 15.7123 3.78769C16.6969 4.77226 17.25 6.10761 17.25 7.5Z" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M18.75 14.5444C20.5987 15.2269 21.75 16.1869 21.75 17.2501C21.75 19.321 17.385 21.0001 12 21.0001C6.615 21.0001 2.25 19.321 2.25 17.2501C2.25 16.1869 3.40125 15.2269 5.25 14.5444" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div class="terBox-content">1. Competitor must be located in / ships to Ontario</div>
+                </div>
+                <div class="termsBox-list-item">
+                  <span class="terBox-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M7.5 10.5H13.5" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18Z" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M15.8027 15.8032L20.9993 20.9998" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10.5 7.5V13.5" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div class="terBox-content">
+                    2. Competitors product must match the Brand, Model and Terms of the product
+                  </div>
+                </div>
+                <div class="termsBox-list-item">
+                  <span class="terBox-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M3.96938 12.9694C3.82899 12.8288 3.75009 12.6383 3.75 12.4397V3.75H12.4397C12.6383 3.75009 12.8288 3.82899 12.9694 3.96938L22.2806 13.2806C22.4212 13.4213 22.5001 13.612 22.5001 13.8108C22.5001 14.0096 22.4212 14.2003 22.2806 14.3409L14.3438 22.2806C14.2031 22.4212 14.0124 22.5001 13.8136 22.5001C13.6148 22.5001 13.4241 22.4212 13.2834 22.2806L3.96938 12.9694Z" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M7.875 8.8125C8.39277 8.8125 8.8125 8.39277 8.8125 7.875C8.8125 7.35723 8.39277 6.9375 7.875 6.9375C7.35723 6.9375 6.9375 7.35723 6.9375 7.875C6.9375 8.39277 7.35723 8.8125 7.875 8.8125Z" fill="#3F3F3F"/>
+                    </svg>
+                  </span>
+                  <div class="terBox-content">3. Proof of competitors valid price must be provided</div>
+                </div>
+              </div>
+            </div>
+            <div class="price-match-footer-conent">
+              <h4>Found a Better Price on:</h4>
+              <div class="pmpp-pro-list">
+                <div class="pmpp-pro-item">
+                  <img
+                    class="lazyload"
+                    loading="lazy"
+                    src="https://cdn.shopify.com/s/files/1/0771/6438/0373/files/Image.png?v=1760444507"
+                    width="64"
+                    height="64.0"
+                    sizes="auto"
+                    alt=""
+                  >
+                  <div class="pmpp-pro-content">
+                    <span class="title">Broil King Regal Pellet 400 iQue Grill &amp; Smoker 495051</span>
+                    <span class="meta-data">495051</span> <span class="meta-data">Broil King</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottoms-buttons-content">
+            <button class="button button--primary start-price-claim">Start A Price Guarantee Claim</button>
+            <a
+              href="#"
+              class="make-claim-on-product"
+              >Make a claim on another product
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M3.5 8.5L7 5L3.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-wrapper" style="display: none;">
+      <div class="form-box without-team-custom">
+        <h3 class="h3">Submit Claim For Price Guarantee</h3>
+        <div class="pmpp-pro-list">
+          <h4 class="h4 section-title">Found a Better Price on:</h4>
+          <div class="pmpp-pro-item">
+            <img
+              class="lazyload"
+              loading="lazy"
+              src="https://cdn.shopify.com/s/files/1/0771/6438/0373/files/Image.png?v=1760444507"
+              width="64"
+              height="64"
+              sizes="auto"
+              alt=""
+            >
+            <div class="pmpp-pro-content">
+              <span class="title">Broil King Regal Pellet 400 iQue Grill &amp; Smoker 495051</span>
+              <span class="meta-data">495051</span> <span class="meta-data">Broil King</span>
+              <span class="meta-price">$1,299.00 </span>
+            </div>
+          </div>
+        </div>
+        <div id="success-msg"></div>
+        <form
+          class="form-first not-bought-option"
+          id="submit_offer--{{ product.id }}"
+          action="{{ product.url | default: page.url }}"
+          method="get"
+          onsubmit="priceFormSubmit(event, this); return false;"
+        >
+          <div class="form-grid">
+            <div class="form-group">
+              <label>First Name *</label>
+              <input class="input-field" type="text" name="first-name" placeholder="FIRST NAME" required>
+              <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+            </div>
+
+            <div class="form-group">
+              <label>Last Name *</label>
+              <input class="input-field" type="text" name="last-name" placeholder="LAST NAME">
+              <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input class="input-field" type="email" name="email" placeholder="E-MAIL" required>
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input
+              maxlength="10"
+              autocomplete="off"
+              class="input-field phone"
+              type="number"
+              name="phone-number"
+              placeholder="PHONE NUMBER"
+              required
+            >
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+          <div class="form-group custom-invoice">
+            <label>Invoice Number</label>
+            <input class="input-field" type="text" name="invoice-number">
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+          <div class="form-group">
+            <label>Select a Type of Claim *</label>
+            <input type="hidden" name="claim" class="claim-input" value="I have not bought my Item yet">
+            <div class="store-near select_claim selected" id="select_claim" data-val="I have not bought my Item yet">
+              I have not bought my Item yet
+            </div>
+            <ul class="drop-down-list select_claim_list" id="drop-down-list" style="display: none;">
+              <li class="drop-down-list-item">I have not bought my Item yet</li>
+              <li class="drop-down-list-item">I have already bought my item</li>
+            </ul>
+          </div>
+          <div class="form-group custom-dob">
+            <label>Date of Purchase</label>
+            <input class="input-field" type="date" name="date-of-birth" placeholder="MM/DD/YYYY">
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+          <div class="form-group custom-near-store">
+            <label>Please select the store closest to you *</label>
+            <input name="store" type="hidden" class="claim-input" value="">
+            <div class="store-near select_store" id="select_store" data-val="">PLEASE SELECT</div>
+            <ul class="drop-down-list" id="drop-down-list" style="display: none;">
+              {%- for i in (1..5) -%}
+                <li class="drop-down-list-item">Dropdown Option</li>
+              {%- endfor -%}
+            </ul>
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+
+          <div class="form-group custom-brand">
+            <label>Brand *</label>
+            <input class="input-field" name="brand" type="text" placeholder="BRAND" required>
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Competitor's Price *</label>
+              <input class="input-field" name="competitor-price" type="number" required placeholder="$">
+              <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+            </div>
+
+            <div class="form-group">
+              <label>Competitor's Name *</label>
+              <input class="input-field" name="competitor-name" type="text" placeholder="COMPETITOR'S NAME" required>
+              <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Competitor Product URL *
+              {% if block.settings.competitor_url_1 != blank %}
+                <div class="tooltip-part">
+                  <i class="tooltip-icon">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 12C7.5913 12 9.11742 11.3679 10.2426 10.2426C11.3679 9.11742 12 7.5913 12 6C12 4.4087 11.3679 2.88258 10.2426 1.75736C9.11742 0.632141 7.5913 0 6 0C4.4087 0 2.88258 0.632141 1.75736 1.75736C0.632141 2.88258 0 4.4087 0 6C0 7.5913 0.632141 9.11742 1.75736 10.2426C2.88258 11.3679 4.4087 12 6 12ZM6.6975 4.941L5.9475 8.46975C5.895 8.72475 5.96925 8.8695 6.1755 8.8695C6.321 8.8695 6.54075 8.817 6.69 8.685L6.624 8.997C6.40875 9.2565 5.934 9.4455 5.52525 9.4455C4.998 9.4455 4.77375 9.129 4.91925 8.45625L5.47275 5.85525C5.52075 5.6355 5.47725 5.556 5.2575 5.50275L4.91925 5.442L4.98075 5.15625L6.69825 4.941H6.6975ZM6 4.125C5.80109 4.125 5.61032 4.04598 5.46967 3.90533C5.32902 3.76468 5.25 3.57391 5.25 3.375C5.25 3.17609 5.32902 2.98532 5.46967 2.84467C5.61032 2.70402 5.80109 2.625 6 2.625C6.19891 2.625 6.38968 2.70402 6.53033 2.84467C6.67098 2.98532 6.75 3.17609 6.75 3.375C6.75 3.57391 6.67098 3.76468 6.53033 3.90533C6.38968 4.04598 6.19891 4.125 6 4.125Z" fill="#4D5B66"></path>
+                    </svg>
+                  </i>
+                  <div class="tooltip-texts">{{ block.settings.competitor_url_1 }}</div>
+                </div>
+              {% endif %}
+            </label>
+            <input class="input-field" name="product-url" type="text" placeholder="COMPETITOR PRODUCT URL" required>
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Proof of Price *
+              {% if block.settings.price_proof_1 != blank %}
+                <div class="tooltip-part">
+                  <i class="tooltip-icon">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 12C7.5913 12 9.11742 11.3679 10.2426 10.2426C11.3679 9.11742 12 7.5913 12 6C12 4.4087 11.3679 2.88258 10.2426 1.75736C9.11742 0.632141 7.5913 0 6 0C4.4087 0 2.88258 0.632141 1.75736 1.75736C0.632141 2.88258 0 4.4087 0 6C0 7.5913 0.632141 9.11742 1.75736 10.2426C2.88258 11.3679 4.4087 12 6 12ZM6.6975 4.941L5.9475 8.46975C5.895 8.72475 5.96925 8.8695 6.1755 8.8695C6.321 8.8695 6.54075 8.817 6.69 8.685L6.624 8.997C6.40875 9.2565 5.934 9.4455 5.52525 9.4455C4.998 9.4455 4.77375 9.129 4.91925 8.45625L5.47275 5.85525C5.52075 5.6355 5.47725 5.556 5.2575 5.50275L4.91925 5.442L4.98075 5.15625L6.69825 4.941H6.6975ZM6 4.125C5.80109 4.125 5.61032 4.04598 5.46967 3.90533C5.32902 3.76468 5.25 3.57391 5.25 3.375C5.25 3.17609 5.32902 2.98532 5.46967 2.84467C5.61032 2.70402 5.80109 2.625 6 2.625C6.19891 2.625 6.38968 2.70402 6.53033 2.84467C6.67098 2.98532 6.75 3.17609 6.75 3.375C6.75 3.57391 6.67098 3.76468 6.53033 3.90533C6.38968 4.04598 6.19891 4.125 6 4.125Z" fill="#4D5B66"></path>
+                    </svg>
+                  </i>
+                  <div class="tooltip-texts">{{ block.settings.price_proof_1 }}</div>
+                </div>
+              {% endif %}
+            </label>
+            <input class="input-field" type="hidden" role="uploadcare-uploader" name="[contact][attachment]" required>
+            {% comment %}<div class="note-msg">Max file size 100MB</div>{% endcomment %}
+            <div class="error-alert-msg">{% render 'error-alert' %}Please, complete this field!</div>
+            <div class="uploadcare--widget">
+              <button type="button" class="uploadcare--widget__button uploadcare--widget__button_type_open">
+                Choose images
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group form-group-submit">
+            <button id="submit-first" class="button button--primary btn-submit not-bought-btn">Submit</button>
+            <a
+              href="#"
+              class="make-claim-on-product"
+              >Make a claim on another product<span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M3.5 8.5L7 5L3.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg></span
+            ></a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="form-success-wrapper" style="display: none;">
+      <div class="form-success-message">
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M11 17L14 20L21 13" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="#3F3F3F" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="successfull-message">
+          <h3 class="section-title h3">Form Submitted Successfully</h3>
+          <p>Thank you for your submission. We have recieved your information and will process it shortly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal-dialog>

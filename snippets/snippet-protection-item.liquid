@@ -1,0 +1,22 @@
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign protection_cart_item = cart.items  
+-%}
+{%- if remove -%}
+  <label class="cart_item--list-li list-li--remove">     
+    <span class="cart_item--list-title">{{- product.title -}}</span>
+    <span class="cart_item--list-price">{{ selected_variant.price | money }}</span> 
+    <span class="protection_remove" data-protection-key="{{ protecion_item.key }}" onclick="removeProtection(event, this)">Remove</span>
+  </label>
+{%- else -%}
+  <label class="cart_item--list-li"> 
+    <input type="radio" name="{{ id }}-{{ index }}" {{  -}}
+      value="{{ product.title }}" {{  -}} 
+      data-variant="{{ selected_variant.id }}" {{  -}}
+      data-price="{{ selected_variant.price | money | remove: '$' }}" {{  -}}
+      onchange="addProtection(event, this)"
+    >
+    <span class="cart_item--list-title">{{- product.title -}}</span>
+    <span class="cart_item--list-price">{{ selected_variant.price | money }}</span> 
+  </label>
+{%- endif -%}

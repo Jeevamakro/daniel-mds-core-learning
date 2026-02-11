@@ -1,0 +1,43 @@
+{%- liquid
+  assign plat_2_year = all_products['2-year-protection-plan']
+  assign plat_3_year = all_products['3-year-protection-plan']
+  assign plat_4_year = all_products['4-year-protection-plan']
+
+  assign id = item.id
+
+  
+  assign protecion_item = blank
+  assign temp = item.properties["_plan_id"] | times: 1
+  for temp_i in cart.items
+    if temp_i.properties["_protection_product"] and temp_i.properties["_plan_id"] == temp
+      assign protecion_item = temp_i
+      break
+    endif
+  endfor
+  assign selected_plan = item.properties['_Protection Plan']
+-%}
+<div class="cart_item--list-warpper protection_plan" data-has-protection=""{% if protecion_item != blank %} data-protection-key="{{ protecion_item.key }}"{% endif %}>
+  {%- if selected_plan != blank and protecion_item != blank  -%}
+    <div class="cart_item--list protection--list">      
+      {%- render 'snippet-protection-item', product: protecion_item.product, item: item, index: 0, id: id, remove: true, protecion_item: protecion_item -%}
+    </div>  
+  {%- else -%}  
+    <div class="cart_item--list-heading h5">Protection Plan</div>
+    <div class="cart_item--list protection--list">
+      {%- if plat_4_year -%}
+        {%- render 'snippet-protection-item', product: plat_4_year, item: item, index: 0, id: id -%}
+      {%- endif -%}
+      {%- if plat_3_year -%}
+        {%- render 'snippet-protection-item', product: plat_3_year, item: item, index: 1, id: id -%}
+      {%- endif -%}
+      {%- if plat_2_year -%}
+        {%- render 'snippet-protection-item', product: plat_2_year, item: item, index: 2, id: id -%}
+      {%- endif -%}    
+      {% comment %} <label class="cart_item--list-li">
+        <input type="radio" name="{{ id }}-3" value="Declined Protection Plan" data-variant="" data-price="" _onchange="addProtection(event, this)">																			
+        <span class="cart_item--list-title">Declined Protection Plan</span>
+        <span class="cart_item--list-price"></span> 
+      </label>																	 {% endcomment %}
+    </div>
+  {%- endif -%}
+</div>

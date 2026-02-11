@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "main_article": {
+      "type": "main-article",
+      "blocks": {
+        "article_header": {
+          "type": "article-header",
+          "settings": {}
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "article_footer": {
+          "type": "article-footer",
+          "settings": {}
+        }
+      },
+      "block_order": ["article_header", "content", "article_footer"],
+      "settings": {
+        "margin_top": "xs",
+        "margin_bottom": "no-indent"
+      }
+    },
+    "featured_blog": {
+      "type": "featured-blog",
+      "settings": {
+        "margin_top": "xl",
+        "margin_bottom": "xl"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "color_scheme": "background-1",
+        "margin_top": "m",
+        "margin_bottom": "m"
+      }
+    }
+  },
+  "order": [
+    "main_article",
+    "featured_blog",
+    "newsletter"
+  ]
+}

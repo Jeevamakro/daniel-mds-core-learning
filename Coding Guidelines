@@ -1,0 +1,226 @@
+Guidelines on creating and adding sections into the Core Theme
+  Include Comments/Logic in Liquid Code 
+  Give meaningful name for section
+  Example -  if we are working on hero section and we have variant split image
+  Section name will be - hero-split-image
+  Give same name for CSS and JS file for the section
+  Include CSS at the Top in section and JS before Schema
+  Before CSS add liquid comment and add description of the section and what files we needed for this section like snippets, etc.
+  Also mention if we have more variation for this section
+  Need to add category also there so we can know from which category section belongs
+
+
+1. General Principles
+  Follow Shopify’s Liquid & Theme Development standards.
+  Code should be readable, maintainable, and reusable.
+  DRY principle: no copy-pasting; extract snippets/sections where needed.
+  Use semantic HTML5 for better SEO & accessibility.
+  Optimize for performance: fewer requests, lighter assets.
+  Every feature should work without breaking the Online Store Editor (theme customizer).
+
+2. Liquid (Shopify’s Template Language)
+  Always wrap logic with default fallbacks:
+  
+   {{ product.title | default: "Product Name" }}
+  Avoid complex logic in Liquid — push business logic to JSON schema settings or JS where possible.
+  Use {% render %} instead of {% include %}
+  Never hardcode strings — use locales (locales/en.default.json).
+  Organize sections and snippets by purpose (naming convention: component-*, section-*, util-*).
+  Keep schema JSON minimal and validated.
+
+
+
+3. HTML & Accessibility
+  Always use semantic tags (<header>, <main>, <article>, <footer>).
+  Provide alt text for images.
+  Ensure ARIA attributes where needed.
+  Headings should follow a logical hierarchy (<h1> once per page, then <h2>, <h3>, etc.).
+  All forms must have labels and clear error states.
+  Test keyboard navigation.
+
+
+
+
+4. CSS / SCSS / Styling
+  Follow BEM (Block–Element–Modifier) naming convention:
+
+	 .button {}
+  .button__icon {}
+  .button--primary {}
+  Use CSS variables where possible for consistency (--color-text, --color-bg).
+  Prefer TailwindCSS or utility classes
+  No inline styles in Liquid/HTML.
+  Minimize CSS file size → remove unused selectors.
+  Use clamp() or calc() for responsive typography.
+
+
+
+5. JavaScript
+  Vanilla JS preferred; no jQuery at all.
+  Organize scripts in modules/components.
+  Defer or lazy-load JS where possible (defer, async).
+  Avoid polluting global scope; wrap in IIFE or ES modules.
+  Use data-attributes to bind logic instead of hardcoding IDs.
+  All AJAX calls should use fetch API (avoid legacy XMLHttpRequest).
+  Provide graceful fallbacks if JS is disabled.
+
+
+
+6. Assets (Images, Fonts, SVGs)
+  Use Shopify’s image filters for resizing/compression:
+  
+  	 {{ product.featured_image | image_url: width: 800 }}
+  Prefer inline SVG for icons over PNG.
+  Avoid uploading fonts > 100KB; use system fonts or variable fonts where possible.
+  Enable lazy loading (loading="lazy") for non-critical images.
+  Minify all assets (CSS, JS, SVG).
+
+
+
+
+7. Performance & SEO
+  Every page must have:
+  <title> and <meta description>.
+  Canonical URL.
+  OpenGraph & Twitter card tags.
+  JSON-LD structured data (Product, Breadcrumbs, Articles).
+
+
+  Only one H1 per page.
+  Avoid render-blocking resources.
+  Use Shopify’s native sections everywhere for flexibility.
+
+8. Project Structure & Version Control
+  Keep theme organized:
+  
+   /assets
+  /config
+  /layout
+  /locales
+  /sections
+  /snippets
+  /templates
+  Commit messages should follow Conventional Commits:
+  
+  
+  feat: add sticky add-to-cart bar
+  fix: resolve mobile menu alignment
+  
+  
+  No commits with unminified libraries or debug logs.
+  Always use .gitignore for node_modules, build cache, private keys.
+
+
+
+9. Testing Before Commit
+  Run Theme Check locally.
+  Test across desktop, tablet, mobile.
+  Test in multiple browsers (Chrome, Safari, Firefox, Edge).
+  Verify Online Store Editor doesn’t break.
+  Confirm no console errors in browser dev tools.
+
+
+
+10. Pull Request Guidelines
+  PR must reference related issues/tickets.
+  PR description must include:
+  What has changed.
+  How it was tested (screenshots or screen recording if possible).
+  Checklist: lint passed, a11y checked, Lighthouse score OK.
+  
+  
+  At least 1 reviewer approval required.
+  No direct commits to the main branch.
+
+Liquid / JSON Files:
+  Lowercase, hyphen-separated (section-name).
+  Keep type prefix for clarity.
+  Examples:
+  section-product-card.liquid
+  snippet-cart-icon.liquid
+  template-product.json
+
+CSS/JS:
+  Hyphen-separated, scoped if component-specific.
+
+  Examples:
+    cart-drawer.js
+    section-hero-banner.css
+    theme-utils.js
+
+Images / SVGs:
+  Lowercase, hyphen-separated.
+  Examples:
+    logo-primary.svg
+    bg-hero.webp
+
+Metafields
+  Since metafields are namespaced keys, naming consistency is critical.
+    Namespace: lowercase, underscores only.
+
+      Use project or feature domain (avoid custom if possible).
+      Examples:
+        seo.title_tag
+        product_specs.weight
+        algolia_filters.awg_size
+
+    Keys: lowercase, underscores only.
+      Be descriptive, avoid abbreviations unless common.
+      Examples:
+        product_specs.material
+        product_specs.size_guide_url
+        Settings.recommended_products_limit
+
+    Rules:
+
+      Keep namespace stable (don’t rename casually → breaks data).
+      Group metafields logically by feature (seo, shipping, pricing).
+      Always document new metafields in your repo (docs/metafields.md).
+
+
+
+  Git Branches
+    Clear branch naming is essential for CI/CD pipelines and PR reviews.
+    Main Branches:
+    main → production
+    develop → staging
+    Feature Branches:
+    
+     feature/<jira-ticket-id>-<short-description>
+     Examples:
+    
+    
+    feature/WR011-sticky-add-to-cart
+    feature/WR012-pdp-image-zoom
+
+
+  Bugfix Branches:
+
+   fix/<jira-ticket-id>-<short-description>
+   Examples:
+  
+    fix/WR011-mobile-menu-alignment
+    fix/WR011-checkout-discount-code
+
+
+  Hotfix Branches (urgent prod fixes):
+
+   hotfix/<jira-ticket-id>-<short-description>
+   Example:
+
+    hotfix/WR011-payment-button-bug
+
+  Commits
+    Stick with Conventional Commits so changelogs are automated:
+      feat: → new feature
+      fix: → bug fix
+      docs: → documentation
+      style: → code style (no logic change)
+      refactor: → restructuring
+      test: → adding tests
+      chore: → misc (deps, build tasks)
+
+    Examples:
+      feat: add hero banner section
+      fix: resolve cart drawer loading bug
+      chore: update Shopify CLI version

@@ -1,0 +1,897 @@
+{%- comment -%}
+  SECTION: Main Collection Product Grid
+DESCRIPTION:
+  - Core collection product listing section that supports filtering, sorting,
+    sidebar layout, pagination types (standard, load more, infinite scroll),
+    and product display customization.
+  - Displays collection products in a responsive grid with optional sidebar.
+  - Additionally Background color option added for prodcut card image in section settings
+
+  LOGIC OVERVIEW:
+  If `section.settings.enable_sidebar` is true:
+       → The layout splits into a sidebar (`custom-facets`) and main grid (`product-grid`).
+  DEPENDENCIES:
+  - CSS:
+      • template-collection.css  
+      • component-loading-overlay.css  
+      • component-card.css, component-price.css, component-badge.css, component-rte.css  
+      • section-main-product.css (conditional)
+  - JS:
+      • load-more.js (for load_more/infinite_scroll)
+      • facets.js (for filtering/sorting)
+  - Snippets:
+      • facets.liquid / custom-facets.liquid
+      • product-card.liquid
+      • pagination.liquid / load-more.liquid / infinite-scroll.liquid
+      • section-margin.liquid
+
+      Note: Its default section and code updated in custom-facets.liquid , component-card.css , component-facet.css , component-price.css
+{%- endcomment -%}
+
+
+{%- comment -%}
+------------------------------------------------------------------------------
+ MODIFICATION NOTES — LAYOUT VIEW DESIGN  
+PURPOSE: Introduced grid/list layout toggle functionality with responsive design support.
+DESCRIPTION:
+  - Added layout view toggle feature (Grid ↔ List) for both desktop and mobile.
+  - Added schema controls for enabling/disabling layout view and compare feature.
+
+FILES ADDED:
+  - CSS:
+      • component-custom-product-view.css → new stylesheet for layout view design only. - added this file in theme.liquid for globally to hide unwanted structure used for list view for all product carousel section
+  - JS:
+      • layout-view.js → handles grid/list view functionality and toggle persistence.
+  - Snippets:
+      • custom-list-view.liquid → list-view toggle icon.
+      • custom-grid-view.liquid → grid-view toggle icon.
+      • custom-quick-view-icon.liquid → quick view icon for mobile.
+FILES UPDATED:
+  - facet.liquid → added layout view toggle structure and condition handling.
+  - product-card.liquid → added `.card-wrapper-right.list-view`, SKU, in-stock info, price, add-to-cart, quick view (desktop + mobile).
+
+LOGIC OVERVIEW:
+  - If `section.settings.enable_layout_view` is true:
+        → Displays layout toggle (grid/list) inside `.custom-product-view`.
+        → Applies layout-specific classes dynamically to control product rendering.
+  - JS (`layout-view.js`) listens for toggle clicks and updates layout state.
+ Added condition in schema for Enable/ disable - line no - 377 - 387.
+
+{%- endcomment -%}
+
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+{%- if settings.pagination_type == 'load_more' or settings.pagination_type == 'infinite_scroll' -%}
+  <script src="{{ 'load-more.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+  <script src="{{ 'layout-view.js' | asset_url }}" defer="defer"></script>
+<script src='{{ 'add-cart.js' | asset_url }}' defer='defer'></script>
+<link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-price.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-badge.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-badge.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+
+{{ 'component-facets.css' | asset_url | stylesheet_tag }}
+{{ 'component-offer.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+  {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if settings.quickview_show or settings.show_on_mobile or settings.type_color_swatch == 'custom' -%}
+  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{%- if settings.quickview_show or settings.show_on_mobile -%}
+  <link rel="stylesheet" href="{{ 'component-deferred-media.css' | asset_url }}" media="all">
+  <link
+    rel="preload"
+    href="{{ 'quick-add.css' | asset_url }}"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  >
+{%- endif -%}
+
+
+<script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  {% render 'section-margin' %}
+.collection-grid-section .card--product{ background-color: {{ section.settings.card_background }}; } {% comment %} for product background color  {% endcomment %}
+{%- endstyle -%}
+
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+
+<div class="container color-{{ section.settings.color_scheme }}">
+
+  <div class="collection-wrapper {% if section.settings.enable_sidebar %} enabled-sidebar {% endif %} {{  -}}
+    {% if collection.all_products_count == 0 %} collection-wrapper--empty{% endif %} {{  -}}
+    {% if section.settings.enable_filtering == false and section.settings.enable_sorting == false %} collection-wrapper_no-facets{% endif %} {{  -}}
+     collection-quick-add-bulk"
+     data-id="{{ section.id }}"
+  >
+      {% if section.settings.enable_filtering == true or section.settings.enable_sorting == true %}
+        <div class="products-grid__overlay"></div>
+      {% endif %}
+
+      {% if settings.algolia_option %}
+      <div class="product-filters">
+        <h2 class="section-header__title h2">Find Your Product</h2>
+        <span class="section-header__subtitle  subheading">
+          Already know what you need? Easily find your perfect product using these convenient filters.
+        </span>
+        <div class="filters-wrapper">
+          <div class="filter-group-wrapper">
+
+            <div class="filter-group custom-dropdown">
+              <div class="filter-dropdown">Year</div>
+              <select id="filter-year" class="filter-dropdown hidden">
+                <option value="">Year</option>
+              </select>
+              <ul class="dropdown-list list-unstyled"></ul>
+            </div>
+            <div class="filter-group custom-dropdown">
+              <div class="filter-dropdown disabled">make</div>
+              <select id="filter-make" class="filter-dropdown hidden" disabled>
+                <option value="">Make</option>
+              </select>
+              <ul class="dropdown-list list-unstyled"></ul>
+            </div>
+            <div class="filter-group custom-dropdown">
+              <div class="filter-dropdown disabled">Model</div>
+              <select id="filter-model" class="filter-dropdown hidden" disabled>
+                <option value="">Model</option>
+              </select>
+              <ul class="dropdown-list list-unstyled"></ul>
+            </div>
+          </div>
+          <div class="filter-button-wrapper">
+            <button id="apply-filters" class="button-clear button button--secondary disabled">Search</button>
+            <button id="clear-filters" class="button-clear button button--tertiary disabled">Reset</button>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {%- if collection.all_products_count > 0 and collection.products_count > 0 -%}
+        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+          {% render 'facets',
+            results: collection,
+            enable_filtering: section.settings.enable_filtering,
+            enable_sorting: section.settings.enable_sorting,
+            filter_type: section.settings.filter_type,
+            image_filter_ratio: section.settings.image_filter_ratio,
+            image_filter_fit: section.settings.image_filter_fit,
+            image_filter_columns: section.settings.image_filter_columns,
+            enable_layout_view: section.settings.enable_layout_view
+          %}
+        {%- endif -%}
+      {%- endif -%}
+      <div class="full-collection {% if section.settings.enable_sidebar %} {% if section.settings.enable_filtering %} enabled-sidebar {% endif %} {% endif %} ">
+        {% if section.settings.enable_sidebar %}
+          
+            {%- if collection.all_products_count > 0 and collection.products_count > 0 -%}
+              {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+                <div class="collection-sidebar">
+                  {%- render 'custom-facets',
+                    results: collection,
+                    enable_filtering: section.settings.enable_filtering,
+                    enable_sorting: section.settings.enable_sorting,
+                    filter_type: section.settings.filter_type,
+                    image_filter_ratio: section.settings.image_filter_ratio,
+                    image_filter_fit: section.settings.image_filter_fit,
+                    image_filter_columns: section.settings.image_filter_columns
+                  -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+        {% endif %}
+
+        <div id="ProductGridContainer" class="products-grid{% if section.settings.enable_filtering == false and section.settings.enable_sorting == false %} products-grid_no-filter{% endif %}">
+          {%- paginate collection.products by section.settings.products_per_page -%}
+            {%- if collection.products.size == 0 -%}
+              <div
+                class="collection collection-product collection--empty container collection-quick-add-bulk"
+                id="product-grid"
+                data-id="{{ section.id }}"
+              >
+                <div class="loading-overlay">
+                  <div class="loading-overlay__spinner">
+                    {% render 'icon-spinner' %}
+                  </div>
+                </div>
+
+                <div class="title-wrapper center title-wrapper-empty">
+                  <h2 class="title title--primary">
+                    {% if collection.all_products_count == 0 %}
+                      {{ 'sections.collection_template.empty' | t -}}
+                      <br>
+                    {% else %}
+                      {{ 'sections.collection_template.empty_results' | t -}}
+                      <br>
+                      {{
+                        'sections.collection_template.results_use_fewer_filters_html'
+                        | t: link: collection.url, class: 'underlined-link link'
+                      }}
+                    {% endif %}
+                  </h2>
+                </div>
+              </div>
+            {%- else -%}
+              <div class="collection collection-product">
+                <div class="loading-overlay">
+                  <div class="loading-overlay__spinner">
+                    {% render 'icon-spinner' %}
+                  </div>
+                </div>
+                {%- assign enter_once = false -%}
+                {%- capture collection_banner_1 -%}
+                  <div class="coll_grid--banner normal">
+                    <div class="call_grid--banner_content">
+                      <h6 class="subtitle">Subheading</h6>
+                      <h3 class="ca_gr-ba_co--title">Up to 30% off</h3>
+                      <div class="rte">
+                        <p>Description of your company, products, collections, and so on.</p>
+                      </div>
+                    </div>
+                    <div class="coll_grid--banner_img">
+                      {%- assign image = images['Frame_1321315142.jpg'] -%}
+                      {{
+                        image
+                        | image_url: width: image.width
+                        | image_tag:
+                          loading: 'lazy',
+                          width: image.width,
+                          height: image.height,
+                          sizes: '100vw',
+                          widths: '375, 550, 750, 1100, 1500, 1700, 1900',
+                          class: 'co_gr--ba_im--image'                  
+                      }}
+                    </div>
+                  </div>
+                {%- endcapture -%}
+                {%- capture collection_banner_2 -%}
+                  <div class="coll_grid--banner big">
+                    <div class="call_grid--banner_content">
+                      <h6 class="subtitle">Subheading</h6>
+                      <h3 class="ca_gr-ba_co--title">Discover a product that suits your needs and lifestyle</h3>
+                      <div class="rte">
+                        <p>Description of your company, products, collections, and so on.</p>
+                      </div>
+                    </div>
+                    <div class="coll_grid--banner_img">
+                      {%- assign image = images['Frame_1321315143.jpg'] -%}
+                      {{
+                        image
+                        | image_url: width: image.width
+                        | image_tag:
+                          loading: 'lazy',
+                          width: image.width,
+                          height: image.height,
+                          sizes: '100vw',
+                          widths: '375, 550, 750, 1100, 1500, 1700, 1900',
+                          class: 'co_gr--ba_im--image'                    
+                      }}
+                    </div>
+                  </div>                  
+                {%- endcapture -%}
+                <ul id="product-grid" data-id="{{ section.id }}" class="collection-product-list 
+                  collection-product-list--{{ section.settings.columns_mobile }}-mobile load-more-grid {% if settings.algolia_option %}hidden{% endif %}">
+                  {%- for product in collection.products -%}
+                    <li class="collection-product-card {% if settings.quickview_hover %}quickview--hover{% endif %}">
+                      {% render 'product-card',
+                        product_card_product: product,
+                        media_size: section.settings.image_ratio,
+                        media_fit: section.settings.image_fit,
+                        show_secondary_image: section.settings.show_secondary_image,
+                        show_vendor: section.settings.show_vendor,
+                        show_desc: section.settings.show_desc,
+                        show_collection_name: section.settings.show_collection,
+                        enable_compare: section.settings.enable_compare,
+                        section_id: section.id,
+                        show_sku: section.settings.show_sku,
+                        section_id: section.id
+                      %}
+                    </li>
+                    {%- if forloop.index == 5 and enter_once == false -%}
+                      {%- assign enter_once = true -%}
+                      <li class="collection-product-card co-pr-ca--collection_banner normal">
+                        {{ collection_banner_1 }}
+                      </li>
+                    {%- endif -%}  
+                    {%- if forloop.last -%}
+                      <li class="collection-product-card co-pr-ca--collection_banner big">
+                        {{ collection_banner_2 }}
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}                  
+                </ul>
+
+                {% if settings.algolia_option %}
+                  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}" id="products-listing"></div>
+                {% endif %}  
+
+                {%- if paginate.pages > 1 -%}
+                  {%- if settings.pagination_type == 'load_more' -%}
+                    {% render 'load-more',
+                      next_url: paginate.next.url,
+                      count_pages: paginate.pages,
+                      current_page: paginate.current_page
+                    %}
+                    <div class="js-hidden">
+                      {% render 'pagination', paginate: paginate %}
+                    </div>
+                  {%- elsif settings.pagination_type == 'infinite_scroll' -%}
+                    {% render 'infinite-scroll',
+                      next_url: paginate.next.url,
+                      count_pages: paginate.pages,
+                      current_page: paginate.current_page
+                    %}
+                    <div class="js-hidden">
+                      {% render 'pagination', paginate: paginate %}
+                    </div>
+                  {% else %}
+                    {% render 'pagination', paginate: paginate %}
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endpaginate -%}
+          <div class="sticky-summary color-background-3">
+            <div class="sticky-items">
+              <p class="selected-items">8 items selected</p>
+              <a href="#" class="add-tocart-button button button--tertiary-reverse" onclick="addBulkAddtoCart(event,this);">
+                <span>Add to Cart</span>            
+                {%- render 'loading-spinner' -%}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+  </div>
+</div>
+
+<script>
+  const yearSelect = document.getElementById('filter-year');
+  const customyearSelect = yearSelect?.previousElementSibling;
+  const makeSelect = document.getElementById('filter-make');
+  const custommakeSelect = makeSelect?.previousElementSibling;
+  const modelSelect = document.getElementById('filter-model');
+  const custommodelSelect = modelSelect?.previousElementSibling;
+  const applyBtn = document.getElementById('apply-filters');
+  const clearBtn = document.getElementById('clear-filters');
+
+  const makeOptions = ['Honda', 'Toyota'];
+  const modelOptions = {
+    'Honda': ['Civic', 'City', 'Accord'],
+    'Toyota': ['Corolla', 'Yaris', 'Camry']
+  };
+
+  function swiftCollGridBanner() {    
+    const childs = document.querySelectorAll('.co-pr-ca--collection_banner');
+    childs.forEach(function(child){
+      const parent = child.parentNode;
+      const index = Array.prototype.indexOf.call(parent.children, child);
+      const childToMove = child.nextElementSibling;
+      if( childToMove && window.innerWidth < 990 && index%2 != 0 ){
+        child.dataset.prevDomIndex = index;
+        parent.insertBefore(childToMove, child);        
+      }else if( window.innerWidth > 989 && child.dataset.prevDomIndex ){
+        const childToMove = child.previousElementSibling;
+        if(childToMove){
+          parent.insertBefore(child,childToMove);
+          child.removeAttribute('data-prev-dom-index')
+        }
+      }
+    });
+    if( childs.length && window.callSwiftCollGridBanner == undefined ){      
+      window.callSwiftCollGridBanner = true;
+      window.addEventListener('resize', function () {
+        swiftCollGridBanner();
+      })
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    swiftCollGridBanner();
+
+    function lockSelect(selectEl, message) {
+      alert(message);
+      selectEl.selectedIndex = 0;
+    }
+
+    makeSelect.addEventListener('click', () => {
+      if (yearSelect.value === '') {
+        lockSelect(makeSelect, 'Please select the Year first.');
+      }
+    });
+
+    modelSelect.addEventListener('click', () => {
+      if (makeSelect.value === '') {
+        lockSelect(modelSelect, 'Please select the Make first.');
+      }
+    });
+
+    // Populate Year
+    for (let year = 2020; year <= 2025; year++) {
+      const option = document.createElement('option');
+      const li = document.createElement('li');
+      li.textContent = year;
+      li.setAttribute('data-value',year);
+      li.setAttribute('onclick','changeYear(this)');
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
+      yearSelect.nextElementSibling.appendChild(li);
+    }
+
+    // Populate Make on Year change
+    yearSelect.addEventListener('change', function () {
+      makeSelect.innerHTML = '<option value="">Make</option>';
+      makeSelect.nextElementSibling.innerHTML = '<li data-value="">Make</li>';
+      modelSelect.innerHTML = '<option value="">Model</option>';
+      modelSelect.nextElementSibling.innerHTML = '<li data-value="">Model</li>';
+      makeSelect.disabled = true;
+      custommakeSelect.disabled = true;
+      modelSelect.disabled = true;
+      custommodelSelect.disabled = true;
+
+      if (this.value) {
+        makeOptions.forEach(make => {
+          const option = document.createElement('option');
+          option.value = make;
+          option.textContent = make;
+          makeSelect.appendChild(option);
+        });
+        makeSelect.disabled = false;
+      }
+
+      clearRefinements();
+    });
+
+    // Populate Models on Make change
+    makeSelect.addEventListener('change', function () {
+      modelSelect.innerHTML = '<option value="">Model</option>';
+      modelSelect.disabled = true;
+
+      if (this.value && modelOptions[this.value]) {
+        modelOptions[this.value].forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+        modelSelect.disabled = false;
+      }
+
+      clearRefinements();
+    });
+
+    modelSelect.addEventListener('change', function () {
+      const year = yearSelect.value;
+      const make = makeSelect.value;
+      const model = this.value;
+
+      if (year && make && model) {
+        {% comment %} const filters = `"meta.custom.algolia_filters.year" = ${parseInt(year)} AND "meta.custom.algolia_filters.make":"${make}" AND "meta.custom.algolia_filters.model":"${model}"`;
+        console.log(filters,'filters');
+        search.helper.setQueryParameter('filters', filters).search(); {% endcomment %}
+      }
+    });
+
+    customyearSelect.addEventListener('click', function () {
+      customyearSelect.closest('.filter-group').classList.toggle('open');
+    });
+
+    custommakeSelect.addEventListener('click', function () {
+      custommakeSelect.closest('.filter-group').classList.toggle('open');
+    });
+
+    custommodelSelect.addEventListener('click', function () {
+      custommodelSelect.closest('.filter-group').classList.toggle('open');
+    });
+
+    applyBtn.addEventListener('click', function () {
+      const year = yearSelect.value;
+      const make = makeSelect.value;
+      const model = modelSelect.value;
+
+      if (year && make && model) {
+        const filters = `"meta.custom.algolia_filters.year" = ${parseInt(year)} AND "meta.custom.algolia_filters.make":"${make}" AND "meta.custom.algolia_filters.model":"${model}"`;
+        {% comment %} console.log(filters,'filters'); {% endcomment %}
+        search.helper.setQueryParameter('filters', filters).search();
+      }
+    });
+
+    clearBtn.addEventListener('click', function () {
+      yearSelect.selectedIndex = 0;
+      customyearSelect.textContent = 'Year';
+      makeSelect.innerHTML = '<option value="">Make</option>';
+      makeSelect.disabled = true;
+      makeSelect.nextElementSibling.innerHTML = '';
+      custommakeSelect.classList.add('disabled');
+      custommakeSelect.textContent = 'Make';
+
+      modelSelect.innerHTML = '<option value="">Model</option>';
+      modelSelect.disabled = true;
+      modelSelect.nextElementSibling.innerHTML = '';
+      custommodelSelect.textContent = 'Model';
+      custommodelSelect.classList.add('disabled');
+
+      applyBtn.classList.add('disabled');
+      clearBtn.classList.add('disabled');
+
+      clearRefinements();
+      search.helper.search();
+    });
+
+    
+
+  });
+
+  function changeYear(ele){
+    ele.closest('.filter-group').classList.remove('open');
+    ele.closest('.filter-group').querySelector('.filter-dropdown').textContent = ele.getAttribute('data-value');
+    yearSelect.value = ele.getAttribute('data-value');
+
+    makeSelect.innerHTML = '<option value="">Make</option>';
+    makeSelect.nextElementSibling.innerHTML = '';
+    modelSelect.innerHTML = '<option value="">Model</option>';
+    modelSelect.nextElementSibling.innerHTML = '';
+    makeSelect.disabled = true;
+    custommakeSelect.classList.add('disabled');
+    modelSelect.disabled = true;
+    custommodelSelect.classList.add('disabled');
+
+    if (ele.getAttribute('data-value')) {
+      makeOptions.forEach(make => {
+        const option = document.createElement('option');
+        const custom_li = document.createElement('li');
+        option.value = make;
+        option.textContent = make;
+        custom_li.textContent = make;
+        custom_li.setAttribute('data-value',make);
+        custom_li.setAttribute('onclick','changeMake(this)');
+        makeSelect.appendChild(option);
+        makeSelect.nextElementSibling.appendChild(custom_li);
+      });
+      makeSelect.disabled = false;
+      custommakeSelect.classList.remove('disabled');
+    }
+
+    clearBtn.classList.remove('disabled');
+
+    clearRefinements();
+  }
+
+  function changeMake(ele){
+    ele.closest('.filter-group').classList.remove('open');
+    ele.closest('.filter-group').querySelector('.filter-dropdown').textContent = ele.getAttribute('data-value');
+    makeSelect.value = ele.getAttribute('data-value');
+
+    if (ele.getAttribute('data-value') && modelOptions[ele.getAttribute('data-value')]) {
+      modelOptions[ele.getAttribute('data-value')].forEach(model => {
+        const option = document.createElement('option');
+        const custom_li = document.createElement('li');
+        option.value = model;
+        option.textContent = model;
+        custom_li.textContent = model;
+        custom_li.setAttribute('data-value',model);
+        custom_li.setAttribute('onclick','changeModel(this)');
+        modelSelect.appendChild(option);
+        modelSelect.nextElementSibling.appendChild(custom_li);
+      });
+      modelSelect.disabled = false;
+      custommodelSelect.classList.remove('disabled');
+    }
+
+    clearRefinements();
+  }
+
+  function changeModel(ele){
+    ele.closest('.filter-group').classList.remove('open');
+    ele.closest('.filter-group').querySelector('.filter-dropdown').textContent = ele.getAttribute('data-value');
+    modelSelect.value = ele.getAttribute('data-value');
+    applyBtn.classList.remove('disabled');
+  }
+
+  function clearRefinements() {
+    search.helper.setQueryParameter('filters', '').search();
+  }
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-product-grid.name",
+  "tag": "section",
+  "class": "collection-grid-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 3,
+      "max": 45,
+      "step": 1,
+      "default": 12,
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "header",
+      "content": "Product Finder"
+    },
+    {
+      "type": "text",
+      "id": "pf-title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile_options.header.content"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "1",
+      "label": "t:sections.all.mobile_options.columns.label",
+      "info": "This option will work for the grid view layout",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.all.mobile_options.columns.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.all.mobile_options.columns.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "background-3",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.card.header_card.content"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "default": "#f2f2f2",
+      "label": "Background-color"
+    },
+    {
+			"type": "select",
+			"id": "image_ratio",
+			"options": [
+				{
+					"value": "landscape",
+					"label": "t:sections.all.image.ratio.options__1.label"
+				},
+				{
+					"value": "portrait",
+					"label": "t:sections.all.image.ratio.options__2.label"
+				},
+				{
+					"value": "square",
+					"label": "t:sections.all.image.ratio.options__3.label"
+				}
+			],
+			"default": "square",
+			"label": "t:sections.all.image.ratio.label"
+		},
+    {
+      "type": "select",
+      "id": "image_fit",
+      "default": "cover",
+      "label": "t:sections.all.card.image_fit.label",
+      "options": [
+        {
+          "value": "contain",
+          "label": "t:sections.all.image.fit.options__1.label"
+        },
+        {
+          "value": "cover",
+          "label": "t:sections.all.image.fit.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "t:sections.all.card.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.all.card.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "default": false,
+      "label": "t:sections.all.sku.show_sku"
+    },
+    {
+			"type": "checkbox",
+			"id": "show_collection",
+			"default": false,
+			"label": "t:sections.all.product_card.show_colection_name.label"
+		},
+    {
+      "type": "checkbox",
+      "id": "show_desc",
+      "default": false,
+      "label": "t:sections.all.card.show_desc.label",
+      "info": "t:sections.all.card.show_desc.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sidebar",
+      "default": false,
+      "label": "Enable Sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_layout_view",
+      "default": false,
+      "label": "Enable layout view"
+    },
+     {
+      "type": "checkbox",
+      "id": "enable_compare",
+      "default": false,
+      "label": "Enable Compare"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.image_filter.content"
+    },
+    {
+      "type": "select",
+      "id": "image_filter_ratio",
+      "options": [
+        {
+          "value": "3/2",
+          "label": "t:sections.all.card.image_ratio.options__1.label"
+        },
+        {
+          "value": "4/5",
+          "label": "t:sections.all.card.image_ratio.options__2.label"
+        },
+        {
+          "value": "1/1",
+          "label": "t:sections.all.card.image_ratio.options__3.label"
+        }
+      ],
+      "default": "1/1",
+      "label": "t:sections.all.card.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_filter_fit",
+      "options": [
+        {
+          "value": "contain",
+          "label": "t:sections.all.card.image_fit.options__1.label"
+        },
+        {
+          "value": "cover",
+          "label": "t:sections.all.card.image_fit.options__2.label"
+        }
+      ],
+      "default": "cover",
+      "label": "t:sections.all.card.image_fit.label"
+    },
+    {
+      "type": "range",
+      "id": "image_filter_columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.main-collection-product-grid.settings.image_filter_columns.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "xs",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ]
+}
+{% endschema %}

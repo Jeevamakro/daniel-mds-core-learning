@@ -1,0 +1,35 @@
+{%- liquid
+    assign selected_variant = product.selected_or_first_available_variant
+
+    assign has_item_added = false
+    assign item_item = item_wrap
+    for item_wrap in cart.items
+      if item_wrap.title == product.title
+        assign product_name = item_wrap.properties.Product_Name | replace: '&amp;','&'
+        if product_name == item.title
+          assign has_item_added = true
+          assign item_item = item_wrap
+        endif
+      endif
+    endfor
+-%}
+<label class="cart_item--list-li" data-service="{{ service }}" onchange="serviceInputChange(event, this);">
+  <input class="input-checkbox {{ swapped }}" {{  -}}
+    data-item-qty="{{ item_item.quantity }}" {{  -}}
+    data-item-key="{{ item_item.key }}" {{  -}}
+    data-key="{{ item.key }}" {{  -}}
+    data-val="{{ selected_variant.id }}" {{  -}}
+    data-handle="{{ item.title }}" {{  -}}
+    {% if has_item_added %}
+      data-has-services="true" {{  -}}
+      checked="checked" {{  -}}
+    {% else -%}
+      data-has-services="false"
+    {%- endif %} {{  -}}
+    type="checkbox" value="{{ product.title }}"
+  >
+  <div class="cart_item--list-title">
+    {{- product.title -}}
+  </div>
+  <span class="cart_item--list-price">{{- selected_variant.price | money -}}</span>
+</label>

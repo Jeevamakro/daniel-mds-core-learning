@@ -1,0 +1,548 @@
+{% comment %}
+  BE-DEVELOPMENT NOTES
+  This section was developed based of product-specifications.liquid  this section is already we haave in the theme.
+  The main difference is that this section is using metafields to pull the data i have commented
+  out to those liquid thing, below static data only available for FE working purpose.Once u doing BE pleae check for the commented code and uncomment it.
+
+
+  DEPENDENCIES
+  Snipets
+    - arrow icon (already in theme)
+   - icon-document.liquid
+   - icon-minus.liquid
+    - icon-plus.liquid
+    css
+    - product-specification.css
+
+    Js
+    - product-specifications.js
+
+
+	Specifications Code Explanation
+
+	STEP-BY-STEP DOCUMENTATION: How product metafield specifications are parsed and displayed on the product page
+
+	1. **Fetch and Preprocess the Metafield Data**
+		- The script retrieves the value of `product.metafields.custom.specifications` from Liquid.
+		- Any occurrence of `=>` in the JSON string is replaced with `:`, to ensure the string can be parsed as valid JSON in JavaScript.
+		- The final JSON object is assigned to `tableJSON` and referenced as `data` for ease of use.
+		- The script expects an array named `Values` inside the `data` object.
+
+	2. **Initialize Lookup Structure**
+		- An empty object `lookup` and array `result` are created.
+		- `lookup` is used to organize the specification data in a way that's convenient for rendering.
+		- The variable `data1` points to the list of specification entries within `data['Values']`.
+
+	3. **Parse and Structure Each Specification Entry**
+		- For each item in `data1`, the script determines how to categorize and store it:
+		- If the item's second field is "Additional Information", a special `hideKey` array is created in `lookup`.
+		- The script checks if the item's third value contains bullet points (`•`). If so, these are extracted into the `hideKey` array.
+		- Otherwise, the third field is stored as a single hidden value.
+		- If the item's third value contains bullet points (`•`), a `keyValues` array is created for that entry in `lookup`.
+		- The field before the bullet list is the main key; each bullet point becomes a value associated with that key.
+		- If neither condition is met, standard key-value pairing is used.
+		- The item's first field is used as the group name (`name`). The item is appended as a dictionary `{ field: value }` in `lookup[name]`.
+		- The `result` array is used to keep track of all unique specification group names.
+
+	4. **Prepare for HTML Output**
+		- An empty variable `html` is declared to build the final markup.
+		- The specification output area is structured into two columns: left and right (`product-spec-column-left` and `product-spec-column-right`). The split happens after the 4th group for a balanced layout.
+	5. **Render Each Specification Group**
+		- The script iterates over each key (specification group) in `lookup`:
+		- For every group, a section is opened with the group's name as the heading.
+		- For each entry in that group (`keyValue`):
+		- The sub-key (specification name) and its value(s) are rendered as list items.
+		- Special formatting is used if values include bullet lists (`•`):
+			- Each value becomes its own list item and is styled differently.
+		- There's special logic for "Warranty":
+			- If the product has a `spec_tag_data`, that is rendered as a table cell.
+			- Otherwise, the value is shown as-is (either as a table cell or as a block value for lists).
+		- Other values are shown as `<span class="spec-value">...</span>` inline.
+		- If a group only has `hideKey` or `keyValues`, they're rendered as simplified bullet lists.
+
+	6. **Finalize and Inject the HTML**
+		- Once all groups and their details have been processed, the script closes the column markup.
+		- The final HTML string is set as the inner HTML of `.product-spec-feat-wrapper` within the product specifications area (checking that `#product-specifications` exists to avoid errors).
+		- As a result, the specs are neatly structured and interactive for the product page.
+
+	**Summary:**
+	- This script converts a metafield's JSON-like array into a navigable, 
+	user-friendly set of grouped product specifications, handles special cases (like lists and ‘Additional Information’), and dynamically generates responsive HTML content for the product detail page.
+
+	**Code location:**  
+	Inside sections/product-specification.liquid under the product specification's item for specifications.
+
+	**How to modify or extend:**  
+	- To add new formatting rules per group, add code inside the respective rendering logic in the group-by-group loop.
+	- To support other metafield arrangements, update the parsing logic for `data1`.
+
+	Document Code Explanation
+
+	DOCUMENTATION: HOW THE PRODUCT DOCUMENTS METAFIELD DATA IS RENDERED ON THE PRODUCT PAGE
+
+	The following describes the process and structure used in this section to render document links from a metafield into HTML for the product details page.
+
+	**STEP 1: Retrieve and Parse the Metafield**
+
+	- The code fetches the raw documents metafield value (`product.metafields.custom.documents`) using Liquid.
+	- Since Shopify metafields can come in a non-standard JSON structure (sometimes using `=>` instead of `:` for key-value pairs), we replace all occurences of `=>` with `:` for compatibility.
+	- That result is injected as a JS object (`documentJSON`), with a structure resembling:
+		```
+		{
+			"Values": {
+				"0": [ "manual", "https://docsite.com/manual.pdf" ],
+				"1": [ "specs", "http://docsite.com/specs.pdf" ],
+				...etc...
+			}
+		}
+		```
+	- `dataq` references the parsed object, and `data2` refers to its `'Values'` property.
+
+	**STEP 2: Prepare Human-Readable Titles**
+
+	- A dictionary `engLangTitleText` is defined. Its purpose: convert internal document type keys (like "manual" or "installation") into friendly, user-facing names:
+		```
+		{
+			"installation" : "Installation guide",
+			"manual" : "Owner's manual",
+			"specs" : "Product specification",
+			"energy" : "Energy guide",
+			"warranty" : "Warranty Details",
+			"assembly" : "Assembly Guide",
+			"dimensions" : "Dimension sheet",
+			"additional" : "Additional documents"
+		}
+		```
+
+	**STEP 3: Build the Document List HTML**
+
+	- If `data2` (the `Values` structure) exists/has entries:
+		- Begin an unordered list: `<ul class="product-document-list">`
+		- For each doc entry in `dataq['Values']`:
+			- Extract the document type key (`value[0]`) and URL (`value[1]`).
+			- Make sure all URLs use HTTPS by replacing any "http://" with "https://"
+			- Grab the user-facing title for the document from `engLangTitleText`.
+			- Append a list item for each document. The HTML for each includes:
+				- An anchor tag linking to the document (opens in new tab)
+				- The document icon (rendered by `{% render 'icon-document' %}`)
+				- The document's readable name
+			- Example HTML:
+				```
+				<li class="product-document-item">
+					<a href="https://docsite.com/manual.pdf" class="h4 product-document-link" target="_blank" rel="">
+						<span class="product-document-icon">[icon]</span>
+						<span class="product-document-name">Owner's manual</span>
+					</a>
+				</li>
+				```
+		- Finalize the HTML by closing the `<ul>` tag.
+
+	**STEP 4: Render the HTML to the DOM**
+
+	- The built HTML (`doc_html`) is injected into the `.product-document-wrapper` inside the product specifications block using:
+		```
+		document.querySelector('.product-specifications__wrapper .product-document-wrapper').innerHTML += doc_html;
+		```
+
+	**RESULT**
+
+	- The product page now displays a neatly organized list of document links, each using a friendly name, an icon, and opening in a new tab.
+	- This process is dynamic, adapting to whatever document data appears in the metafield.
+
+{% endcomment %}
+
+{{ 'product-specification.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'product-specifications.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  {% render 'section-margin' %}
+{%- endstyle -%}
+
+<div class="product-specifications section-{{ section.id }}-padding" id="product-specifications">
+  <div class="container">
+    <div class="product-specifications__wrapper">
+      {% render 'section-header',
+        section_heading: section.settings.section_heading,
+        section_subheading: section.settings.section_subheading,
+        dot: section.settings.dot,
+        section_heading_size: section.settings.section_heading_size
+      %}
+	  {% if product.metafields.custom.specifications != blank or product.metafields.custom.documents != blank %}
+      <div class="product-specifications-main-container">
+        <div class="product-specifications__content">
+
+			{% if product.metafields.custom.specifications != blank %}
+			<div class="product-specifications__items">
+				<div class="product-specifications__item{% if block.settings.default_open %} active{% endif %}">
+				<button class="product-specifications__toggle focus-inset button--unstyled" aria-label="{{ block.settings.question | escape }}">
+					<div class="product-specifications__toggle-group">
+					<h3 class="product-specifications__question">Specification</h3>
+					</div>
+					<div class="product-specifications__icon icon-style--{{ section.settings.icon_style }}">
+					{% render 'icon-minus' %}
+					{% render 'icon-plus' %}
+					</div>
+				</button>
+				<div
+					class="product-specifications__answer product-specifications__answer_no-image"
+					{% if block.settings.default_open %} style="display: block;" {% endif %}>
+					{% if product.metafields.custom.specifications != blank %}
+						<div class="product-spec-feat-wrapper"></div>
+
+						<script>
+							var tableJSON = "";
+							tableJSON = {{ product.metafields.custom.specifications | replace:'=>',':' }};
+							var data = tableJSON;
+				
+							var lookup = {};
+							var result = [];
+							var data1 = data['Values'];
+				
+							for (var data1, i = 0; item = data1[i++];) {
+								let has_additional = false;
+								if(item[1] == 'Additional Information' || item[1] == 'additional information'){
+									has_additional = true;          
+									lookup[item[1]] = [];          
+									lookup[item[1]]["hideKey"] = [];
+									if(item[2].includes("•")){
+									var removeDotFromData = item[2].replace(/<br\/?>/gi,'').replace(/[\r\n]+/g,'');
+									removeDotFromData = removeDotFromData.split("•");
+									for(let j=1; j<removeDotFromData.length; j++){
+										lookup[item[1]]["hideKey"].push(removeDotFromData[j].trim());
+									}
+									}else{
+									lookup[item[1]]["hideKey"].push(item[2]);
+									}
+								}else if(item[2].includes("•")){
+									has_additional = true;
+									lookup[item[0]] = [];          
+									lookup[item[0]]["keyValues"] = [];          
+									lookup[item[0]]["keyValues"].push(item[1]);
+									var removeDotFromData = item[2].replace(/<br\/?>/gi,'').replace(/[\r\n]+/g,'');
+									removeDotFromData = removeDotFromData.split("•");
+									for(let j=1; j<removeDotFromData.length; j++){
+										lookup[item[0]]["keyValues"].push(removeDotFromData[j].trim());
+									}
+								}
+								if( !has_additional ){
+									var name = item[0];
+									if (!(name in lookup)) {
+									lookup[name] = [];
+									result.push(name);
+									lookup[name].push({ [item[1]]: item[2] });
+									}else{
+									lookup[name].push({ [item[1]]: item[2] });
+									}
+								}        
+							}
+				
+							html = '';
+							/*html += '<h2>Specifications</h2>';*/
+							var additionalInfo = false;
+				
+							html = '<div class="product-spec-column-left">';
+							let add_class = '';
+
+							Object.keys(lookup).forEach(function(key, index) {
+								const keyValue = lookup[key];
+								const keyHeading = key;
+								
+								if(index == 4){
+									html += '</div><div class="product-spec-column-right">';
+								}
+
+								html += '<div class="spec-feat-item"><h4 class="spec-feat-title h4">'+keyHeading+'</h4>';
+								html += `<ul class="spec-feat-list">`;
+							
+								if( keyValue.length ){
+									for (let i = 0; i < keyValue.length; i++ ){
+										var html_td = '', has_dots = false;
+										for (const [key, value] of Object.entries(keyValue[i])) {
+											if(value.includes("•") && has_dots == false){
+												has_dots = true;
+											}
+											if( !has_dots ){
+												html_td = html_td + (key != "hideKey" ? `<li><span class="spec-name">${key}</span>`: '');
+											}else{
+												html_td = html_td + (key != "hideKey" ? `<li><span class="spec-name">${key}</span>`: '');
+											}                    
+											if( keyHeading == "Warranty" ){
+												{%- if has_spec_tag and spec_tag_data != blank -%}
+													html_td += `<td>{{ spec_tag_data }}</td>`;
+												{%- else -%}
+													if( !has_dots ){
+														html_td += `<td>${value}</td>`;
+													}else{
+														html_td += `<div class="value">${value}</div>`;
+													}
+												{%- endif -%}  
+											}else{                      
+												if( !has_dots ){
+													html_td += `<span class="spec-value">${value}</span>`;
+												}else{
+													html_td += `<li><span class="spec-value">${value}</span>`;
+												}
+											}              
+										}
+										
+										var html_tr = `${ html_td }</li>`;
+										if( has_dots ){
+											html_tr = `<tr class="has_dots"><td><div class="td-wrapper">${ html_td }</div></td><td></td></tr>`;
+										}
+										
+										html += html_tr;
+									}
+								}else{
+									if( keyValue.hideKey ){
+										add_class = ''
+										html += ''
+										for (let i = 0; i < keyValue.hideKey.length; i++ ){
+											html += `<li><span class="spec-value">${keyValue.hideKey[i]}</span></li>`;
+										}
+									}else if(keyValue.keyValues){
+										var html_td = '';
+										html_td = html_td + `<li class="listed-values"><span class="spec-name">${keyValue.keyValues[0]}</span><ul>`;
+										for (var j=1; j<keyValue.keyValues.length; j++) {
+											html_td = html_td + `<li><span class="spec-value">${keyValue.keyValues[j]}</span></li>`;
+										}
+										html_td = html_td + `</ul>`;
+										html += html_td;
+									}
+								}
+								html += `</ul></div>`;
+							})        
+							html += `</div>`;
+							document.querySelector('#product-specifications') && (document.querySelector('.product-specifications__answer .product-spec-feat-wrapper').innerHTML = html);
+						</script>
+					{% endif %}
+				</div>
+				</div>
+			</div>
+			{% endif %}
+
+			{% if product.metafields.custom.documents != blank %}
+			<div class="product-specifications__item">
+				<button
+				class="product-specifications__toggle focus-inset button--unstyled"
+				aria-label="{{ block.settings.question | escape }}">
+				<div class="product-specifications__toggle-group">
+					<h3 class="product-specifications__question">Documents</h3>
+				</div>
+				<div class="product-specifications__icon icon-style--{{ section.settings.icon_style }}">
+					{% render 'icon-minus' %}
+					{% render 'icon-plus' %}
+				</div>
+				</button>
+				
+				<div
+				class="product-specifications__answer {% if item.image == blank %} product-specifications__answer_no-image {% endif %}"
+				{% if block.settings.default_open %} style="display: block;"{% endif %}>
+					
+					<div class="product-document-wrapper"></div>
+
+					<div class="document_part content--part"></div>        
+					<script>
+						var documentJSON = "";              
+						documentJSON = {{ product.metafields.custom.documents | replace:'=>',':' }};            
+						var dataq = documentJSON;
+						var data2 = dataq['Values'];
+						if(data2){
+							let doc_html = '';
+							let engLangTitleText = {
+								"installation" : "Installation guide",
+								"manual" : "Owner's manual",
+								"specs" : "Product specification",
+								"energy" : "Energy guide",
+								"warranty" : "Warranty Details",
+								"assembly" : "Assembly Guide",
+								"dimensions" : "Dimension sheet",
+								"additional" : "Additional documents"
+							}
+
+							doc_html += '<ul class="product-document-list">';
+							for (const [key, value] of Object.entries(dataq['Values'])) {              
+							let doc_link = value[1].replace("http://","https://");
+							let valTitle = engLangTitleText[value[0]];
+							doc_html += `
+							<li class="product-document-item">
+								<a href="${doc_link}" class="h4 product-document-link" target="_blank" rel="">
+								<span class="product-document-icon">
+									{% render 'icon-document' %}
+								</span>
+								<span class="product-document-name">${ valTitle }</span>
+								</a>
+							</li>`;
+							doc_html += '</span></a></li>'; 
+							}
+							doc_html += '</ul>';
+							document.querySelector('.product-specifications__wrapper .product-document-wrapper').innerHTML += doc_html;
+
+						}
+					</script>
+				</div>
+			</div>
+			{% endif %}
+
+        </div>
+      </div>
+	  {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.product-specifications.name",
+  "tag": "section",
+  "class": "product-specifications-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.product-specifications.settings.paragraph.content"
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "t:sections.all.icon_styles.options__1.label"
+        },
+        {
+          "value": "secondary",
+          "label": "t:sections.all.icon_styles.options__2.label"
+        },
+        {
+          "value": "tertiary",
+          "label": "t:sections.all.icon_styles.options__3.label"
+        }
+      ],
+      "default": "secondary",
+      "label": "t:sections.all.icon_styles.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.header.content"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "default": "Some heading",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_size",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "section_subheading",
+      "default": "Subheading",
+      "label": "t:sections.all.section-header.subheading.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "dot",
+      "default": true,
+      "label": "t:sections.all.section-header.dot.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product specifications and feature"
+    }
+  ]
+}
+{% endschema %}

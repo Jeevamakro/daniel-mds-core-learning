@@ -1,0 +1,38 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "heading_size": "h3",
+        "margin_top": "no-indent",
+        "margin_bottom": "no-indent"
+      }
+    },
+    "wishlist_page_FWWQAi": {
+      "type": "wishlist-page",
+      "name": "Wishlist",
+      "settings": {
+        "color_scheme": "",
+        "margin_top": "s",
+        "margin_bottom": "s",
+        "enable_mobile_spacing": false,
+        "margin_top_m": "s",
+        "margin_bottom_m": "s"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "wishlist_page_FWWQAi"
+  ]
+}

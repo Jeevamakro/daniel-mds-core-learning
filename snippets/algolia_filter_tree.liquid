@@ -1,0 +1,5881 @@
+<script>
+    {% unless template contains "collection" or template contains 'search' %}
+        
+    {% else %}
+        var default_colours = [
+            "STAINLESS STEEL",
+            "BLACK STAINLESS",
+            "WHITE",
+            "BLACK"
+        ];
+
+        var default_brands = [
+            "KITCHENAID",
+            "WHIRLPOOL",
+            "MAYTAG",
+            "GE",
+            "JENNAIR",
+            "FISHER & PAYKEL",
+            "BOSCH",
+            "THERMADOR",
+            "MONOGRAM",
+            "ELECTROLUX"
+        ];
+
+        var default_bbq = [
+            "BROIL KING",
+            "WEBER",
+            "TRAEGER",
+            "CROWN",
+            "DCS",
+            "LYNX",
+            "COYOTE",
+            "FONTANA",
+            "GREEN EGG",
+            "ALFRESCO"
+        ];
+
+        var default_mixed = [
+            "BROIL KING",
+            "KITCHENAID",
+            "WEBER",
+            "WHIRLPOOL",
+            "MAYTAG",
+            "TRAEGER",
+            "CROWN",
+            "GE",
+            "DCS",
+            "JENNAIR",
+            "FISHER & PAYKEL",
+            "LYNX",
+            "BOSCH",
+            "COYOTE",
+            "FONTANA",
+            "THERMADOR",
+            "GREEN EGG",
+            "MONOGRAM",
+            "ALFRESCO",
+            "ELECTROLUX"
+        ];
+
+
+        var collection_filters = {
+        "over-the-range-microwaves": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "CONVECTION",
+                "STEAM",
+                "GRILL",
+                "AIR FRY",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "VENTING TYPE",
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "name": "VENTING TYPE"
+            },
+            {
+            "display": "DESIGN",
+            "values": [
+                "STANDARD",
+                "LOW PROFILE"
+            ],
+            "name": "DESIGN"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "pellet-grills": [
+            {
+            "display": "COOKING SURFACE (WIDTH)",
+            "values": [],
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [
+                "STAINLESS STEEL",
+                "CAST IRON",
+                "NICKEL PLATED CAST IRON",
+                "PORCELAIN COATED STEEL"
+            ],
+            "display": "GRATE MATERIAL",
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "values": [
+                "ALL APPLICABLE (LBS)"
+            ],
+            "display": "HOPPER CAPACITY",
+            "name": "HOPPER CAPACITY"
+            },
+            {
+            "display": "WIFI",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "WIFI"
+            },
+            {
+            "display": "BLUETOOTH",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "BLUETOOTH"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "values": [
+                "INTERNAL",
+                "EXTERNAL",
+                "INTERNAL/EXTERNAL",
+                "NONE"
+            ],
+            "display": "GRILL LIGHTS",
+            "name": "GRILL LIGHTS"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "INCLUDED ROTISSERIE",
+            "name": "INCLUDED ROTISSERIE"
+            },
+            {
+            "display": "INCLUDED SIDE BURNER",
+            "values": [
+                "NO",
+                "SIDE",
+                "INFRARED",
+                "INDUCTION"
+            ],
+            "name": "INCLUDED SIDE BURNER"
+            }
+        ],
+        "built-in-wine-storage": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "SIZE (HEIGHT)",
+            "values": [],
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "display": "BOTTLE CAPACITY",
+            "values": [],
+            "name": "BOTTLE CAPACITY"
+            },
+            {
+            "values": [],
+            "display": "TOTAL CAPACITY",
+            "name": "TOTAL CAPACITY"
+            },
+            {
+            "display": "TEMPERATURE ZONES",
+            "values": [
+                "SINGLE",
+                "DUAL",
+                "TRI"
+            ],
+            "name": "TEMPERATURE ZONES"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SHELF MATERIAL",
+            "values": [
+                "WIRE",
+                "WOOD",
+                "PLASTIC"
+            ],
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "portable-dishwashers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CONTROL STYLE",
+            "values": [
+                "FRONT",
+                "SEMI-HIDDEN",
+                "FULLY HIDDEN"
+            ],
+            "name": "CONTROL STYLE"
+            },
+            {
+            "values": [
+                "STAINLESS STEEL",
+                "PLASTIC",
+                "STAINLESS STEEL / PLASTIC"
+            ],
+            "display": "TUB MATERIAL",
+            "name": "TUB MATERIAL"
+            },
+            {
+            "display": "SOUND LEVEL",
+            "values": [
+                "Ultra Quiet (< 41dB)",
+                "Very Quiet (41 - 45dB)",
+                "Quiet (46 - 49dB)",
+                "Standard (50dB+)"
+            ],
+            "name": "SOUND LEVEL"
+            },
+            {
+            "display": "PLACE SETTINGS",
+            "values": [
+                "< 7",
+                "8 - 10",
+                "12 - 14",
+                "15 +"
+            ],
+            "name": "PLACE SETTING RANGE"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "HARD FOOD DISPOSER"
+            ],
+            "name": "FEATURES"
+            }
+        ],
+        "natural-gas-propane-grills": [
+            {
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "COOKING SURFACE (SQ IN)",
+            "values": [],
+            "name": "COOKING SURFACE (SQ IN)"
+            },
+            {
+            "values": [
+                "RESIDENTIAL",
+                "COMMERCIAL",
+                "ISLAND - STYLE"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [],
+            "display": "BTU",
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "display": "# OF MAIN BURNERS",
+            "values": [],
+            "name": "NUM OF MAIN BURNERS"
+            },
+            {
+            "values": [
+                "STAINLESS STEEL",
+                "CAST BRASS",
+                "CAST CERAMIC",
+                "CAST ALUMINUM",
+                "INFRARED",
+                "STAINLESS STEEL / INFRARED",
+                "CAST CERAMIC / INFRARED"
+            ],
+            "display": "BURNER TYPE",
+            "name": "MAIN BURNER TYPE"
+            },
+            {
+            "values": [
+                "STAINLESS",
+                "CAST IRON",
+                "CAST STAINLESS",
+                "PORCELAIN COATED STEEL",
+                "NICKEL PLATED STEEL"
+            ],
+            "display": "GRATE MATERIAL",
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "INCLUDED ROTISSERIE",
+            "name": "INCLUDED ROTISSERIE"
+            },
+            {
+            "display": "INCLUDED SIDE BURNER",
+            "values": [
+                "NO",
+                "GAS",
+                "INFRARED"
+            ],
+            "name": "INCLUDED SIDE BURNER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "WIFI",
+            "name": "WIFI"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "values": [
+                "INTERNAL",
+                "EXTERNAL",
+                "INTERNAL/EXTERNAL",
+                "NONE"
+            ],
+            "display": "GRILL LIGHTS",
+            "name": "GRILL LIGHTS"
+            }
+        ],
+        "electric-ranges": [
+            {
+            "display": "STYLE TYPE",
+            "values": [
+                "FREESTANDING",
+                "SLIDE-IN"
+            ],
+            "name": "STYLE TYPE"
+            },
+            {
+            "display": "ELEMENT TYPE",
+            "values": [
+                "SMOOTHTOP",
+                "COIL"
+            ],
+            "name": "ELEMENT TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "# OF BURNERS",
+            "values": [],
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "display": "# OF OVENS",
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "name": "NUM OF OVENS"
+            },
+            {
+            "display": "RANGE DRAWER",
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "name": "RANGE DRAWER"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "top-mount-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "display": "COUNTER DEPTH",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "DOOR ALARM",
+                "REVERSIBLE DOOR",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "FREEZER SHELF MATERIAL",
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-microwaves": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "CONVECTION",
+                "STEAM",
+                "GRILL",
+                "AIR FRY",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "drying-closets": [
+            {
+            "values": [
+                "WIFI"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            }
+        ],
+        "refrigeraition-accessories": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "upright-feezers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "SIZE (HEIGHT)",
+            "values": [],
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "SHELF MATERIAL",
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "electric-dryers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "display": "TYPE",
+            "values": [
+                "TRADITIONAL",
+                "FRONT LOAD"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "values": [
+                "4 - 4.9",
+                "5 - 5.9",
+                "6 - 6.9"
+            ],
+            "display": "CAPACITY",
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "DIGITAL",
+                "TOUCHPAD"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE",
+                "REVERSIBLE DOORS"
+            ],
+            "name": "FEATURES"
+            },
+            {
+            "display": "VOLTAGE",
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "gas-smokers": [
+            {
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [
+                "VERTICAL",
+                "KAMADO"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [],
+            "display": "BTU",
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "values": [],
+            "display": "# OF MAIN BURNERS",
+            "name": "NUM OF MAIN BURNERS"
+            },
+            {
+            "display": "GRATE MATERIAL",
+            "values": [
+                "NICKEL PLATED STEEL",
+                "CAST IRON",
+                "STAINLESS STEEL"
+            ],
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "display": "CONTROL/KNOB LIGHTS",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "WIFI",
+            "name": "WIFI"
+            }
+        ],
+        "charcoal-pellets": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "CHARCOAL",
+                "PELLETS"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "FLAVOUR",
+            "values": [],
+            "name": "FLAVOUR"
+            },
+            {
+            "display": "WEIGHT",
+            "values": [],
+            "name": "WEIGHT"
+            }
+        ],
+        "duct-covers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CEILING HEIGHT",
+            "values": [],
+            "name": "CEILING HEIGHT"
+            }
+        ],
+        "portable-grills": [
+            {
+            "values": [],
+            "display": "COOKING SURFACE (WIDTH)",
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [
+                "STAINLESS STEEL",
+                "CAST IRON",
+                "NICKEL PLATED CAST IRON",
+                "PORCELAIN COATED STEEL"
+            ],
+            "display": "GRATE MATERIAL",
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "values": [
+                "PROPANE",
+                "ELECTRIC",
+                "CHARCOAL",
+                "PELLET"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            }
+        ],
+        "outdoor-gas-pizza-ovens": [
+            {
+            "display": "SIZE",
+            "values": [],
+            "name": "SIZE"
+            },
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "PROPANE",
+                "NATURAL GAS"
+            ],
+            "name": "FUEL TYPE"
+            }
+        ],
+        "bbq-thermometers-accessories": [
+            {
+            "values": [
+                "THERMOMETER",
+                "THERMOMETER ACCESSORY"
+            ],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            },
+            {
+            "display": "TYPE",
+            "values": [
+                "BLUETOOTH",
+                "SURFACE",
+                "INFRARED",
+                "PROBE - ANALOG",
+                "PROBE - DIGITAL",
+                "REMOTE",
+                "WIFI"
+            ],
+            "name": "TYPE"
+            }
+        ],
+        "under-counter-fridges-fridge-freezer-combos": [
+            {
+            "values": [
+                "FRIDGE/FREEZER COMBO",
+                "ALL FRIDGE"
+            ],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            },
+            {
+            "display": "STYLE",
+            "values": [
+                "FREESTANDING",
+                "BUILT-IN"
+            ],
+            "name": "STYLE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "display": "ICE MAKER",
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT",
+                "LOCK"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "SHELF MATERIAL",
+            "name": "SHELF MATERIAL"
+            }
+        ],
+        "cooking-kitchen-accessories": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "steam-closets": [
+            {
+            "values": [
+                "WIFI"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            }
+        ],
+        "washer-dryer-combo": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [
+                "1 - 1.9",
+                "2 - 2.9",
+                "3 - 3.9"
+            ],
+            "display": "CAPACITY",
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "DIGITAL"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "RPM",
+            "values": [
+                "< 999",
+                "1000 - 1200",
+                "1201 +"
+            ],
+            "name": "RPM RANGE"
+            },
+            {
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "display": "VOLTAGE",
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "DUCTED",
+                "VENTLESS"
+            ],
+            "display": "VENTING TYPE",
+            "name": "VENTING TYPE"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE"
+            ],
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-freezers": [
+            {
+            "display": "TYPE",
+            "values": [
+                "BUILT-IN",
+                "FREESTANDING"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "values": [],
+            "display": "CAPACTIY",
+            "name": "CAPACTIY"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "LOCK",
+            "name": "LOCK"
+            },
+            {
+            "values": [
+                "REVERSIBLE",
+                "LEFT",
+                "RIGHT"
+            ],
+            "display": "HINGE TYPE",
+            "name": "HINGE TYPE"
+            }
+        ],
+        "trash-compactors": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY (CU FT)",
+            "name": "CAPACITY (CU FT)"
+            },
+            {
+            "values": [],
+            "display": "MOTOR HP",
+            "name": "MOTOR HP"
+            }
+        ],
+        "outdoor-pizza-oven-stones": [
+            {
+            "display": "DIAMETER",
+            "values": [],
+            "name": "DIAMETER"
+            },
+            {
+            "display": "LENGTH",
+            "values": [],
+            "name": "LENGTH"
+            },
+            {
+            "display": "WIDTH",
+            "values": [],
+            "name": "WIDTH"
+            },
+            {
+            "values": [],
+            "display": "MATERIAL",
+            "name": "MATERIAL"
+            }
+        ],
+        "cultivators": [
+            {
+            "display": "HINGES",
+            "values": [
+                "LEFT",
+                "RIGHT"
+            ],
+            "name": "HINGES"
+            }
+        ],
+        "outdoor-sinks": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            }
+        ],
+        "speed-ovens": [
+            {
+            "values": [
+                "GAS",
+                "ELECTRIC"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "SELF CLEAN",
+                "CONVECTION",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "display": "UNDERCOUNTER INSTALLABLE",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "UNDERCOUNTER INSTALLABLE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "rotisseries-accessories": [
+            {
+            "values": [
+                "ROTISSERIE",
+                "ROTISSERIE ACCESSORY"
+            ],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            },
+            {
+            "display": "SIZE",
+            "values": [],
+            "name": "SIZE"
+            }
+        ],
+        "laundry-stacking-kits": [
+            {
+            "values": [
+                "SLIDE OUT SHELF",
+                "SLIDE OUT BASKET",
+                "SLIDE OUT IRONING BOARD"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            }
+        ],
+        "gas-ranges": [
+            {
+            "display": "STYLE TYPE",
+            "values": [
+                "FREESTANDING",
+                "SLIDE-IN"
+            ],
+            "name": "STYLE TYPE"
+            },
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [
+                "OPEN",
+                "SEALED"
+            ],
+            "display": "BURNER TYPE",
+            "name": "BURNER TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "GRIDDLE",
+                "GRILL",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "display": "# OF OVENS",
+            "values": [
+                "SINGLE",
+                "DOUBLE",
+                "TRIPLE"
+            ],
+            "name": "NUM OF OVENS"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "display": "RANGE DRAWER",
+            "name": "RANGE DRAWER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "PROPANE CONVERSION",
+            "name": "PROPANE CONVERSION"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "portable-cooktops": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "ELECTRIC",
+                "INDUCTION",
+                "COIL"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "# OF BURNERS",
+            "values": [],
+            "name": "NUM OF BURNERS"
+            }
+        ],
+        "wood-chunks-chips": [
+            {
+            "values": [],
+            "display": "FLAVOUR",
+            "name": "FLAVOUR"
+            }
+        ],
+        "gas-dryers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [
+                "TRADITIONAL",
+                "FRONT LOAD"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [
+                "4 - 4.9",
+                "5 - 5.9",
+                "6 - 6.9"
+            ],
+            "display": "CAPACITY",
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "DIGITAL",
+                "TOUCHPAD"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE",
+                "LP CONVERSION OPTION",
+                "REVERSIBLE DOORS"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            },
+            {
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "chimney-hoods": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "VENTING TYPE",
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "name": "VENTING TYPE"
+            },
+            {
+            "values": [],
+            "display": "CFM",
+            "name": "CFM"
+            },
+            {
+            "values": [],
+            "display": "CEILING HEIGHT",
+            "name": "CEILING HEIGHT"
+            },
+            {
+            "values": [
+                "FINGERPRINT RESISTANT",
+                "REMOTE",
+                "HEAT LAMPS"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "display": "CONTROL TYPE",
+            "name": "CONTROL TYPE"
+            },
+            {
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "display": "FILTER TYPE",
+            "name": "FILTER TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "oven-accessories": [
+            {
+            "values": [],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            }
+        ],
+        "french-door-fridges": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "COUNTER DEPTH",
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "ICE DISPENSER",
+                "HOT WATER DISPENSER",
+                "KEURIG BREWING SYSTEM",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "FREEZER SHELF MATERIAL",
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "freezer-accessories": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "built-in-gas-grills": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "COOKING SURFACE (WIDTH)",
+            "values": [],
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "display": "TYPE",
+            "values": [
+                "RESIDENTIAL",
+                "COMMERCIAL",
+                "ISLAND - STYLE"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "display": "BTU",
+            "values": [],
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "values": [],
+            "display": "# OF MAIN BURNERS",
+            "name": "NUM OF MAIN BURNERS"
+            },
+            {
+            "display": "BURNER TYPE",
+            "values": [
+                "STAINLESS STEEL",
+                "CAST BRASS",
+                "CAST CERAMIC",
+                "CAST ALUMINUM",
+                "INFRARED",
+                "STAINLESS STEEL / INFRARED",
+                "CAST CERAMIC / INFRARED"
+            ],
+            "name": "MAIN BURNER TYPE"
+            },
+            {
+            "display": "GRATE MATERIAL",
+            "values": [
+                "STAINLESS",
+                "CAST IRON",
+                "CAST STAINLESS",
+                "PORCELAIN COATED STEEL",
+                "NICKEL PLATED STEEL"
+            ],
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "INCLUDED ROTISSERIE",
+            "name": "INCLUDED ROTISSERIE"
+            },
+            {
+            "values": [
+                "NO",
+                "GAS",
+                "INDUCTION",
+                "INFRARED"
+            ],
+            "display": "INCLUDED SIDE BURNER",
+            "name": "INCLUDED SIDE BURNER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "WIFI",
+            "name": "WIFI"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "values": [
+                "INTERNAL",
+                "EXTERNAL",
+                "INTERNAL/EXTERNAL",
+                "NONE"
+            ],
+            "display": "GRILL LIGHTS",
+            "name": "GRILL LIGHTS"
+            }
+        ],
+        "bbq-outdoor-other": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "steam-ovens": [
+            {
+            "values": [
+                "GAS",
+                "ELECTRIC"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "SELF CLEAN",
+                "CONVECTION",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "values": [
+                "DROP DOWN",
+                "SWING"
+            ],
+            "display": "DOOR TYPE",
+            "name": "DOOR TYPE"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "UNDERCOUNTER INSTALLABLE",
+            "name": "UNDERCOUNTER INSTALLABLE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "countertop-microwaves": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "CONVECTION",
+                "STEAM",
+                "GRILL",
+                "AIR FRY",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "OPTIONAL TRIM KIT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "OPTIONAL TRIM KIT"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "beverage-centers": [
+            {
+            "values": [
+                "FULL SIZE",
+                "UNDERCOUNTER"
+            ],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            },
+            {
+            "display": "STYLE",
+            "values": [
+                "FREESTANDING",
+                "BUILT-IN"
+            ],
+            "name": "STYLE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [],
+            "display": "CAN CAPACITY",
+            "name": "CAN CAPACITY"
+            },
+            {
+            "display": "TOTAL CAPACITY",
+            "values": [],
+            "name": "TOTAL CAPACITY"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SHELF MATERIAL",
+            "values": [
+                "WIRE",
+                "GLASS"
+            ],
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "electric-cooktops": [
+            {
+            "display": "ELEMENT TYPE",
+            "values": [
+                "SMOOTHTOP",
+                "COIL"
+            ],
+            "name": "ELEMENT TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "# OF ELEMENTS",
+            "values": [],
+            "name": "NUM OF ELEMENTS"
+            },
+            {
+            "values": [
+                "TOUCH",
+                "KNOB"
+            ],
+            "display": "CONTROLS",
+            "name": "CONTROLS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "GRIDDLE",
+                "GRILL"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "DOWNDRAFT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "DOWNDRAFT"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "blowers": [
+            {
+            "display": "TYPE",
+            "values": [
+                "INTERNAL",
+                "INLINE",
+                "REMOTE"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "display": "CFM",
+            "values": [],
+            "name": "CFM"
+            }
+        ],
+        "outdoor-ice-machines": [
+            {
+            "values": [
+                "BUILT-IN",
+                "FREESTANDING"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "display": "STORAGE CAPACITY",
+            "values": [],
+            "name": "STORAGE CAPACITY"
+            },
+            {
+            "values": [],
+            "display": "CUBE TYPE",
+            "name": "CUBE TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "LOCK",
+            "name": "LOCK"
+            },
+            {
+            "display": "HINGE TYPE",
+            "values": [
+                "REVERSIBLE",
+                "LEFT",
+                "RIGHT"
+            ],
+            "name": "HINGE TYPE"
+            }
+        ],
+        "outdoor-pizza-oven-covers": [
+            {
+            "values": [],
+            "display": "SIZE",
+            "name": "SIZE"
+            }
+        ],
+        "freestanding-wine-storage": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [],
+            "display": "BOTTLE CAPACITY",
+            "name": "BOTTLE CAPACITY"
+            },
+            {
+            "display": "TOTAL CAPACITY",
+            "values": [],
+            "name": "TOTAL CAPACITY"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DUAL",
+                "TRI"
+            ],
+            "display": "TEMPERATURE ZONES",
+            "name": "TEMPERATURE ZONES"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SHELF MATERIAL",
+            "values": [
+                "WIRE",
+                "WOOD",
+                "PLASTIC"
+            ],
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "professional-electric-ranges": [
+            {
+            "display": "ELEMENT TYPE",
+            "values": [
+                "SMOOTHTOP",
+                "COIL"
+            ],
+            "name": "ELEMENT TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "TEMPERATURE PROBE"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "display": "# OF OVENS",
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "name": "NUM OF OVENS"
+            },
+            {
+            "display": "RANGE DRAWER",
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "name": "RANGE DRAWER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "ventless-dryers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [
+                "TRADITIONAL",
+                "FRONT LOAD"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [
+                "4 - 4.9",
+                "5 - 5.9",
+                "6 - 6.9"
+            ],
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "values": [
+                "ELECTRIC",
+                "GAS"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "DIGITAL",
+                "TOUCHPAD"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE",
+                "REVERSIBLE DOORS"
+            ],
+            "name": "FEATURES"
+            },
+            {
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "display": "VOLTAGE",
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-appliance-accessories": [
+            {
+            "values": [],
+            "display": "ACCESSORIES FOR",
+            "name": "ACCESSORIES FOR"
+            }
+        ],
+        "outdoor-kegerators": [
+            {
+            "values": [
+                "BUILT-IN",
+                "FREESTANDING"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [],
+            "display": "KEG CAPACITY",
+            "name": "KEG CAPACITY"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "# OF TAPS",
+            "values": [],
+            "name": "NUM OF TAPS"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "LOCK",
+            "name": "LOCK"
+            },
+            {
+            "values": [
+                "REVERSIBLE",
+                "LEFT",
+                "RIGHT"
+            ],
+            "display": "HINGE TYPE",
+            "name": "HINGE TYPE"
+            }
+        ],
+        "laundry-pedestals": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "display": "TYPE",
+            "values": [
+                "STORAGE",
+                "WASHER"
+            ],
+            "name": "TYPE"
+            }
+        ],
+        "gas-cooktops": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "GRIDDLE",
+                "GRILL",
+                "WOK RING"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "DOWNDRAFT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "DOWNDRAFT"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "professional-gas-ranges": [
+            {
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "BURNER TYPE",
+            "values": [
+                "OPEN",
+                "SEALED"
+            ],
+            "name": "BURNER TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "GRIDDLE",
+                "GRILL",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DOUBLE",
+                "TRIPLE"
+            ],
+            "display": "# OF OVENS",
+            "name": "NUM OF OVENS"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "display": "RANGE DRAWER",
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "name": "RANGE DRAWER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "PROPANE CONVERSION",
+            "name": "PROPANE CONVERSION"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "wall-mount-hoods": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "display": "VENTING TYPE",
+            "name": "VENTING TYPE"
+            },
+            {
+            "display": "CFM",
+            "values": [],
+            "name": "CFM"
+            },
+            {
+            "values": [
+                "FINGERPRINT RESISTANT",
+                "REMOTE",
+                "HEAT LAMPS"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "FILTER TYPE",
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "name": "FILTER TYPE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "induction-ranges": [
+            {
+            "values": [
+                "FREESTANDING",
+                "SLIDE-IN"
+            ],
+            "display": "STYLE TYPE",
+            "name": "STYLE TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "# OF BURNERS",
+            "values": [],
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "display": "# OF OVENS",
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "name": "NUM OF OVENS"
+            },
+            {
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "display": "RANGE DRAWER",
+            "name": "RANGE DRAWER"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-refrigeration": [
+            {
+            "values": [
+                "BUILT-IN",
+                "FREESTANDING",
+                "DRAWER"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [],
+            "display": "CAPACTIY",
+            "name": "CAPACTIY"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "GLASS DOOR",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "GLASS DOOR"
+            },
+            {
+            "display": "LOCK",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "LOCK"
+            },
+            {
+            "values": [
+                "REVERSIBLE",
+                "LEFT",
+                "RIGHT"
+            ],
+            "display": "HINGE TYPE",
+            "name": "HINGE TYPE"
+            }
+        ],
+        "ice-machine-accessories-1": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "side-by-side-fridges": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "COUNTER DEPTH",
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "ICE DISPENSER",
+                "HOT WATER DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "FREEZER SHELF MATERIAL",
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "dual-fuel-ranges": [
+            {
+            "display": "STYLE TYPE",
+            "values": [
+                "FREESTANDING",
+                "SLIDE-IN"
+            ],
+            "name": "STYLE TYPE"
+            },
+            {
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [
+                "OPEN",
+                "SEALED",
+                "HYBRID"
+            ],
+            "display": "BURNER TYPE",
+            "name": "BURNER TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "GRIDDLE",
+                "GRILL",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DOUBLE",
+                "TRIPLE"
+            ],
+            "display": "# OF OVENS",
+            "name": "NUM OF OVENS"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "display": "RANGE DRAWER",
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "name": "RANGE DRAWER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "PROPANE CONVERSION",
+            "name": "PROPANE CONVERSION"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "single-wall-ovens": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "GAS",
+                "ELECTRIC"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "SELF CLEAN",
+                "CONVECTION",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "AIR FRY",
+                "SOUS VIDE"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [],
+            "display": "OVEN CAPACITY",
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "display": "DOOR TYPE",
+            "values": [
+                "DROP DOWN",
+                "SWING",
+                "FRENCH DOOR"
+            ],
+            "name": "DOOR TYPE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "gas-laundry-stackers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "display": "RPM",
+            "values": [
+                "< 999",
+                "1000 - 1200",
+                "1201 +"
+            ],
+            "name": "RPM RANGE"
+            },
+            {
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "display": "VOLTAGE",
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "drawer-dishwashers": [
+            {
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "display": "# OF DRAWERS",
+            "name": "NUM OF DRAWERS"
+            },
+            {
+            "values": [
+                "FRONT",
+                "SEMI-HIDDEN",
+                "FULLY HIDDEN"
+            ],
+            "display": "CONTROL STYLE",
+            "name": "CONTROL STYLE"
+            },
+            {
+            "values": [
+                "STAINLESS STEEL",
+                "PLASTIC",
+                "STAINLESS STEEL / PLASTIC"
+            ],
+            "display": "TUB MATERIAL",
+            "name": "TUB MATERIAL"
+            },
+            {
+            "values": [
+                "Ultra Quiet (< 41dB)",
+                "Very Quiet (41 - 45dB)",
+                "Quiet (46 - 49dB)",
+                "Standard (50dB+)"
+            ],
+            "display": "SOUND LEVEL",
+            "name": "SOUND LEVEL"
+            },
+            {
+            "values": [
+                "< 7",
+                "8 - 10",
+                "12 - 14",
+                "15 +"
+            ],
+            "display": "PLACE SETTINGS",
+            "name": "PLACE SETTING RANGE"
+            },
+            {
+            "values": [
+                "BAR",
+                "POCKET",
+                "NONE"
+            ],
+            "display": "HANDLE STYLE",
+            "name": "HANDLE STYLE"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "FINGER PRINT RESISTANT",
+                "CHINA/CRYSTAL SETTING",
+                "SINGLE DRAWER WASH OPTION",
+                "WATER SOFTENER"
+            ],
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "range-accessories": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "sauces-spices": [
+            {
+            "display": "CATEGORY",
+            "values": [
+                "SAUCES",
+                "SPICES"
+            ],
+            "name": "CATEGORY"
+            }
+        ],
+        "grill-cleaning-tools-products": [
+            {
+            "display": "CATEGORY",
+            "values": [
+                "TOOLS & ACCESSORIES",
+                "PRODUCTS"
+            ],
+            "name": "CATEGORY"
+            }
+        ],
+        "built-in-side-burners": [
+            {
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            }
+        ],
+        "grilling-planks-stones-rocks": [
+            {
+            "display": "MATERIAL",
+            "values": [],
+            "name": "MATERIAL"
+            }
+        ],
+        "5-door-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "display": "COUNTER DEPTH",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "ICE DISPENSER",
+                "HOT WATER DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "FREEZER SHELF MATERIAL",
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-side-by-side-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "display": "WATER DISPENSER",
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "FREEZER SHELF MATERIAL",
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "4-door-fridges": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "SIZE (HEIGHT)",
+            "values": [],
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "COUNTER DEPTH",
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "display": "WATER DISPENSER",
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "ICE DISPENSER",
+                "HOT WATER DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "FREEZER SHELF MATERIAL",
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "wine-storage-accessories": [
+            {
+            "values": [],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            }
+        ],
+        "built-in-dishwashers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CONTROL STYLE",
+            "values": [
+                "FRONT",
+                "SEMI-HIDDEN",
+                "FULLY HIDDEN"
+            ],
+            "name": "CONTROL STYLE"
+            },
+            {
+            "values": [
+                "STAINLESS STEEL",
+                "PLASTIC",
+                "STAINLESS STEEL / PLASTIC"
+            ],
+            "display": "TUB MATERIAL",
+            "name": "TUB MATERIAL"
+            },
+            {
+            "values": [
+                "Ultra Quiet (< 41dB)",
+                "Very Quiet (41 - 45dB)",
+                "Quiet (46 - 49dB)",
+                "Standard (50dB+)"
+            ],
+            "display": "SOUND LEVEL",
+            "name": "SOUND LEVEL"
+            },
+            {
+            "display": "PLACE SETTINGS",
+            "values": [
+                "< 7",
+                "8 - 10",
+                "12 - 14",
+                "15 +"
+            ],
+            "name": "PLACE SETTING RANGE"
+            },
+            {
+            "values": [
+                "BAR",
+                "POCKET",
+                "NONE"
+            ],
+            "display": "HANDLE STYLE",
+            "name": "HANDLE STYLE"
+            },
+            {
+            "display": "# OF RACKS",
+            "values": [],
+            "name": "NUM OF RACKS"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "STEAM WASH",
+                "FINGER PRINT RESISTANT",
+                "INTERIOR LIGHT",
+                "CHINA/CRYSTAL SETTING",
+                "HARD FOOD DISPOSER",
+                "WATER SOFTENER"
+            ],
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-ventilation-hoods": [
+            {
+            "display": "TYPE",
+            "values": [
+                "CHIMNEY",
+                "WALL MOUNT",
+                "INSERT",
+                "ISLAND"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CFM",
+            "name": "CFM"
+            }
+        ],
+        "island-ventilation-hoods": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "VENTING TYPE",
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "name": "VENTING TYPE"
+            },
+            {
+            "display": "CFM",
+            "values": [],
+            "name": "CFM"
+            },
+            {
+            "values": [],
+            "display": "CEILING HEIGHT",
+            "name": "CEILING HEIGHT"
+            },
+            {
+            "values": [
+                "FINGERPRINT RESISTANT",
+                "REMOTE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "display": "CONTROL TYPE",
+            "name": "CONTROL TYPE"
+            },
+            {
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "display": "FILTER TYPE",
+            "name": "FILTER TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "rangetops": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE",
+                "ELECTRIC",
+                "INDUCTION"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "# OF BURNERS",
+            "values": [],
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "OPEN",
+                "SEALED"
+            ],
+            "display": "GAS BURNER TYPE",
+            "name": "GAS BURNER TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "SABBATH MODE",
+                "GRIDDLE",
+                "GRILL",
+                "WOK RING",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "under-counter-freezers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "REVERSIBLE DOOR",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "SHELF MATERIAL",
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "electric-laundry-stackers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "RPM",
+            "values": [
+                "< 999",
+                "1000 - 1200",
+                "1201 +"
+            ],
+            "name": "RPM RANGE"
+            },
+            {
+            "display": "VOLTAGE",
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "name": "VOLTAGE"
+            },
+            {
+            "display": "FEATURES",
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE"
+            ],
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "professional-induction-ranges": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "display": "# OF OVENS",
+            "name": "NUM OF OVENS"
+            },
+            {
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "display": "RANGE DRAWER",
+            "name": "RANGE DRAWER"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "charcoal-grills-smokers": [
+            {
+            "display": "COOKING SURFACE (WIDTH)",
+            "values": [],
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "GRATE MATERIAL",
+            "name": "GRATE MATERIAL"
+            }
+        ],
+        "built-in-flat-top-grills": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [],
+            "display": "COOKING SURFACE (WIDTH)",
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "BTU",
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "values": [],
+            "display": "SURFACE MATERIAL",
+            "name": "SURFACE MATERIAL"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            }
+        ],
+        "cooktop-accessories": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "built-in-ice-machines": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "CLEAR ICE",
+                "FACTORY INSTALLED PUMP",
+                "DRAIN REQUIRED",
+                "REVERSIBLE DOOR"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "microwave-accessories": [
+            {
+            "display": "CATEGORY",
+            "values": [],
+            "name": "CATEGORY"
+            }
+        ],
+        "induction-cooktops": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "# OF ELEMENTS",
+            "values": [
+                "FLEXIBLE"
+            ],
+            "name": "NUM OF ELEMENTS"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "DOWNDRAFT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "DOWNDRAFT"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-wood-fire-pizza-ovens": [
+            {
+            "display": "SIZE",
+            "values": [],
+            "name": "SIZE"
+            }
+        ],
+        "professional-dual-fuel-ranges": [
+            {
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "BURNER TYPE",
+            "values": [
+                "OPEN",
+                "SEALED",
+                "HYBRID"
+            ],
+            "name": "BURNER TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "# OF BURNERS",
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "GRIDDLE",
+                "GRILL",
+                "TEMPERATURE PROBE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN FEATURES",
+            "values": [
+                "AIR FRY",
+                "SOUS VIDE",
+                "CONVECTION",
+                "SELF CLEAN",
+                "DELAY BAKE"
+            ],
+            "name": "OVEN FEATURES"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DOUBLE",
+                "TRIPLE"
+            ],
+            "display": "# OF OVENS",
+            "name": "NUM OF OVENS"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "display": "RANGE DRAWER",
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "NONE"
+            ],
+            "name": "RANGE DRAWER"
+            },
+            {
+            "display": "PROPANE CONVERSION",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "PROPANE CONVERSION"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "cultivator-accessories": [
+            {
+            "values": [],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            }
+        ],
+        "pizza-ovens-indoor": [
+            {
+            "values": [
+                "GAS",
+                "ELECTRIC"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-pellet-grills": [
+            {
+            "display": "COOKING SURFACE (WIDTH)",
+            "values": [],
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "display": "GRATE MATERIAL",
+            "values": [
+                "STAINLESS STEEL",
+                "CAST IRON",
+                "NICKEL PLATED CAST IRON",
+                "PORCELAIN COATED STEEL"
+            ],
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "values": [],
+            "display": "HOPPER CAPACITY",
+            "name": "HOPPER CAPACITY"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "WIFI",
+            "name": "WIFI"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "values": [
+                "INTERNAL",
+                "EXTERNAL",
+                "INTERNAL/EXTERNAL",
+                "NONE"
+            ],
+            "display": "GRILL LIGHTS",
+            "name": "GRILL LIGHTS"
+            },
+            {
+            "display": "INCLUDED ROTISSERIE",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "INCLUDED ROTISSERIE"
+            },
+            {
+            "values": [
+                "NO",
+                "GAS",
+                "INFRARED",
+                "INDUCTION"
+            ],
+            "display": "INCLUDED SIDE BURNER",
+            "name": "INCLUDED SIDE BURNER"
+            }
+        ],
+        "top-load-washers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [
+                "1 - 1.9",
+                "2 - 2.9",
+                "3 - 3.9",
+                "4 - 4.9",
+                "5 - 5.9",
+                "6 - 6.9"
+            ],
+            "display": "CAPACITY",
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "TOUCHPAD"
+            ],
+            "display": "CONTROL TYPE",
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "RPM",
+            "values": [
+                "< 999",
+                "1000 - 1200",
+                "1201 +"
+            ],
+            "name": "RPM RANGE"
+            },
+            {
+            "display": "VOLTAGE",
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "bbq-griddles": [
+            {
+            "display": "SIZE",
+            "values": [],
+            "name": "SIZE"
+            },
+            {
+            "display": "MATERIAL",
+            "values": [
+                "CAST IRON",
+                "STAINLESS STEEL",
+                "CAST ALUMINUM"
+            ],
+            "name": "MATERIAL"
+            }
+        ],
+        "hybrid-grills": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS/CHARCOAL",
+                "PROPANE/CHARCOAL",
+                "ELECTRIC/CHARCOAL"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [],
+            "display": "COOKING SURFACE (WIDTH)",
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "GRATE MATERIAL",
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "display": "BTU",
+            "values": [],
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "values": [],
+            "display": "# OF MAIN BURNERS",
+            "name": "NUM OF MAIN BURNERS"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "INCLUDED ROTISSERIE",
+            "name": "INCLUDED ROTISSERIE"
+            },
+            {
+            "display": "INCLUDED SIDE BURNER",
+            "values": [
+                "NO",
+                "GAS",
+                "INFRARED",
+                "INDUCTION"
+            ],
+            "name": "INCLUDED SIDE BURNER"
+            }
+        ],
+        "all-in-one-kitchens": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            }
+        ],
+        "drawer-freezers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "bottom-mount-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "display": "COUNTER DEPTH",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "display": "ICE MAKER",
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "FREEZER SHELF MATERIAL",
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "beer-coolers-kegerators": [
+            {
+            "values": [
+                "FREESTANDING",
+                "BUILT-IN"
+            ],
+            "display": "STYLE",
+            "name": "STYLE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "KEG CAPACITY",
+            "values": [],
+            "name": "KEG CAPACITY"
+            },
+            {
+            "display": "# OF TAPS",
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "name": "NUM OF TAPS"
+            },
+            {
+            "values": [
+                "TAPS INCLUDED",
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "front-load-washers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [
+                "1 - 1.9",
+                "2 - 2.9",
+                "3 - 3.9",
+                "4 - 4.9",
+                "5 - 5.9",
+                "6 - 6.9"
+            ],
+            "display": "CAPACITY",
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "TOUCHPAD"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "RPM",
+            "values": [
+                "< 999",
+                "1000 - 1200",
+                "1201 +"
+            ],
+            "name": "RPM RANGE"
+            },
+            {
+            "values": [
+                "120",
+                "220"
+            ],
+            "display": "VOLTAGE",
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            },
+            {
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-freestanding-wine-storage": [
+            {
+            "values": [
+                "BUILT-IN",
+                "FREESTANDING"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [],
+            "display": "# OF BOTTLES",
+            "name": "NUM OF BOTTLES"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "GLASS DOOR",
+            "name": "GLASS DOOR"
+            },
+            {
+            "display": "LOCK",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "LOCK"
+            },
+            {
+            "values": [
+                "REVERSIBLE",
+                "LEFT",
+                "RIGHT"
+            ],
+            "display": "HINGE TYPE",
+            "name": "HINGE TYPE"
+            }
+        ],
+        "warming-drawers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            }
+        ],
+        "built-in-columns-freezers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SHELF MATERIAL",
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-hybrid-grills": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS/CHARCOAL",
+                "PROPANE/CHARCOAL"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "COOKING SURFACE (WIDTH)",
+            "values": [],
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "GRATE MATERIAL",
+            "name": "GRATE MATERIAL"
+            },
+            {
+            "display": "BTU",
+            "values": [],
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "display": "# OF MAIN BURNERS",
+            "values": [],
+            "name": "NUM OF MAIN BURNERS"
+            },
+            {
+            "display": "INCLUDED ROTISSERIE",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "INCLUDED ROTISSERIE"
+            },
+            {
+            "values": [
+                "NO",
+                "GAS",
+                "INFRARED",
+                "INDUCTION"
+            ],
+            "display": "INCLUDED SIDE BURNER",
+            "name": "INCLUDED SIDE BURNER"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            }
+        ],
+        "downdraft-ventilation": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "VENTING TYPE",
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "name": "VENTING TYPE"
+            },
+            {
+            "values": [],
+            "display": "CFM",
+            "name": "CFM"
+            },
+            {
+            "values": [
+                "FINGERPRINT RESISTANT",
+                "REMOTE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "display": "CONTROL TYPE",
+            "name": "CONTROL TYPE"
+            },
+            {
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "display": "FILTER TYPE",
+            "name": "FILTER TYPE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "drawers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "TYPE",
+            "values": [
+                "STORAGE",
+                "WARMING",
+                "BAKING",
+                "VACUUM SEALING"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "CONVECTION",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-portable-pizza-ovens": [
+            {
+            "values": [
+                "WOOD",
+                "GAS",
+                "PELLET"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE",
+            "name": "SIZE"
+            }
+        ],
+        "insert-ventilation-hoods": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "display": "VENTING TYPE",
+            "name": "VENTING TYPE"
+            },
+            {
+            "values": [],
+            "display": "CFM",
+            "name": "CFM"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "FINGERPRINT RESISTANT",
+                "REMOTE"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "FILTER TYPE",
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "name": "FILTER TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "all-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "COUNTER DEPTH",
+            "name": "COUNTER DEPTH"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "REFRIGERATOR SHELF MATERIAL",
+            "name": "REFRIGERATOR SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-bottom-mount-fridges": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "SIZE (HEIGHT)",
+            "values": [],
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "FREEZER SHELF MATERIAL",
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-electric-heaters": [
+            {
+            "values": [
+                "FREESTANDING",
+                "WALL MOUNT"
+            ],
+            "display": "STYLE",
+            "name": "STYLE"
+            }
+        ],
+        "under-counter-wine-storage": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "BOTTLE CAPACITY",
+            "values": [],
+            "name": "BOTTLE CAPACITY"
+            },
+            {
+            "display": "TOTAL CAPACITY",
+            "values": [],
+            "name": "TOTAL CAPACITY"
+            },
+            {
+            "values": [
+                "SINGLE",
+                "DUAL",
+                "TRI"
+            ],
+            "display": "TEMPERATURE ZONES",
+            "name": "TEMPERATURE ZONES"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "LOCK",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "FINGERPRINT RESISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "WIRE",
+                "WOOD",
+                "PLASTIC"
+            ],
+            "display": "SHELF MATERIAL",
+            "name": "SHELF MATERIAL"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "outdoor-gas-heaters": [
+            {
+            "display": "STYLE",
+            "values": [
+                "FREESTANDING",
+                "WALL MOUNT"
+            ],
+            "name": "STYLE"
+            },
+            {
+            "values": [
+                "PROPANE",
+                "NATURAL GAS"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            }
+        ],
+        "combo-wall-ovens": [
+            {
+            "values": [
+                "GAS",
+                "ELECTRIC"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "COMBINATION WITH",
+            "values": [
+                "MICROWAVE",
+                "SPEED OVEN",
+                "DRAWER",
+                "DRAWER/SPEED OVEN"
+            ],
+            "name": "COMBINATION WITH"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "SELF CLEAN",
+                "CONVECTION",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "AIR FRY",
+                "SOUS VIDE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "display": "DOOR TYPE",
+            "values": [
+                "DROP DOWN",
+                "SWING",
+                "FRENCH DOOR"
+            ],
+            "name": "DOOR TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "under-cabinet-ventilation-hoods": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "display": "VENTING TYPE",
+            "name": "VENTING TYPE"
+            },
+            {
+            "display": "CFM",
+            "values": [],
+            "name": "CFM"
+            },
+            {
+            "values": [
+                "FINGERPRINT RESISTANT",
+                "REMOTE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "display": "CONTROL TYPE",
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "FILTER TYPE",
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "name": "FILTER TYPE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "bbq-side-burners-shelves": [
+            {
+            "display": "MATERIAL",
+            "values": [],
+            "name": "MATERIAL"
+            },
+            {
+            "display": "# OF BURNERS",
+            "values": [
+                "SINGLE",
+                "DOUBLE"
+            ],
+            "name": "NUM OF BURNERS"
+            },
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE",
+                "NONE"
+            ],
+            "name": "FUEL TYPE"
+            }
+        ],
+        "microwave-drawers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONVECTION",
+            "name": "CONVECTION"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "OPTIONAL TRIM KIT",
+            "name": "OPTIONAL TRIM KIT"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-column-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "display": "ICE MAKER",
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "chest-freezers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [],
+            "name": "CAPACITY"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "LOCK",
+                "SABBATH MODE"
+            ],
+            "name": "GENERAL FEATURES"
+            }
+        ],
+        "outdoor-built-in-storage-cabinets": [
+            {
+            "values": [],
+            "display": "SIZE",
+            "name": "SIZE"
+            }
+        ],
+        "compact-portable-washers": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "display": "CAPACITY",
+            "values": [
+                "1 - 1.9",
+                "2 - 2.9",
+                "3 - 3.9"
+            ],
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "DIGITAL"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "values": [
+                    "< 999",
+                    "1000 - 1200",
+                    "1201 +"
+            ],
+            "display": "RPM",
+            "name": "RPM RANGE"
+            },
+            {
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "display": "VOLTAGE",
+            "name": "VOLTAGE"
+            },
+            {
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "covers-bags": [
+            {
+            "display": "TYPE",
+            "values": [
+                "BAGS",
+                "COVERS"
+            ],
+            "name": "TYPE"
+            },
+            {
+            "display": "SIZE",
+            "values": [],
+            "name": "SIZE"
+            }
+        ],
+        "gas-flat-top-grills": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "NATURAL GAS",
+                "PROPANE"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "display": "COOKING SURFACE (WIDTH)",
+            "values": [],
+            "name": "COOKING SURFACE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "BTU",
+            "name": "BTU (MAIN BURNER)"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "CONTROL/KNOB LIGHTS",
+            "name": "CONTROL/KNOB LIGHTS"
+            },
+            {
+            "display": "SURFACE MATERIAL",
+            "values": [],
+            "name": "SURFACE MATERIAL"
+            }
+        ],
+        "modular-cooktops": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "GAS",
+                "ELECTRIC",
+                "INDUCTION"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [
+                "BURNERS",
+                "WOK",
+                "GRIDDLE",
+                "GRILL"
+            ],
+            "display": "COOKTOP TYPE",
+            "name": "COOKTOP TYPE"
+            },
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "drawer-fridges": [
+            {
+            "values": [
+                "FRIDGE/FREEZER COMBO",
+                "ALL FRIDGE"
+            ],
+            "display": "CATEGORY",
+            "name": "CATEGORY"
+            },
+            {
+            "display": "STYLE",
+            "values": [
+                "FREESTANDING",
+                "BUILT-IN"
+            ],
+            "name": "STYLE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "display": "ICE MAKER",
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "name": "ICE MAKER"
+            },
+            {
+            "display": "GENERAL FEATURES",
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "REVERSIBLE DOOR",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "compact-dryers": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH IN)"
+            },
+            {
+            "values": [
+                "TRADITIONAL",
+                "FRONT LOAD"
+            ],
+            "display": "TYPE",
+            "name": "TYPE"
+            },
+            {
+            "values": [
+                "3 - 3.9",
+                "4 - 4.9"
+            ],
+            "display": "CAPACITY",
+            "name": "CAPACITY RANGE"
+            },
+            {
+            "values": [
+                "ELECTRIC",
+                "GAS"
+            ],
+            "display": "FUEL TYPE",
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [
+                "KNOBS",
+                "DIGITAL & KNOBS",
+                "DIGITAL",
+                "TOUCHPAD"
+            ],
+            "display": "CONTROL TYPE",
+            "name": "CONTROL TYPE"
+            },
+            {
+            "values": [
+                "STEAM CYCLE",
+                "SANITIZE CYCLE",
+                "LP CONVERSION OPTIONAL",
+                "REVERSIBLE DOORS"
+            ],
+            "display": "FEATURES",
+            "name": "FEATURES"
+            },
+            {
+            "values": [
+                "110 -120 V",
+                "220 V"
+            ],
+            "display": "VOLTAGE",
+            "name": "VOLTAGE"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI / BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "double-wall-ovens": [
+            {
+            "display": "FUEL TYPE",
+            "values": [
+                "GAS",
+                "ELECTRIC"
+            ],
+            "name": "FUEL TYPE"
+            },
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [
+                "SELF CLEAN",
+                "CONVECTION",
+                "SABBATH MODE",
+                "FINGERPRINT RESISTANT",
+                "AIR FRY",
+                "SOUS VIDE"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "display": "OVEN CAPACITY",
+            "values": [],
+            "name": "OVEN CAPACITY"
+            },
+            {
+            "values": [
+                "DROP DOWN",
+                "SWING",
+                "FRENCH DOOR"
+            ],
+            "display": "DOOR TYPE",
+            "name": "DOOR TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "built-in-french-door-fridges": [
+            {
+            "display": "SIZE (WIDTH)",
+            "values": [],
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "values": [],
+            "display": "SIZE (HEIGHT)",
+            "name": "SIZE (HEIGHT)"
+            },
+            {
+            "values": [],
+            "display": "CAPACITY",
+            "name": "CAPACITY"
+            },
+            {
+            "values": [
+                "EXTERNAL",
+                "INTERNAL",
+                "NONE"
+            ],
+            "display": "WATER DISPENSER",
+            "name": "WATER DISPENSER"
+            },
+            {
+            "values": [
+                "YES",
+                "OPTIONAL",
+                "NO"
+            ],
+            "display": "ICE MAKER",
+            "name": "ICE MAKER"
+            },
+            {
+            "values": [
+                "ICE DISPENSER",
+                "DOOR ALARM",
+                "SABBATH MODE",
+                "POCKET HANDLES",
+                "FINGERPRINT RESTISTANT"
+            ],
+            "display": "GENERAL FEATURES",
+            "name": "GENERAL FEATURES"
+            },
+            {
+            "values": [
+                "GLASS",
+                "WIRE",
+                "PLASTIC"
+            ],
+            "display": "FREEZER SHELF MATERIAL",
+            "name": "FREEZER SHELF MATERIAL"
+            },
+            {
+            "display": "SMART HOME",
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "name": "SMART HOME"
+            },
+            {
+            "display": "ADA COMPLIANT",
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "name": "ADA COMPLIANT"
+            }
+        ],
+        "shells-liners": [
+            {
+            "values": [],
+            "display": "SIZE (WIDTH)",
+            "name": "SIZE (WIDTH)"
+            },
+            {
+            "display": "VENTING TYPE",
+            "values": [
+                "DUCTED",
+                "NON DUCTED"
+            ],
+            "name": "VENTING TYPE"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "FINGERPRINT RESISTANT",
+            "name": "FINGERPRINT RESISTANT"
+            },
+            {
+            "display": "CONTROL TYPE",
+            "values": [
+                "PUSH",
+                "TOUCH",
+                "SLIDERS"
+            ],
+            "name": "CONTROL TYPE"
+            },
+            {
+            "display": "FILTER TYPE",
+            "values": [
+                "BAFFLE",
+                "MESH"
+            ],
+            "name": "FILTER TYPE"
+            },
+            {
+            "values": [
+                "WIFI",
+                "BLUETOOTH",
+                "GOOGLE HOME",
+                "ALEXA"
+            ],
+            "display": "SMART HOME",
+            "name": "SMART HOME"
+            },
+            {
+            "values": [
+                "YES",
+                "NO"
+            ],
+            "display": "ADA COMPLIANT",
+            "name": "ADA COMPLIANT"
+            }
+        ]
+    }
+    {% endunless %}
+</script>

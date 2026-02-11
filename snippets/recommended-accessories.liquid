@@ -1,0 +1,64 @@
+
+
+{{ 'recommended-accessories.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'recommended-accessories.js' | asset_url }}" defer></script>
+
+{% assign collection_handle = section.settings.accessories_collection %}
+{% assign collection = collections[collection_handle] %}
+
+{% if collection %}
+  <div class="recommended-accessories-section">
+    {% if section.settings.accessories_heading != blank %}
+      <div class="recommended-accessories-header">
+        <h5 class="section-title">{{ section.settings.accessories_heading }}:</h5>
+        <div class="swiper-buttons">
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="swiper accessories-swiper">
+      <div class="swiper-wrapper">
+        {% for product in collection.products limit: 10 %}
+          <div class="swiper-slide">
+            <div class="accessory-card">
+              <a href="{{ product.url }}" class="accessory-link">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="accessory-image"
+                    height="auto"
+                    width="auto"
+                  >
+                {% endif %}
+              </a>
+              <div class="content">
+                <h6 class="accessory-title">{{ product.title }}</h6>
+                <div class="checkbox-item pro-price sale-price">
+                  <div class="price"><span class="price_box_wrap">$89.99 </span><span class="compare_price_box_wrap">$104.99 </span></div>
+                  <button class="accessory-add-btn" aria-label="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <circle cx="9" cy="9" r="8.5" fill="black"/>
+                      <path d="M9 5V13M5 9H13" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </div>
+                {% comment %} <div class="price-button-wrapper">
+                  <div class="price">{{ product.price | money }}</div>
+                  <button class="accessory-add-btn" aria-label="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <circle cx="9" cy="9" r="8.5" fill="black"/>
+                      <path d="M9 5V13M5 9H13" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </div> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

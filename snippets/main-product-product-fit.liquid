@@ -1,0 +1,86 @@
+<modal-opener class="no-js-hidden" data-modal="#PopupModal-fit">
+
+    <div class="product-fit-nner" id="ProductPopup-fit" aria-haspopup="dialog" type="button" >
+            <div class="fit-content">
+                <div class="icon-offer">
+                    {% render 'main-product-product-fit-correct' %}
+                </div>
+                <div class="product-fit-wrapper">
+                    <p class="fit-text">This part fits your vehicle: 2023 Aston Martin DBX</p>
+                        <button id="ProductPopup-fit" class=" see-more-btn" type="button" aria-haspopup="dialog">
+                           <span>Change vehicle</span> <span>{% render 'custom-arrow-right' %}</span>
+                         </button>
+                </div>
+            </div>
+            <div class="fit-content unfit-error" style="display:none;" >
+                <div class="icon-offer">
+                    {% render 'main-product-product-wrong-icon' %}
+                </div>
+                <div class="product-fit-wrapper">
+                    <p class="fit-text">This part Does Not fit your vehicle: 2023 Aston Martin DBX</p>
+                        <button id="ProductPopup-fit" class=" see-more-btn" type="button" aria-haspopup="dialog">
+                        <div class="custom-product-inner">
+                           <span>See Parts that Fit</span> <span>{% render 'custom-arrow-right' %}</span>
+                        </div>
+                        <div class="custom-product-inner">
+                           <span>Change vehicle</span> <span>{% render 'custom-arrow-right' %}</span>
+                        </div>
+                         </button>
+                </div>
+            </div>
+        </div>
+</modal-opener>
+<modal-dialog id="PopupModal-fit" class="product-popup-modal product-spec-popup-modal product-fit-popup-modal" aria-hidden="true">
+<div role="dialog" aria-label="Specification" aria-modal="true" class="product-popup-modal__dialog" tabindex="-1">
+    <button id="ModalClose-specification" type="button" class="product-popup-modal__close modal-close-button focus-inset" aria-label="{{ 'accessibility.close' | t }}">
+    {% render 'icon-close' %}
+    </button>
+    <h4 class="product-popup-modal__title h4">
+     Change Vehicle
+    </h4>
+    <div class="product-popup-modal__content">
+    <div class="offer-drawer-inner">
+        <div class="fit-content">
+            <div class="product-fit-dropdown">
+                <div class="dropdown">
+                    <div class="dropdown-header">Year <span class="arrow">{% render 'main-product-product-fit-arrow' %}</span></div>
+                    <ul class="dropdown-list">
+                        <li>2025</li>
+                        <li>2024</li>
+                        <li>2023</li>
+                        <li>2022</li>
+                        <li>2021</li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <div class="dropdown-header">Make <span class="arrow">{% render 'main-product-product-fit-arrow' %}</span></div>
+                    <ul class="dropdown-list">
+                        <li>Acura</li>
+                        <li>Alfa Romeo</li>
+                        <li>Aston Martin</li>
+                        <li>Audi</li>
+                        <li>BMW</li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <div class="dropdown-header">Model <span class="arrow">{% render 'main-product-product-fit-arrow' %}</span></div>
+                    <ul class="dropdown-list">
+                        <li>DB11</li>
+                        <li>DBS</li>
+                        <li>DBX</li>
+                        <li>DBX707</li>
+                        <li>Vantage</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-fit-bottom">
+            <div class="button-group">
+            <button class="button button--secondary disabled">Reset</button>
+            <button class="button button--primary">Search</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>                   
+</div>
+</modal-dialog>

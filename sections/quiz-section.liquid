@@ -1,0 +1,303 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+SECTION: Custom Query Section
+LOGIC OVERVIEW:
+  - Renders progress points based on number of blocks.
+  - Only one question block is visible at a time.
+  - Clicking “Next”:
+        • Collects selected checkbox values
+        • Stores results into an array
+        • Moves to the next question and updates progress UI
+  - After the final step:
+        → Hides Next button  
+        → Renders summary block showing all selected answers
+
+DEPENDENCIES:
+  - CSS:
+      • quiz-section.css
+  - JS:
+      • quiz-section.js
+  - Snippets:
+      • icon-correct (used for final check icon)
+
+SCHEMA OVERVIEW:
+  - Section:
+      • Title (optional)
+      • Section margin settings (desktop + mobile)
+  - Blocks (repeatable):
+      • Question Text  
+      • Option 1–5 (text inputs)
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<script src='{{ 'quiz-section.js' | asset_url }}' defer='defer'></script>
+{{- 'quiz-section.css' | asset_url | stylesheet_tag -}}
+{%- style -%}
+	{% render 'section-margin' %}
+{%- endstyle -%}
+<div class="custom-solution">
+  <div class="progress-container">
+    <div class="progress-line"></div>
+    {% for block in section.blocks %}
+      {% unless forloop.last %}
+        <div class="circle"></div>
+      {% endunless %}
+    {% endfor %}
+    <div class="circle check">
+      {% render 'icon-correct' %}
+    </div>
+  </div>
+  {% for block in section.blocks %}
+    <div class="question-block">
+      <h2 class="question-title">{{ block.settings.question_text }}</h2>
+      {% if section.settings.title != blank  %} <p class="question-text">{{ section.settings.title }}</p> {% endif %}
+      <div class="options-list">
+        {% for i in (1..5) %}
+          {% assign option_key = "option_" | append: i %}
+          {% assign option = block.settings[option_key] %}
+          {% if option != blank %}
+            <div class="option-item">
+              <input type="checkbox" id="q{{ block.id }}-opt{{ i }}" value="{{ option }}">
+              {% assign image_key = "option_" | append: i | append: "_image" %}
+              {% assign option_image = block.settings[image_key] %} 
+              <div class="option-image">
+                {% if option_image != blank %}
+                    <div class="option-image">
+                      <img src="{{ option_image | img_url: width:100 }}" alt="{{ option }}">
+                    </div>
+                {% endif %}
+               </div>
+              <label for="q{{ block.id }}-opt{{ i }}">{{ option }}</label>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+  <button class="next-button button button--primary dot_active focus-inset">Next</button>
+</div>
+
+{% schema %}
+{
+  "name": "Quiz section",
+  "class": "custom_collection",
+  "settings": [
+    {
+			"type": "text",
+			"id": "title",
+			"label": "t:sections.main-list-collections.settings.title.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        }
+      ],
+      "default": "no-indent",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_top_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom_m",
+      "options": [
+        {
+          "value": "no-indent",
+          "label": "t:sections.all.section-margin.options__1.label"
+        },
+        {
+          "value": "xs",
+          "label": "t:sections.all.section-margin.options__2.label"
+        },
+        {
+          "value": "s",
+          "label": "t:sections.all.section-margin.options__3.label"
+        },
+        {
+          "value": "m",
+          "label": "t:sections.all.section-margin.options__4.label"
+        },
+        {
+          "value": "l",
+          "label": "t:sections.all.section-margin.options__5.label"
+        },
+        {
+          "value": "xl",
+          "label": "t:sections.all.section-margin.options__6.label"
+        },
+        {
+          "value": "ms",
+          "label": "t:sections.all.section-margin.options__7.label"
+        }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question_text",
+          "label": "Question Text",
+          "default": "What are your top health goals right now?"
+        },
+        { "type": "image_picker", 
+          "id": "option_1_image", 
+          "label": "Option 1 Icon" 
+        },
+        {
+          "type": "text",
+          "id": "option_1",
+          "label": "Option 1",
+          "default": "Quality Sleep"
+        },
+         { "type": "image_picker", 
+          "id": "option_2_image", 
+          "label": "Option 2 Icon" 
+        },
+        {
+          "type": "text",
+          "id": "option_2",
+          "label": "Option 2",
+          "default": "Beauty"
+        },
+         { "type": "image_picker", 
+          "id": "option_3_image", 
+          "label": "Option 3 Icon" 
+        },
+        {
+          "type": "text",
+          "id": "option_3",
+          "label": "Option 3",
+          "default": "Energy"
+        },
+         { "type": "image_picker", 
+          "id": "option_4_image", 
+          "label": "Option 4 Icon" 
+        },
+        {
+          "type": "text",
+          "id": "option_4",
+          "label": "Option 4",
+          "default": "Mood"
+        },
+         { "type": "image_picker", 
+          "id": "option_5_image", 
+          "label": "Option 5 Icon" 
+        },
+        {
+          "type": "text",
+          "id": "option_5",
+          "label": "Option 5",
+          "default": "Digestion"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "quiz section"
+    }
+  ]
+}
+{% endschema %}
