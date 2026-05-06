@@ -1,0 +1,199 @@
+<div class="custom-container section-collection-showcase" 
+     id="collection-showcase-section"
+     style="--section-padding-top:100px; --section-padding-bottom:100px;">
+
+  <div class="custom-row custom-gutter">
+    <div class="collection-showcase-wrapper" id="collectionShowcaseWrapper">
+
+      <div class="collection-showcase-list">
+
+        <!-- Item 1 -->
+        <div class="collection-card" id="collection-card-1">
+          <div class="collection-card-header">
+            <div class="collection-title-wrapper position-relative">
+              <a href="/collections/mabron-m6" 
+                 aria-label="Mabron M6" 
+                 class="collection-title">
+                Mabron M6
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-image-preview" style="left:267px; top:58px;">
+            <span class="collection-preview-image">
+              <img src="//wdtroyce.myshopify.com/cdn/shop/collections/mabron_band_M6.jpg?v=1768809208" 
+                   alt="Mabron M6">
+            </span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="collection-card" id="collection-card-2">
+          <div class="collection-card-header">
+            <div class="collection-title-wrapper position-relative">
+              <a href="/collections/fitneess-trackers" 
+                 aria-label="Fitness Trackers" 
+                 class="collection-title">
+                Fitness Trackers
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-image-preview" style="left:167px; top:66px;">
+            <span class="collection-preview-image">
+              <img src="//wdtroyce.myshopify.com/cdn/shop/collections/Fitness_Trackers.jpg?v=1768809072" 
+                   alt="Fitness Trackers">
+            </span>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="collection-card" id="collection-card-3">
+          <div class="collection-card-header">
+            <div class="collection-title-wrapper position-relative">
+              <a href="/collections/luxury-smart" 
+                 aria-label="Luxury Smart" 
+                 class="collection-title">
+                Luxury Smart
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-image-preview" style="left:134px; top:45px;">
+            <span class="collection-preview-image">
+              <img src="//wdtroyce.myshopify.com/cdn/shop/collections/Lifestyle_Smart.jpg?v=1768809137" 
+                   alt="Luxury Smart">
+            </span>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="collection-card" id="collection-card-4">
+          <div class="collection-card-header">
+            <div class="collection-title-wrapper position-relative">
+              <a href="/collections/pro-edition" 
+                 aria-label="Pro Edition" 
+                 class="collection-title">
+                Pro Edition
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-image-preview" style="left:83px; top:21px;">
+            <span class="collection-preview-image">
+              <img src="//wdtroyce.myshopify.com/cdn/shop/collections/Pro_Edition.jpg?v=1768809264" 
+                   alt="Pro Edition">
+            </span>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="collection-card" id="collection-card-5">
+          <div class="collection-card-header">
+            <div class="collection-title-wrapper position-relative">
+              <a href="/collections/digital-edge" 
+                 aria-label="Digital Edge" 
+                 class="collection-title">
+                Digital Edge
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-image-preview" style="left:180px; top:0px;">
+            <span class="collection-preview-image">
+              <img src="//wdtroyce.myshopify.com/cdn/shop/collections/Digital_Edge.jpg?v=1768809016" 
+                   alt="Digital Edge">
+            </span>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="collection-card" id="collection-card-6">
+          <div class="collection-card-header">
+            <div class="collection-title-wrapper position-relative">
+              <a href="/collections/lifestyle-smart" 
+                 aria-label="Lifestyle Smart" 
+                 class="collection-title">
+                Lifestyle Smart
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-image-preview">
+            <span class="collection-preview-image">
+              <img src="//wdtroyce.myshopify.com/cdn/shop/collections/Lifestyle_Smart_dd5714bd-fed6-465e-97f6-c84f0eea171f.jpg?v=1768809097" 
+                   alt="Lifestyle Smart">
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    .collection-card {
+        position: relative;
+        display: inline-block;
+        width: auto;
+    }
+    .collection-showcase-list {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    row-gap: 93px;
+    column-gap: 154px;
+}
+.collection-image-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+}
+.collection-card:hover .collection-image-preview {
+    opacity: 1;
+}
+.collection-image-preview img {
+    border-radius: 50%;
+}
+.collection-card-header {
+    position: relative;
+    z-index: 4;
+}
+</style>
+<script>
+document.querySelectorAll(".collection-card").forEach(card => {
+
+  const preview = card.querySelector(".collection-image-preview");
+
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    preview.style.left = x + "px";
+    preview.style.top = y + "px";
+  });
+
+});
+</script>
+
+{% schema %}
+  {
+    "name": "Collection showcase",
+    "class": "collection-showcase",
+    "tag": "section",
+    "settings": [],
+    "blocks": [],
+    "presets": [
+      {
+        "name": "Collection showcase"
+      }
+    ]
+  }
+{% endschema %} 
