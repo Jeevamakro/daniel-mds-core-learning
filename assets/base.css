@@ -10,7 +10,7 @@
 }
 
 :root {
-  --alpha-link: 0.5;
+  --alpha-link: 1;
   --alpha-button-background: 1;
   --alpha-button-border: 1;
   --color-placeholder-input: 63, 63, 63;
