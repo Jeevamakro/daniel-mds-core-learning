@@ -1,31 +1,34 @@
 {% render 'text', block: block %}
+{% stylesheet %}
+  .text-left {text-align: left;}
+  .text-center {text-align: center;}
+  .text-right {text-align: right;}
+{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "text",
-  "tag": null,
+  "name": "Text",
   "settings": [
     {
       "type": "richtext",
       "id": "text",
-      "label": "text"
+      "label": "Text"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Alignment"
     }
   ],
   "presets": [
-    {
-      "name": "Text",
-      "category": "Basic",
-      "settings": {
-        "text": "<p>Text Basic</p>"
-      }
-    },
-    {
-      "name": "Heading",
-      "category": "Basic",
-      "settings": {
-        "text": "<p>Heading Basic</p>"
-      }
-    }
+    { "name": "Text" },
+    // {
+    //   "name": "Text 2",
+    //   "settings": {
+    //     "text": "<p>Hello, world!</p>",
+    //      "alignment": "center"
+    //   }
+    // }
   ]
 }
 {% endschema %}

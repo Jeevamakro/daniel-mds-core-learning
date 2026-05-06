@@ -1,0 +1,26 @@
+
+<div class="block-wrapper">
+{% content_for "block", type: "text", id: "card-1" %}
+{% content_for "blocks" %}
+</div>
+{% schema %}
+  {
+    "name": "Custom card section",
+    "class": "custom-card-section",
+    "tag": "section",
+    "blocks": [{ "type": "text" }],
+    "settings": [],
+    "presets": [
+        {
+            "name": "Custom card section",
+            "blocks": [
+                {
+                    "type": "text",
+                    "static": true,
+                    "id": "card-1"
+                }
+            ]
+        }
+    ]
+  }
+{% endschema %}
