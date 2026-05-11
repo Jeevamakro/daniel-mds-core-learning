@@ -778,15 +778,12 @@
                             {%- endif -%}
                           </button>
                         </div>
-                        {% assign is_restricted = customer.metafields.custom.blocked_user %}
-                        <div>{{ is_restricted }} </div>
-                        {% if is_restricted != true %}
+  
                         <div class="product-form__checkout no-js-hidden">
                           {%- if show_dynamic_checkout -%}
                             {{ form | payment_button }}
                           {%- endif -%}
                         </div>
-                        {% endif %}
                       </div>
                     {%- endform -%}
                   </product-form>
