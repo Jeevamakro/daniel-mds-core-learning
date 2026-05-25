@@ -43,6 +43,14 @@
             "picker_type": "button"
           }
         },
+        "daniel_subscription_purchase_options_PmYPKP": {
+          "type": "shopify://apps/daniel-subscription/blocks/purchase-options/019e5e6f-bd5c-7cbb-8008-d4b326f8326b",
+          "settings": {
+            "discount_percentage": 10,
+            "one_time_label": "One-Time Purchase",
+            "subscription_label": "Monthly Subscription"
+          }
+        },
         "inventory": {
           "type": "inventory",
           "settings": {
@@ -113,6 +121,7 @@
         "description",
         "price",
         "variant_picker",
+        "daniel_subscription_purchase_options_PmYPKP",
         "inventory",
         "recommended_replacement_q4UkTg",
         "popup",
@@ -135,6 +144,7 @@
         "spec_tab": true,
         "doc_tab": true,
         "offer_feature": false,
+        "product_fit": false,
         "is_autoplay": false,
         "is_hover_stop_autoplay": false,
         "show_arrows": false,
@@ -343,6 +353,25 @@
         "margin_top": "m",
         "margin_bottom": "no-indent"
       }
+    },
+    "1779709856bd6039df": {
+      "type": "apps",
+      "blocks": {
+        "daniel_subscription_purchase_options_3ei7R3": {
+          "type": "shopify://apps/daniel-subscription/blocks/purchase-options/019e5e6f-bd5c-7cbb-8008-d4b326f8326b",
+          "settings": {
+            "discount_percentage": 10,
+            "one_time_label": "One-Time Purchase",
+            "subscription_label": "Monthly Subscription"
+          }
+        }
+      },
+      "block_order": [
+        "daniel_subscription_purchase_options_3ei7R3"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
@@ -353,6 +382,7 @@
     "card-list",
     "testimonials",
     "product-complementary",
-    "product-recommendations"
+    "product-recommendations",
+    "1779709856bd6039df"
   ]
 }

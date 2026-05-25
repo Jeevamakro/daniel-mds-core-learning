@@ -90,30 +90,6 @@
         "margin_bottom": "no-indent"
       }
     },
-    "makro_quick_order_pad_EC8tqa": {
-      "type": "b2b-quick-order-pad",
-      "name": "Order Pad",
-      "settings": {
-        "color_scheme": "background-1",
-        "heading_size": "h3",
-        "collection": "order-pad-products",
-        "default_qty": "1",
-        "title": "Quick Order Pad",
-        "subheading": "Paste or upload SKUs for bulk ordering. Press Cmd/Ctrl+Enter to parse.",
-        "placeholder": "10020SP,RF178ANUX1 5ZVWS361SRSS",
-        "parse_btn_text": "Add items to order",
-        "download_template_text": "Download Template",
-        "clear_btn_text": "Clear All",
-        "add_all_btn_text": "Add All to Cart",
-        "show_sku_item": true,
-        "show_title": true,
-        "show_price": true,
-        "show_available": true,
-        "show_status": true,
-        "margin_top": "no-indent",
-        "margin_bottom": "no-indent"
-      }
-    },
     "blockquote_rwtxJE": {
       "type": "blockquote",
       "settings": {
@@ -639,11 +615,29 @@
         "padding_top": "m",
         "padding_bottom": "m"
       }
+    },
+    "177970983698888423": {
+      "type": "apps",
+      "blocks": {
+        "daniel_subscription_purchase_options_wMDYyD": {
+          "type": "shopify://apps/daniel-subscription/blocks/purchase-options/019e5e6f-bd5c-7cbb-8008-d4b326f8326b",
+          "settings": {
+            "discount_percentage": 10,
+            "one_time_label": "One-Time Purchase",
+            "subscription_label": "Monthly Subscription"
+          }
+        }
+      },
+      "block_order": [
+        "daniel_subscription_purchase_options_wMDYyD"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "slideshow_HXHbtm",
-    "makro_quick_order_pad_EC8tqa",
     "blockquote_rwtxJE",
     "product_slider_XAHzUr",
     "card-list",
@@ -655,6 +649,7 @@
     "featured_blog_geAXtY",
     "collections_list_R46PWM",
     "collapsible_content_VRdJUD",
-    "newsletter_fp7GUw"
+    "newsletter_fp7GUw",
+    "177970983698888423"
   ]
 }
