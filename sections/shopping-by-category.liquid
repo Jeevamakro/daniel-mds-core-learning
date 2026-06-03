@@ -1,0 +1,193 @@
+{%- comment -%}
+  SECTION: Shopping by Category
+  DESCRIPTION:
+  - Displays a responsive grid of category cards, each with an image and label.
+  - Configurable via blocks (up to 8 categories).
+  - Supports color scheme, section margin, and theme editor reload.
+
+  DEPENDENCIES:
+  - CSS: assets/shopping-by-category.css
+  - JS:  assets/shopping-by-category.js
+  - Snippet: section-margin.liquid
+{%- endcomment -%}
+
+{{ 'shopping-by-category.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'shopping-by-category.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  {% render 'section-margin' %}
+{%- endstyle -%}
+
+<div class="shopping-by-category color-{{ section.settings.color_scheme }}">
+  <div class="shopping-by-category__inner container">
+
+    {%- if section.settings.heading != blank -%}
+      <div class="shopping-by-category__heading-wrapper">
+        <h2 class="shopping-by-category__heading h2">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="shopping-by-category__grid">
+        {%- for block in section.blocks -%}
+          <a
+            class="shopping-by-category__item"
+            href="{{ block.settings.link | default: '#' }}"
+            {% if block.settings.title != blank %}aria-label="{{ block.settings.title }}"{% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <div class="shopping-by-category__image-wrapper">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 600
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '200, 300, 400, 600',
+                    sizes: '(min-width: 1200px) calc((100vw - 10rem) / 6), (min-width: 990px) calc((100vw - 8rem) / 4), (min-width: 576px) calc((100vw - 6rem) / 3), calc(50vw - 3rem)',
+                    alt: block.settings.title,
+                    class: 'shopping-by-category__image'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'shopping-by-category__image shopping-by-category__placeholder' }}
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.title != blank -%}
+              <p class="shopping-by-category__label">{{ block.settings.title }}</p>
+            {%- endif -%}
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "class": "section-shopping-by-category",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Shop by Category",
+      "label": "Heading"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "background-1",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" }
+      ],
+      "default": "m",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" }
+      ],
+      "default": "m",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    },
+    {
+      "type": "checkbox",
+      "label": "Mobile spacing",
+      "id": "enable_mobile_spacing"
+    },
+    {
+      "type": "select",
+      "id": "margin_top_m",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" },
+        { "value": "ms", "label": "t:sections.all.section-margin.options__7.label" }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_top.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom_m",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" },
+        { "value": "ms", "label": "t:sections.all.section-margin.options__7.label" }
+      ],
+      "default": "s",
+      "label": "t:sections.all.section-margin.margin_bottom.label",
+      "visible_if": "{{ section.settings.enable_mobile_spacing == true }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Category Name",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        { "type": "category", "settings": { "title": "HVACR Parts" } },
+        { "type": "category", "settings": { "title": "HVACR Supplies" } },
+        { "type": "category", "settings": { "title": "Tools and Instruments" } },
+        { "type": "category", "settings": { "title": "Residential" } },
+        { "type": "category", "settings": { "title": "Commercial" } },
+        { "type": "category", "settings": { "title": "Refrigeration" } }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

@@ -1,0 +1,284 @@
+{% comment %}
+  Quick Order Pad
+  Dependencies: quick-order-pad.css, quick-order-pad.js, loading-spinner.liquid
+  Tabs: Paste SKUs | Upload CSV
+{% endcomment %}
+
+{{ 'quick-order-pad.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-order-pad.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  {% render 'section-margin' %}
+</style>
+
+<div class="color-{{ section.settings.color_scheme }} gradient qop__section">
+  <div class="qop__page">
+
+    {%- if customer -%}
+      {%- liquid
+        assign has_access = true
+        if section.settings.restrict_to_b2b
+          unless customer.tags contains 'b2b' or customer.tags contains 'B2B' or customer.b2b
+            assign has_access = false
+          endunless
+        endif
+      -%}
+
+      {%- if has_access -%}
+
+        <div class="qop__card">
+
+          {%- if section.settings.heading != blank -%}
+            <div class="qop__header">
+              <h1 class="qop__heading">{{ section.settings.heading | upcase | escape }}</h1>
+              {%- if section.settings.subheading != blank -%}
+                <p class="qop__subheading">{{ section.settings.subheading | escape }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <quick-order-pad
+            class="qop__inner"
+            id="QuickOrderPad-{{ section.id }}"
+            data-section="{{ section.id }}"
+          >
+
+            {%- comment -%} ── Tab Toggle ────────────────────────────────── {%- endcomment -%}
+            <div class="qop__tabs" role="tablist" aria-label="Quick order input method">
+              <button
+                class="qop__tab qop__tab--active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="qop-panel-paste-{{ section.id }}"
+                id="qop-tab-paste-{{ section.id }}"
+              >Paste</button>
+              <button
+                class="qop__tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="qop-panel-csv-{{ section.id }}"
+                id="qop-tab-csv-{{ section.id }}"
+              >Upload CSV</button>
+            </div>
+
+            {%- comment -%} ── Panel: Paste SKUs ─────────────────────────── {%- endcomment -%}
+            <div
+              class="qop__panel qop__panel--active"
+              id="qop-panel-paste-{{ section.id }}"
+              role="tabpanel"
+              aria-labelledby="qop-tab-paste-{{ section.id }}"
+            >
+              <label class="qop__textarea-label" for="QopTextarea-{{ section.id }}">
+                <strong class="qop__label-main">ENTER SKUS</strong><span class="qop__label-hint"> (ONE PER LINE: SKU,QTY OR SKU QTY OR JUST SKU)</span>
+              </label>
+              <textarea
+                class="qop__textarea"
+                id="QopTextarea-{{ section.id }}"
+                placeholder="07554, 10&#10;EM-2001, 5&#10;TB-9950"
+                rows="5"
+                data-qop-textarea
+                aria-label="Enter SKUs one per line"
+                spellcheck="false"
+              ></textarea>
+              <div class="qop__paste-actions">
+                <button
+                  type="button"
+                  class="qop__parse-btn"
+                  data-qop-parse-btn
+                >
+                  Add items to order
+                </button>
+              </div>
+            </div>
+
+            {%- comment -%} ── Panel: Upload CSV ─────────────────────────── {%- endcomment -%}
+            <div
+              class="qop__panel hidden"
+              id="qop-panel-csv-{{ section.id }}"
+              role="tabpanel"
+              aria-labelledby="qop-tab-csv-{{ section.id }}"
+            >
+              <div class="qop__csv-dropzone">
+                <label class="qop__csv-label" for="QopCsvFile-{{ section.id }}">
+                  <span class="qop__csv-choose">Choose CSV</span>
+                  <input
+                    type="file"
+                    class="visually-hidden"
+                    id="QopCsvFile-{{ section.id }}"
+                    accept=".csv,text/csv"
+                    data-qop-csv-input
+                  />
+                </label>
+                <p class="qop__csv-hint">Upload a CSV file with columns: sku,qty</p>
+                <p class="qop__csv-filename hidden" data-qop-csv-filename></p>
+              </div>
+              <div class="qop__csv-template-row">
+                <button
+                  type="button"
+                  class="qop__template-btn"
+                  data-qop-template-btn
+                >
+                  Download Template
+                </button>
+              </div>
+            </div>
+
+            {%- comment -%} ── Empty State ──────────────────────────────── {%- endcomment -%}
+            <div class="qop__empty-state" data-qop-empty-state>
+              <p class="qop__empty-state-text">No items yet. Paste or upload SKUs to get started.</p>
+              <p class="qop__empty-state-hint">Try: 07554, 10 or EM-2001, 5 or A-07554</p>
+            </div>
+
+            {%- comment -%} ── Results table (JS-rendered) ───────────────── {%- endcomment -%}
+            <div class="qop__results hidden" data-qop-results>
+
+              <div class="qop__lookup-status hidden" data-qop-lookup-status aria-live="polite">
+                <span class="qop__lookup-text" data-qop-lookup-text>Looking up SKUs&hellip;</span>
+              </div>
+
+              <div class="qop__table-wrapper">
+                <table class="qop__table">
+                  <caption class="visually-hidden">Quick Order results</caption>
+                  <thead class="qop__thead">
+                    <tr>
+                      <th class="qop__th" scope="col">SKU / ITEM</th>
+                      <th class="qop__th qop__th--title" scope="col">TITLE</th>
+                      <th class="qop__th small-hide" scope="col">QTY</th>
+                      <th class="qop__th small-hide" scope="col">PRICE</th>
+                      <th class="qop__th small-hide" scope="col">AVAILABILITY</th>
+                      <th class="qop__th small-hide" scope="col">STATUS</th>
+                      <th class="qop__th qop__th--action" scope="col">
+                        <span class="visually-hidden">Remove</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="qop__tbody" data-qop-tbody></tbody>
+                </table>
+              </div>
+
+              {%- comment -%} ── Footer ──────────────────────────────────── {%- endcomment -%}
+              <div class="qop__footer">
+                <div class="qop__footer-meta">
+                  <span class="qop__lines-count" data-qop-lines-count>0 lines / 0 valid</span>
+                  <div class="qop__total-row">
+                    <span class="qop__total-label">TOTAL:</span>
+                    <span class="qop__total-value" data-qop-total>{{ 0 | money }}</span>
+                  </div>
+                </div>
+                <div class="qop__footer-actions">
+                  <button type="button" class="qop__clear-btn" data-qop-clear-btn>
+                    Clear All
+                  </button>
+                  <button type="button" class="qop__add-btn" data-qop-add-btn>
+                    <span class="qop__add-btn-label">Add All to Cart</span>
+                    {%- render 'loading-spinner' -%}
+                  </button>
+                </div>
+              </div>
+
+              <div class="qop__error-global hidden" role="alert" data-qop-error></div>
+
+            </div>
+
+            <p class="visually-hidden" aria-live="polite" role="status" data-qop-live-region></p>
+
+          </quick-order-pad>
+
+        </div>
+
+      {%- else -%}
+        <div class="qop__card qop__card--state">
+          <p class="qop__state-text">This page is available for approved B2B accounts only.</p>
+          <a href="{{ routes.root_url }}pages/contact" class="qop__primary-btn">Contact Us</a>
+        </div>
+      {%- endif -%}
+
+    {%- else -%}
+      <div class="qop__card qop__card--state">
+        <p class="qop__state-text">Please log in to access the Quick Order Pad.</p>
+        <a href="{{ routes.account_login_url }}" class="qop__primary-btn">Log In</a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Quick Order Pad",
+  "tag": "section",
+  "class": "section-quick-order-pad",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "background-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Quick Order Pad",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Paste or upload SKUs for bulk ordering. Press Ctrl/Cmd+Enter to parse.",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Access Control"
+    },
+    {
+      "type": "checkbox",
+      "id": "restrict_to_b2b",
+      "default": false,
+      "label": "Restrict to B2B customers only",
+      "info": "Customers must have the 'b2b' tag to access this section"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        { "value": "no-indent", "label": "None" },
+        { "value": "xs", "label": "XS" },
+        { "value": "s",  "label": "S"  },
+        { "value": "m",  "label": "M"  },
+        { "value": "l",  "label": "L"  },
+        { "value": "xl", "label": "XL" }
+      ],
+      "default": "m",
+      "label": "Top spacing"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        { "value": "no-indent", "label": "None" },
+        { "value": "xs", "label": "XS" },
+        { "value": "s",  "label": "S"  },
+        { "value": "m",  "label": "M"  },
+        { "value": "l",  "label": "L"  },
+        { "value": "xl", "label": "XL" }
+      ],
+      "default": "m",
+      "label": "Bottom spacing"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quick Order Pad"
+    }
+  ]
+}
+{% endschema %}

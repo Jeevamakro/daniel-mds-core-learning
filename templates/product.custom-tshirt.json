@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "custom-tshirt-upload": {
+      "type": "custom-tshirt-upload",
+      "settings": {
+        "color_scheme": "background-1",
+        "heading": "Design Your Own T-Shirt",
+        "subheading": "Upload your artwork and see how it looks on the shirt before ordering.",
+        "design_area_top": 22,
+        "design_area_left": 25,
+        "design_area_width": 50,
+        "design_area_height": 40,
+        "max_file_size_mb": 10,
+        "upload_note": "Accepted formats: PNG, JPG, WebP, SVG. We print your design exactly as uploaded — use high-resolution files for the best result.",
+        "imgbb_api_key": ""
+      }
+    }
+  },
+  "order": [
+    "custom-tshirt-upload"
+  ]
+}
