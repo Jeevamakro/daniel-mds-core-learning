@@ -1,0 +1,384 @@
+/* =============================================================================
+   CUSTOM T-SHIRT UPLOAD SECTION
+   Block: .tshirt-upload
+   ============================================================================= */
+
+/* Layout
+   ============================================================================= */
+.tshirt-upload {
+  display: block;
+}
+
+.tshirt-upload__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .tshirt-upload__layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 5.6rem;
+    align-items: start;
+  }
+}
+
+/* Mockup / Preview Panel
+   ============================================================================= */
+.tshirt-upload__mockup {
+  position: relative;
+  border-radius: var(--border-radius-main);
+  overflow: hidden;
+  background-color: rgba(var(--color-foreground), 0.03);
+  line-height: 0;
+}
+
+.tshirt-upload__mockup-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.tshirt-upload__mockup-placeholder {
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1.2rem;
+  background-color: rgba(var(--color-foreground), 0.04);
+  border-radius: var(--border-radius-main);
+}
+
+.tshirt-upload__mockup-svg {
+  width: 60%;
+  max-width: 22rem;
+  height: auto;
+  opacity: 0.25;
+}
+
+.tshirt-upload__mockup-placeholder-text {
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.5);
+  text-align: center;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Design overlay — positioned by section settings via <style> tag */
+.tshirt-upload__design-overlay {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tshirt-upload__design-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.tshirt-upload__design-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 0.2rem dashed rgba(var(--color-foreground), 0.2);
+  border-radius: 0.4rem;
+  color: rgba(var(--color-foreground), 0.35);
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 1.4;
+  padding: 0.8rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+/* Hide hint when design is visible */
+.tshirt-upload__design-image:not([hidden]) + .tshirt-upload__design-hint {
+  display: none;
+}
+
+.tshirt-upload__preview-disclaimer {
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.5);
+  text-align: center;
+  margin: 1rem 0 0;
+  line-height: 1.4;
+}
+
+/* Form Panel
+   ============================================================================= */
+.tshirt-upload__form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tshirt-upload__heading {
+  margin: 0;
+}
+
+.tshirt-upload__subheading {
+  color: rgba(var(--color-foreground), 0.65);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Price
+   ============================================================================= */
+.tshirt-upload__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.8rem;
+}
+
+/* Variant Options
+   ============================================================================= */
+.tshirt-upload__variants {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.tshirt-upload__option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.tshirt-upload__option-label {
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.75);
+  font-weight: 500;
+}
+
+.tshirt-upload__option-label strong {
+  color: rgb(var(--color-foreground));
+  font-weight: 600;
+}
+
+.tshirt-upload__option-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tshirt-upload__option-input {
+  position: absolute;
+  width: 0.1rem;
+  height: 0.1rem;
+  padding: 0;
+  margin: -0.1rem;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tshirt-upload__option-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4rem;
+  padding: 0.6rem 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+  border-radius: var(--border-radius-main, 0.4rem);
+  font-size: 1.4rem;
+  color: rgb(var(--color-foreground));
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+  line-height: 1;
+  user-select: none;
+}
+
+.tshirt-upload__option-btn:hover {
+  border-color: rgb(var(--color-foreground));
+}
+
+.tshirt-upload__option-input:checked + .tshirt-upload__option-btn {
+  background-color: rgb(var(--color-foreground));
+  border-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.tshirt-upload__option-input:focus-visible + .tshirt-upload__option-btn {
+  outline: 0.2rem solid rgb(var(--color-foreground));
+  outline-offset: 0.3rem;
+}
+
+/* Upload Section
+   ============================================================================= */
+.tshirt-upload__upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.tshirt-upload__upload-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  margin: 0;
+}
+
+/* Dropzone */
+.tshirt-upload__dropzone {
+  position: relative;
+  border: 0.2rem dashed rgba(var(--color-foreground), 0.25);
+  border-radius: var(--border-radius-main);
+  padding: 2.4rem 1.6rem;
+  text-align: center;
+  transition: border-color 0.2s, background-color 0.2s;
+  cursor: pointer;
+}
+
+.tshirt-upload__dropzone:hover,
+.tshirt-upload__dropzone--active {
+  border-color: rgb(var(--color-foreground));
+  background-color: rgba(var(--color-foreground), 0.03);
+}
+
+.tshirt-upload__file-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.tshirt-upload__dropzone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.tshirt-upload__upload-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  color: rgba(var(--color-foreground), 0.45);
+  flex-shrink: 0;
+}
+
+.tshirt-upload__dropzone-text {
+  font-size: 1.4rem;
+  color: rgb(var(--color-foreground));
+  line-height: 1.4;
+}
+
+.tshirt-upload__dropzone-hint {
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+/* File info row (shown after selection) */
+.tshirt-upload__file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1.2rem;
+  background-color: rgba(var(--color-foreground), 0.04);
+  border-radius: var(--border-radius-main);
+  font-size: 1.3rem;
+  color: rgb(var(--color-foreground));
+}
+
+.tshirt-upload__file-info svg {
+  flex-shrink: 0;
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+.tshirt-upload__file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tshirt-upload__file-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.4rem;
+  cursor: pointer;
+  color: rgba(var(--color-foreground), 0.5);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: color 0.2s, background-color 0.2s;
+  line-height: 0;
+}
+
+.tshirt-upload__file-remove:hover {
+  color: rgb(var(--color-foreground));
+  background-color: rgba(var(--color-foreground), 0.08);
+}
+
+/* Status message */
+.tshirt-upload__status {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
+  border-radius: var(--border-radius-main);
+  font-size: 1.3rem;
+  line-height: 1.4;
+}
+
+.tshirt-upload__status[data-type="loading"] {
+  background-color: rgba(var(--color-foreground), 0.06);
+  color: rgba(var(--color-foreground), 0.8);
+}
+
+.tshirt-upload__status[data-type="success"] {
+  background-color: rgba(53, 160, 95, 0.1);
+  color: #1c6e3e;
+}
+
+.tshirt-upload__status[data-type="error"] {
+  background-color: rgba(210, 65, 65, 0.1);
+  color: #b81c1c;
+}
+
+/* Add-to-Cart Button
+   ============================================================================= */
+.tshirt-upload__add-btn {
+  position: relative;
+}
+
+.tshirt-upload__btn-idle,
+.tshirt-upload__btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* Spinner animation */
+.tshirt-upload__spinner {
+  animation: tshirtSpinner 0.9s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes tshirtSpinner {
+  to { transform: rotate(360deg); }
+}
+
+/* Note below button */
+.tshirt-upload__note {
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.6);
+  margin: 0;
+  line-height: 1.6;
+}

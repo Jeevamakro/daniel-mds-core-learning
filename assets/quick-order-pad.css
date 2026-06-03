@@ -1,0 +1,718 @@
+/* ============================================================
+   Quick Order Pad  –  section-quick-order-pad
+   BEM block: .qop
+   Breakpoints: mobile < 750px  |  desktop ≥ 750px
+   ============================================================ */
+
+/* ─── Section shell: light-gray page background ─────────────── */
+.section-quick-order-pad {
+  background-color: rgb(var(--color-background-secondary));
+}
+
+/* Neutralise the Shopify color-scheme gradient on the inner div */
+.section-quick-order-pad .qop__section {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* ─── Page wrapper: horizontal container padding only ────────── */
+/* Vertical spacing is handled by section-margin snippet         */
+.qop__page {
+  padding: 0 2rem;
+}
+
+/* ─── White card ─────────────────────────────────────────────── */
+.qop__card {
+  max-width: 114rem;
+  margin: 0 auto;
+  background-color: rgb(var(--color-background));
+  border: 0.1rem solid rgb(var(--color-border));
+  border-radius: var(--border-radius-main);
+  box-shadow: 0 0.2rem 2.4rem rgba(var(--color-foreground), 0.07);
+  padding: 5rem 2rem;
+}
+
+.qop__card--state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.qop__header {
+  margin-bottom: 2.8rem;
+}
+
+.qop__heading {
+  margin: 0 0 0.8rem;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  color: rgb(var(--color-foreground));
+}
+
+.qop__subheading {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: rgb(var(--color-foreground-secondary));
+}
+
+/* ─── Custom element ─────────────────────────────────────────── */
+quick-order-pad {
+  display: block;
+}
+
+/* ─── Tab toggle: equal-width pills, full combined width ─────── */
+.qop__tabs {
+  display: flex;
+  gap: 1.6rem;
+  margin-bottom: 2.8rem;
+}
+
+.qop__tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem 1.6rem;
+  background: rgb(var(--color-background-input));
+  border: 0.15rem solid rgb(var(--color-border));
+  border-radius: 10rem;
+  font-family: var(--font-button-family, inherit);
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 0.01em;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+  line-height: 1;
+}
+
+.qop__tab:hover:not(.qop__tab--active) {
+  background-color: rgb(var(--color-background-input-hover));
+  border-color: rgb(var(--color-border-input-hover));
+}
+
+.qop__tab--active,
+.qop__tab[aria-selected="true"] {
+  background-color: rgb(var(--color-button-hover));
+  color: rgb(var(--color-button-text));
+  border-color: rgb(var(--color-button-hover));
+}
+
+/* ─── Panel visibility ───────────────────────────────────────── */
+.qop__panel { display: block; }
+.qop__panel.hidden { display: none; }
+
+/* ─── Textarea label: heading font for both parts ────────────── */
+.qop__textarea-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  line-height: 1.1;
+}
+
+.qop__label-main {
+  font-family: var(--font-heading-family, inherit);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.qop__label-hint {
+  font-family: var(--font-heading-family, inherit);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground-secondary));
+}
+
+/* ─── Textarea ───────────────────────────────────────────────── */
+.qop__textarea {
+  display: block;
+  width: 100%;
+  min-height: 13rem;
+  padding: 1.3rem 2.4rem 6.3rem;
+  font-family: var(--font-body-family, inherit);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-background-input));
+  border: 0.1rem solid rgb(var(--color-border-input));
+  border-radius: calc(0.6rem);
+  resize: vertical;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  box-sizing: border-box;
+}
+
+.qop__textarea::placeholder {
+  color: rgba(var(--color-foreground), 0.35);
+}
+
+.qop__textarea:hover {
+  border-color: rgb(var(--color-border-input-hover));
+}
+
+.qop__textarea:focus,
+.qop__textarea:focus-visible {
+  border-color: rgb(var(--color-button-hover));
+  box-shadow: 0 0 0 0.3rem rgba(var(--color-button-hover), 0.12);
+  outline: none;
+}
+
+/* ─── Paste action row ──────────────────────────────────────── */
+.qop__paste-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.4rem;
+}
+
+/* ─── Primary pill button (shared) ──────────────────────────── */
+.qop__primary-btn,
+.qop__parse-btn,
+.qop__add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2rem;
+  min-height: 4.2rem;
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+  border: none;
+  border-radius: var(--border-radius-button);
+  font-family: var(--font-button-family, inherit);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity 0.18s;
+  line-height: 1;
+}
+
+.qop__primary-btn:hover,
+.qop__parse-btn:hover,
+.qop__add-btn:hover {
+  opacity: 0.85;
+}
+
+.qop__parse-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* ─── Tertiary pill button (Clear All / Download Template) ──── */
+.qop__clear-btn,
+.qop__template-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2rem;
+  min-height: 4.2rem;
+  background-color: rgb(var(--color-button-tertiary-background));
+  color: rgb(var(--color-button-tertiary-text));
+  border: none;
+  border-radius: var(--border-radius-button);
+  font-family: var(--font-button-family, inherit);
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.18s, color 0.18s;
+  line-height: 1;
+}
+
+.qop__clear-btn:hover,
+.qop__template-btn:hover {
+  background-color: rgb(var(--color-button-tertiary-background-hover));
+  color: rgb(var(--color-button-tertiary-text-hover));
+}
+
+/* ─── Add All to Cart: loading state ────────────────────────── */
+.qop__add-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius-button);
+  flex: 1;
+}
+
+.qop__clear-btn {
+  flex: 1;
+}
+
+.qop__add-btn .loading__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.qop__add-btn.loading .qop__add-btn-label {
+  visibility: hidden;
+}
+
+/* ─── CSV upload panel ───────────────────────────────────────── */
+.qop__csv-dropzone {
+  border: 0.15rem dashed rgb(var(--color-border));
+  border-radius: var(--border-radius-main);
+  padding: 3.2rem 2rem;
+  text-align: center;
+  margin-bottom: 1.4rem;
+  background: rgb(var(--color-background));
+}
+
+.qop__csv-label {
+  cursor: pointer;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.qop__csv-choose {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: rgb(var(--color-button));
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  transition: opacity 0.18s;
+}
+
+.qop__csv-choose:hover {
+  opacity: 0.7;
+}
+
+.qop__csv-hint {
+  margin: 0;
+  font-size: 1.4rem;
+  color: rgb(var(--color-foreground-secondary));
+}
+
+.qop__csv-filename {
+  margin: 0.8rem 0 0;
+  font-size: 1.2rem;
+  color: rgb(var(--color-foreground-secondary));
+}
+
+.qop__csv-template-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ─── Empty state ────────────────────────────────────────────── */
+.qop__empty-state {
+  margin-top: 4rem;
+  padding: 0 0 2rem;
+  text-align: center;
+}
+
+.qop__empty-state.hidden { display: none; }
+
+.qop__empty-state-text {
+  margin: 0 0 0.5rem;
+  font-size: 1.6rem;
+  color: rgb(var(--color-foreground-secondary));
+}
+
+.qop__empty-state-hint {
+  margin: 0;
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.4);
+}
+
+/* ─── Lookup status ──────────────────────────────────────────── */
+.qop__lookup-status {
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 0 0.4rem;
+  font-size: 1.3rem;
+  color: rgb(var(--color-foreground-secondary));
+}
+
+.qop__lookup-status.hidden { display: none; }
+
+/* ─── Results wrapper ────────────────────────────────────────── */
+.qop__results {
+  margin-top: 4rem;
+}
+
+.qop__results.hidden { display: none; }
+
+/* ─── Table wrapper: top + bottom borders, no side borders ───── */
+.qop__table-wrapper {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 0.1rem solid rgb(var(--color-border));
+  border-bottom: 0.1rem solid rgb(var(--color-border));
+}
+
+/* ─── Table ──────────────────────────────────────────────────── */
+.qop__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 30rem;
+}
+
+.qop__thead tr {
+  background-color: rgb(var(--color-button-hover));
+}
+
+.qop__th {
+  padding: 1.15rem 1.6rem;
+  text-align: left;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-button-text));
+  white-space: nowrap;
+  border: none;
+}
+
+.qop__th--action {
+  width: 4.4rem;
+  padding: 1.15rem 0.8rem;
+}
+
+.qop__th--title { min-width: 16rem; }
+
+/* Round the header row top corners */
+.qop__th:first-child { border-top-left-radius: var(--border-radius-main); }
+.qop__th:last-child  { border-top-right-radius: var(--border-radius-main); }
+
+/* ─── Body rows ──────────────────────────────────────────────── */
+.qop__row {
+  background-color: rgb(var(--color-background));
+  transition: background-color 0.15s;
+}
+
+.qop__row:hover { background-color: rgb(var(--color-background-secondary)); }
+
+/* Not-found: only dim the stepper, not the whole row */
+.qop__row--not-found .qop__stepper { opacity: 0.5; }
+
+/* ─── Table cells ────────────────────────────────────────────── */
+.qop__td {
+  padding: 1.4rem 1.6rem;
+  vertical-align: middle;
+  font-size: 1.6rem;
+  color: rgb(var(--color-foreground));
+  border: none;
+  border-bottom: 0.1rem solid rgb(var(--color-border-input));
+  height: 8rem;
+}
+
+.qop__td--sku {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.qop__td--title { max-width: 24rem; }
+
+.qop__item-title {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.qop__item-variant {
+  display: block;
+  font-size: 1.2rem;
+  color: rgb(var(--color-foreground-secondary));
+  margin-top: 0.2rem;
+}
+
+/* ─── Qty stepper ────────────────────────────────────────────── */
+.qop__stepper {
+  display: inline-flex;
+  align-items: stretch;
+  background-color: rgb(var(--color-background-input));
+  border: none;
+  border-radius: calc(0.6rem);
+  overflow: hidden;
+  height: 3.4rem;
+  width: 11.2rem;
+}
+
+.qop__stepper-btn {
+  width: 3.9rem;
+  min-width: 3.9rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: rgb(var(--color-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background-color 0.15s;
+}
+
+.qop__stepper-btn:hover:not(:disabled) {
+  background-color: rgb(var(--color-background-input-hover));
+}
+
+.qop__stepper-btn:disabled {
+  cursor: not-allowed;
+}
+
+.qop__stepper-input {
+  width: 4rem;
+  min-width: 4rem;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-family: var(--font-button-family, inherit);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  background-color: transparent;
+  padding: 0;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.qop__stepper-input::-webkit-outer-spin-button,
+.qop__stepper-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ─── Price cell ─────────────────────────────────────────────── */
+.qop__price-total {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.qop__price-per {
+  display: block;
+  font-size: 1.4rem;
+  color: rgb(var(--color-foreground-secondary));
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+/* ─── Availability ───────────────────────────────────────────── */
+.qop__availability { font-size: 1.6rem; white-space: nowrap; }
+.qop__availability--in  { color: rgb(var(--color-foreground)); }
+.qop__availability--out { color: rgb(var(--color-foreground-secondary)); }
+
+/* ─── Status badges ──────────────────────────────────────────── */
+.qop__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 1rem;
+  border-radius: var(--border-radius-badge, 10rem);
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+
+.qop__badge--valid     { background: #e5f3ea; color: #367b60; }
+.qop__badge--not-found { background: #fff2ee; color: #e24e1f; }
+
+/* ─── Delete button ──────────────────────────────────────────── */
+.qop__td--action {
+  width: 4.4rem;
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.qop__delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(var(--color-foreground-secondary));
+  border-radius: 0.4rem;
+  padding: 0;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.qop__delete-btn:hover {
+  color: rgb(var(--color-accent));
+  background-color: rgba(var(--color-accent), 0.07);
+}
+
+.qop__delete-btn svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  pointer-events: none;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.qop__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2.4rem;
+  padding: 1.8rem 0 0;
+  border-top: 0.1rem solid rgb(var(--color-border));
+  margin-top: 0.2rem;
+}
+
+.qop__footer-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 48.8rem;
+}
+
+.qop__lines-count {
+  font-size: 1.6rem;
+  color: rgb(var(--color-foreground));
+}
+
+.qop__total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.qop__total-label {
+  font-family: var(--font-heading-family, inherit);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: rgb(var(--color-foreground));
+}
+
+.qop__total-value {
+  font-family: var(--font-heading-family, inherit);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: rgb(var(--color-foreground));
+  text-align: right;
+}
+
+.qop__footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  width: 100%;
+  max-width: 48.8rem;
+}
+
+/* ─── Error ──────────────────────────────────────────────────── */
+.qop__error-global {
+  margin-top: 1.2rem;
+  padding: 0.8rem 1.2rem;
+  color: rgb(var(--color-accent));
+  background-color: rgba(var(--color-accent), 0.06);
+  border: 0.1rem solid rgba(var(--color-accent), 0.2);
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+}
+
+.qop__error-global.hidden { display: none; }
+
+/* ─── State screens (login / access denied) ──────────────────── */
+.qop__state-text {
+  margin: 0;
+  font-size: 1.6rem;
+  color: rgb(var(--color-foreground-secondary));
+  max-width: 44rem;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   Mobile  (< 750px)
+   ============================================================ */
+@media screen and (max-width: 749px) {
+  .qop__heading {
+    font-size: 2rem;
+  }
+
+  /* Parse button: FULL WIDTH on mobile */
+  .qop__parse-btn {
+    width: 100%;
+  }
+
+  /* Template button: FULL WIDTH on mobile */
+  .qop__template-btn {
+    width: 100%;
+  }
+
+  /* Footer: full-width stacked on mobile */
+  .qop__footer {
+    align-items: stretch;
+    gap: 1.4rem;
+  }
+
+  .qop__footer-meta,
+  .qop__footer-actions {
+    max-width: 100%;
+  }
+
+  /* Actions: stack vertically, Add All to Cart on top (reverse DOM order) */
+  .qop__footer-actions {
+    flex-direction: column-reverse;
+    gap: 0.8rem;
+  }
+
+  .qop__add-btn,
+  .qop__clear-btn {
+    width: 100%;
+    flex: none;
+    justify-content: center;
+  }
+
+  /* CSV dropzone */
+  .qop__csv-template-row {
+    justify-content: stretch;
+  }
+}
+
+/* ============================================================
+   Desktop  (≥ 750px)
+   ============================================================ */
+@media screen and (min-width: 750px) {
+  .qop__page {
+    padding: 0 5rem;
+  }
+
+  .qop__card {
+    padding: 5rem;
+  }
+
+  .qop__textarea {
+    min-height: 14rem;
+  }
+}
