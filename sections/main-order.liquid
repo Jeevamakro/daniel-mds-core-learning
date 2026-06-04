@@ -1,4 +1,5 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
+{{ 'cart-design-preview.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 	{% render 'section-margin' %}
@@ -212,6 +213,26 @@
 														{{ line_item.selling_plan_allocation.selling_plan.name }}
 													</span>
 												{%- endunless -%}
+												{%- for property in line_item.properties -%}
+													{%- assign prop_char = property.first | slice: 0 -%}
+													{%- if property.last != blank and prop_char != '_' -%}
+														{%- if property.first == 'Custom Design' -%}
+															<div class='order-design-preview'>
+																<p class='order-design-preview__label'>Your uploaded design:</p>
+																<a href='{{ property.last }}' target='_blank' rel='noopener noreferrer' class='cart-design-preview' title='Click to view full size'>
+																	<img src='{{ property.last }}' alt='Your custom design' class='cart-design-preview__image order-design-preview__image' width='120' height='120' loading='lazy'>
+																</a>
+															</div>
+														{%- elsif property.first == 'Design File' -%}
+															{%- comment -%} Shown visually via the thumbnail above {%- endcomment -%}
+														{%- else -%}
+															<span class='properties__item body-xs'>
+																<dt class='properties__name'>{{ property.first }}:</dt>
+																<dd class='properties__value'>{{ property.last }}</dd>
+															</span>
+														{%- endif -%}
+													{%- endif -%}
+												{%- endfor -%}
 											</div>
 										{%- endif -%}
 

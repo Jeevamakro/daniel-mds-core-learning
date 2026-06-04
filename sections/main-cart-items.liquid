@@ -46,6 +46,7 @@ CSS
 {{ 'component-cart-items.css' | asset_url | stylesheet_tag }}
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'cart-design-preview.css' | asset_url | stylesheet_tag }}
 
 {%- unless settings.cart_type == 'drawer' -%}
 	{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
@@ -381,28 +382,54 @@ CSS
 																			{%- if property.last != blank
 																				and property_first_char != '_'
 																			-%}
-																				<div class="product-option">
-																					<dt class="product-option__name">
-																						{{ property.first }}:
-																					</dt>
-																					<dd class="product-option__value">
-																						{%- if property.last contains '/uploads/'
-																						-%}
+																				{%- if property.first == 'Custom Design' -%}
+																					<div class="product-option product-option--design-preview">
+																						<dt class="product-option__name">Your Design:</dt>
+																						<dd class="product-option__value">
 																							<a
 																								href="{{ property.last }}"
 																								target="_blank"
+																								rel="noopener noreferrer"
+																								class="cart-design-preview"
+																								title="Click to view full size"
 																							>
-																								{{
-																									property.last
-																									| split: '/'
-																									| last
-																								}}
+																								<img
+																									src="{{ property.last }}"
+																									alt="Uploaded design"
+																									class="cart-design-preview__image"
+																									width="80"
+																									height="80"
+																									loading="lazy"
+																								>
 																							</a>
-																						{%- else -%}
-																							{{ property.last }}
-																						{%- endif -%}
-																					</dd>
-																				</div>
+																						</dd>
+																					</div>
+																				{%- elsif property.first == 'Design File' -%}
+																					{%- comment -%} Shown visually via the thumbnail above {%- endcomment -%}
+																				{%- else -%}
+																					<div class="product-option">
+																						<dt class="product-option__name">
+																							{{ property.first }}:
+																						</dt>
+																						<dd class="product-option__value">
+																							{%- if property.last contains '/uploads/'
+																							-%}
+																								<a
+																									href="{{ property.last }}"
+																									target="_blank"
+																								>
+																									{{
+																										property.last
+																										| split: '/'
+																										| last
+																									}}
+																								</a>
+																							{%- else -%}
+																								{{ property.last }}
+																							{%- endif -%}
+																						</dd>
+																					</div>
+																				{%- endif -%}
 																			{%- endif -%}
 																		{%- endfor -%}
 																	</dl>

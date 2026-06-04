@@ -1,0 +1,51 @@
+/* Cart line-item design preview thumbnail
+   Shown when a "Custom Design" line item property is present */
+
+.product-option--design-preview {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.product-option--design-preview .product-option__name {
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.6);
+  margin: 0;
+}
+
+.cart-design-preview {
+  display: inline-block;
+  line-height: 0;
+  border-radius: var(--border-radius-main, 0.4rem);
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+
+.cart-design-preview:hover {
+  opacity: 0.85;
+}
+
+.cart-design-preview__image {
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-radius: var(--border-radius-main, 0.4rem);
+  background-color: rgba(var(--color-foreground), 0.03);
+  display: block;
+}
+
+.order-design-preview {
+  margin-top: 0.8rem;
+}
+
+.order-design-preview__label {
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.6);
+  margin: 0 0 0.4rem;
+}
+
+.order-design-preview__image {
+  width: 12rem;
+  height: 12rem;
+}
