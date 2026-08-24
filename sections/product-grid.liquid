@@ -153,13 +153,7 @@
 							{%- endif -%}
 						</div>
 						<div class="product-grid__content_explore">
-							{% render 'button',
-								btn_label: section.settings.button_label,
-								btn_link: product.url | default: '#',
-								btn_style: section.settings.button_style,
-								button_dot: section.settings.button_dot,
-								add_classes: 'focus-inset'
-							%}
+							{% render 'button', btn_label: section.settings.button_label, btn_link: product.url, default: '#', btn_style: section.settings.button_style, button_dot: section.settings.button_dot, add_classes: 'focus-inset' %}
 							{% render 'price', product: product, price_class: '' %}
 						</div>
 					</div>
@@ -205,13 +199,7 @@
 								</h3>
 							</div>
 							<div class="product-grid__content_explore">
-								{% render 'button',
-									btn_label: section.settings.button_label,
-									btn_link: product.url | default: '#',
-									btn_style: section.settings.button_style,
-									button_dot: section.settings.button_dot,
-									add_classes: 'focus-inset'
-								%}
+								{% render 'button', btn_label: section.settings.button_label, btn_link: product.url, default: '#', btn_style: section.settings.button_style, button_dot: section.settings.button_dot, add_classes: 'focus-inset' %}
 								<span class="price price-item price-item--sale">
 									100$
 								</span>
@@ -514,4 +502,24 @@
 		}
 	]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'button',\n\t\t\t\t\t\t\t\tbtn_label: section.settings.button_label,\n\t\t\t\t\t\t\t\tbtn_link:
+    product.url | default: '#',\n\t\t\t\t\t\t\t\tbtn_style: section.settings.button_style,\n\t\t\t\t\t\t\t\tbutton_dot:
+    section.settings.button_dot,\n\t\t\t\t\t\t\t\tadd_classes: 'focus-inset'\n\t\t\t\t\t\t\t%}"
+  to: "{% render 'button', btn_label: section.settings.button_label, btn_link: product.url,
+    default: '#', btn_style: section.settings.button_style, button_dot: section.settings.button_dot,
+    add_classes: 'focus-inset' %}"
+  position: 5422..5633
+- from: "{% render 'button',\n\t\t\t\t\t\t\t\t\tbtn_label: section.settings.button_label,\n\t\t\t\t\t\t\t\t\tbtn_link:
+    product.url | default: '#',\n\t\t\t\t\t\t\t\t\tbtn_style: section.settings.button_style,\n\t\t\t\t\t\t\t\t\tbutton_dot:
+    section.settings.button_dot,\n\t\t\t\t\t\t\t\t\tadd_classes: 'focus-inset'\n\t\t\t\t\t\t\t\t%}"
+  to: "{% render 'button', btn_label: section.settings.button_label, btn_link: product.url,
+    default: '#', btn_style: section.settings.button_style, button_dot: section.settings.button_dot,
+    add_classes: 'focus-inset' %}"
+  position: 7125..7336
+{%- endcomment -%}

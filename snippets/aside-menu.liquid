@@ -16,7 +16,7 @@
         </button>
 
         <div class="aside-menu__container">
-          {%- if settings.aside_menu_1.links != blank settings.aside_menu_2.links != blank or settings.aside_menu_show_social -%}
+          {%- if settings.aside_menu_1.links != blank or settings.aside_menu_show_social -%}
             <div class="aside-menu__menus">
               {%- if settings.aside_menu_1.links != blank -%}
                 <ul class="aside-menu__list list-menu" role="list">
@@ -522,3 +522,15 @@
     </div>
   </div>
 {%- endif -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- if settings.aside_menu_1.links != blank settings.aside_menu_2.links !=
+    blank or settings.aside_menu_show_social -%}"
+  to: "{%- if settings.aside_menu_1.links != blank or settings.aside_menu_show_social
+    -%}"
+  position: 541..623
+{% endcomment %}
