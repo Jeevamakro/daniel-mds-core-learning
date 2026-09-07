@@ -1,0 +1,210 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+  SECTION: Main Team Member
+  FILE: main-team-member.liquid
+
+  PURPOSE:
+  Renders a single "Team Member" 
+   entry's profile page:
+  name, designation, description (rich text) and gallery (list of image
+  files). Used by templates/metaobject/team_member.json.
+
+  Rendered within a metaobject-system template, so the metaobject entry
+  is available on the `metaobject` global object.
+
+  FAQs: metaobject.faqs.value is a list of "team_member_faq" metaobject
+  references (fields: question, answer), reordered per member in the
+  admin. Reuses the theme's existing collapsible-content accordion
+  markup/JS/CSS so it behaves consistently with the FAQ section
+  elsewhere in the theme.
+
+  DEPENDENCIES:
+  - CSS: assets/main-team-member.css, section-collapsible-content.css
+  - JS: collapsible-content.js
+  - Snippets: section-margin, section-header, icon-minus, icon-plus
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{{ 'main-team-member.css' | asset_url | stylesheet_tag }}
+{{ 'component-rte.css' | asset_url | stylesheet_tag }}
+{{ 'section-collapsible-content.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'collapsible-content.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  {% render 'section-margin' %}
+{%- endstyle -%}
+
+{%- assign gallery_images = metaobject.gallery.value -%}
+{%- assign member_alt = metaobject.name.value | escape -%}
+{%- assign faqs = metaobject.faqs.value -%}
+{%- assign price = metaobject.price.value -%}
+{%-  assign ratings = metaobject.ratings.value %} 
+
+<div class="main-team-member container color-{{ section.settings.color_scheme }}">
+  <div class="main-team-member__layout">
+    {% if metaobject.profile.value != blank %}
+      <div class="main-team-member__portrait-col">
+        <div class="main-team-member__portrait">
+          {{
+            metaobject.profile.value
+            | image_url: width: 900
+            | image_tag:
+                loading: 'lazy',
+                widths: '300,450,600,750,900',
+                sizes: '(min-width: 990px) 33vw, (min-width: 750px) 45vw, 100vw',
+                alt: member_alt,
+                class: 'main-team-member__portrait-image'
+          }}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="main-team-member__content-col">
+      <div class="main-team-member__header">
+        <h1 class="main-team-member__name {{ section.settings.heading_size }}">{{ metaobject.name.value }}</h1>
+
+        {% if metaobject.designation.value != blank %}
+          <span class="main-team-member__designation">{{ metaobject.designation.value }}</span>
+        {% endif %}
+
+        {% if metaobject.description.value != blank %}
+          <div class="main-team-member__description rte">
+            {{ metaobject.description | metafield_tag }}
+          </div>
+        {% endif %}
+
+        {% if price != blank %}
+          <div  class="main-team-member__price"> <strong>Hourly Price: </strong>{{ price |  money_with_currency}}</div>
+        {% endif %}
+
+        {% if ratings != blank %}
+          <div  class="main-team-member__ratings"> <strong>Ratings: </strong>{{ ratings }} / 5</div>
+        {% endif %}
+      </div>
+
+      {% if gallery_images.size > 0 %}
+        <h2 class="main-team-member__gallery-heading h3">Gallery</h2>
+        <ul class="main-team-member__gallery" role="list">
+          {% for image in gallery_images %}
+            <li class="main-team-member__gallery-item">
+              {{
+                image
+                | image_url: width: 900
+                | image_tag:
+                    loading: 'lazy',
+                    widths: '300,450,600,750,900',
+                    sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+                    alt: member_alt,
+                    class: 'main-team-member__gallery-image'
+              }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if faqs.size > 0 %}
+        <div class="main-team-member__faqs">
+          {% render 'section-header',
+            section_heading: section.settings.faq_heading,
+            section_heading_size: 'h2'
+          %}
+
+          <div class="collapsible-content__items">
+            {% for faq in faqs %}
+              <div class="collapsible-content__item{% if forloop.first %} active{% endif %}">
+                <button
+                  class="collapsible-content__toggle focus-inset button--unstyled"
+                  aria-label="{{ faq.question.value | escape }}"
+                >
+                  <div class="collapsible-content__toggle-group">
+                    {% if faq.question.value != blank %}
+                      <h4 class="collapsible-content__question h4 font-weight-medium">
+                        {{ faq.question.value }}
+                      </h4>
+                    {% endif %}
+                  </div>
+                  <div class="collapsible-content__icon">
+                    {% render 'icon-minus' %}
+                    {% render 'icon-plus' %}
+                  </div>
+                </button>
+
+                {% if faq.answer.value != blank %}
+                  <div class="collapsible-content__answer" {% if forloop.first %}style="display: block;"{% endif %}>
+                    <div class="collapsible-content__answer-inner richtext__content">
+                      {{ faq.answer | metafield_tag }}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Main team member",
+  "class": "main-team-member-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "background-1",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h3", "label": "Medium" },
+        { "value": "h2", "label": "Large" },
+        { "value": "h1", "label": "Extra Large" }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "default": "Frequently asked questions",
+      "label": "FAQ heading"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" }
+      ],
+      "default": "xl",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" }
+      ],
+      "default": "xl",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ]
+}
+{% endschema %}

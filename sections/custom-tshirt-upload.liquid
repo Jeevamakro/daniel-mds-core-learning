@@ -29,20 +29,21 @@
       <div class="tshirt-upload__preview-panel">
         <div class="tshirt-upload__mockup">
 
-          {%- if section.settings.tshirt_mockup != blank -%}
+          {%- if product.featured_image != blank -%}
+            {%- assign mockup_height = product.featured_image.height | times: 600 | divided_by: product.featured_image.width -%}
             <img
-              src="{{ section.settings.tshirt_mockup | image_url: width: 600 }}"
-              alt="T-shirt mockup"
+              src="{{ product.featured_image | image_url: width: 600 }}"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
               class="tshirt-upload__mockup-image"
               width="600"
-              height="750"
+              height="{{ mockup_height }}"
               loading="eager"
             >
           {%- else -%}
             <div class="tshirt-upload__mockup-placeholder">
               {{ 'product-1' | placeholder_svg_tag: 'tshirt-upload__mockup-svg' }}
               <p class="tshirt-upload__mockup-placeholder-text">
-                Add a T-shirt mockup image in the theme editor to enable the live preview.
+                Add a product image to enable the live design preview.
               </p>
             </div>
           {%- endif -%}
@@ -127,11 +128,7 @@
 
           <div class="tshirt-upload__dropzone" role="presentation">
             <input
-              type="file"
-              id="tshirt-file-{{ section.id }}"
-              class="tshirt-upload__file-input"
-              accept="image/jpeg,image/png,image/webp,image/svg+xml"
-              aria-describedby="tshirt-hint-{{ section.id }}"
+              type="file" id="tshirt-file-{{ section.id }}" class="tshirt-upload__file-input" accept="image/jpeg,image/png,image/webp,image/svg+xml" aria-describedby="tshirt-hint-{{ section.id }}"
             >
             <label for="tshirt-file-{{ section.id }}" class="tshirt-upload__dropzone-inner">
               <svg class="tshirt-upload__upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
@@ -237,13 +234,8 @@
     },
     {
       "type": "header",
-      "content": "T-Shirt Mockup"
-    },
-    {
-      "type": "image_picker",
-      "id": "tshirt_mockup",
-      "label": "Mockup image",
-      "info": "Upload a front-view photo of a blank white T-shirt. The customer's design will be overlaid on it. Use a PNG with a transparent or white background for the best result."
+      "content": "Design Overlay Area",
+      "info": "The mockup image is pulled automatically from the product's images. Upload your T-shirt photo directly on the product in Shopify admin."
     },
     {
       "type": "range",

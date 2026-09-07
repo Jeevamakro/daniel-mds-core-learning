@@ -1,0 +1,25 @@
+extends: theme-check:recommended
+
+MissingTemplate:
+  enabled: true
+
+ParserBlockingScript:
+  enabled: true
+
+RemoteAsset:
+  enabled: true
+
+TranslationKeyExists:
+  enabled: true
+
+ImgWidthAndHeight:
+  enabled: true
+
+AssetSizeCSS:
+  enabled: true
+
+AssetSizeJavaScript:
+  enabled: true
+
+UnusedAssign:
+  enabled: true

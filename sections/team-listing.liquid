@@ -1,0 +1,175 @@
+{%- comment -%}
+------------------------------------------------------------------------------
+  SECTION: Team Listing
+  FILE: team-listing.liquid
+
+  PURPOSE:
+  Displays a responsive grid of all published "Team Member" metaobject
+  entries. Each card links to that member's own metaobject-system page
+  (templates/metaobject/team_member.json).
+
+  DATA SOURCE:
+  - shop.metaobjects.team_member.values
+  - Metaobject fields expected: name, designation, description, gallery
+    (list of files, image validation)
+
+  DEPENDENCIES:
+  - CSS: assets/team-listing.css
+  - Snippets: section-header, section-margin
+------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{{ 'team-listing.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  {% render 'section-margin' %}
+{%- endstyle -%}
+
+{%- assign team_members = shop.metaobjects.team_member.values -%}
+
+{% if team_members.size > 0 %}
+  <div class="team-listing color-{{ section.settings.color_scheme }}" data-id="shopify-section-{{ section.id }}">
+    <div class="container">
+      {% render 'section-header',
+        section_heading: section.settings.section_heading,
+        section_subheading: section.settings.subheading,
+        section_heading_size: section.settings.section_heading_size,
+        dot: section.settings.dot
+      %}
+
+      <ul class="team-listing__grid team-listing__grid--{{ section.settings.columns_per_row }}" role="list">
+        {% for member in team_members %}
+          {%- assign thumb = member.profile.value -%}
+          {%- assign member_alt = member.name.value | escape -%}
+          <li class="team-listing__item">
+            <a class="team-listing__link" href="{{ member.system.url }}">
+              {% if thumb != blank %}
+                <div class="team-listing__image">
+                  {{
+                    thumb
+                    | image_url: width: 600
+                    | image_tag:
+                        loading: 'lazy',
+                        widths: '180,270,360,450,600',
+                        sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+                        alt: member_alt,
+                        class: 'team-listing__image-tag'
+                  }}
+                </div>
+              {% endif %}
+              <div class="team-listing__content">
+                <h3 class="team-listing__name {{ section.settings.card_heading_size }}">{{ member.name.value }}</h3>
+                {% if member.designation.value != blank %}
+                  <p class="team-listing__designation">{{ member.designation.value }}</p>
+                {% endif %}
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Team listing",
+  "class": "team-listing-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "background-1",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Meet the team",
+      "label": "Subheading"
+    },
+    {
+      "type": "checkbox",
+      "id": "dot",
+      "default": true,
+      "label": "Show subheading dot"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "default": "Our team",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_size",
+      "options": [
+        { "value": "h4", "label": "Small" },
+        { "value": "h3", "label": "Medium" },
+        { "value": "h2", "label": "Large" },
+        { "value": "h1", "label": "Extra Large" }
+      ],
+      "default": "h2",
+      "label": "Heading size"
+    },
+    {
+      "type": "select",
+      "id": "card_heading_size",
+      "options": [
+        { "value": "h6", "label": "Extra Extra Small" },
+        { "value": "h5", "label": "Extra Small" },
+        { "value": "h4", "label": "Small" },
+        { "value": "h3", "label": "Medium" }
+      ],
+      "default": "h5",
+      "label": "Card name size"
+    },
+    {
+      "type": "range",
+      "id": "columns_per_row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columns per row (desktop)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" }
+      ],
+      "default": "xl",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "options": [
+        { "value": "no-indent", "label": "t:sections.all.section-margin.options__1.label" },
+        { "value": "xs", "label": "t:sections.all.section-margin.options__2.label" },
+        { "value": "s", "label": "t:sections.all.section-margin.options__3.label" },
+        { "value": "m", "label": "t:sections.all.section-margin.options__4.label" },
+        { "value": "l", "label": "t:sections.all.section-margin.options__5.label" },
+        { "value": "xl", "label": "t:sections.all.section-margin.options__6.label" }
+      ],
+      "default": "xl",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Team listing"
+    }
+  ]
+}
+{% endschema %}

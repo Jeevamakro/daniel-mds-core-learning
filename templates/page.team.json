@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "team-listing",
+      "settings": {
+        "color_scheme": "background-1",
+        "subheading": "Meet the team",
+        "dot": true,
+        "section_heading": "Our team",
+        "section_heading_size": "h2",
+        "card_heading_size": "h5",
+        "columns_per_row": 4,
+        "margin_top": "xl",
+        "margin_bottom": "xl"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
