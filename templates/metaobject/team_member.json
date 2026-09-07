@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-team-member",
+      "settings": {
+        "color_scheme": "background-1",
+        "heading_size": "h1",
+        "margin_top": "xl",
+        "margin_bottom": "xl"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

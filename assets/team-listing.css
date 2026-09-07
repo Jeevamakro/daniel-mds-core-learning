@@ -1,0 +1,51 @@
+.team-listing__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .team-listing__grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .team-listing__grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.team-listing__item {
+  list-style: none;
+}
+
+.team-listing__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.team-listing__image {
+  overflow: hidden;
+  border-radius: var(--card-corner-radius, 0.8rem);
+  margin-bottom: 1.2rem;
+  aspect-ratio: 1 / 1;
+}
+
+.team-listing__image-tag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.team-listing__name {
+  margin: 0 0 0.4rem;
+}
+
+.team-listing__designation {
+  margin: 0;
+  opacity: 0.75;
+}
