@@ -43,13 +43,9 @@
             "picker_type": "button"
           }
         },
-        "daniel_subscription_purchase_options_PmYPKP": {
-          "type": "shopify://apps/daniel-subscription/blocks/purchase-options/019e5e6f-bd5c-7cbb-8008-d4b326f8326b",
-          "settings": {
-            "discount_percentage": 10,
-            "one_time_label": "One-Time Purchase",
-            "subscription_label": "Monthly Subscription"
-          }
+        "product_specifications_PCwaH4": {
+          "type": "product_specifications",
+          "settings": {}
         },
         "inventory": {
           "type": "inventory",
@@ -121,7 +117,7 @@
         "description",
         "price",
         "variant_picker",
-        "daniel_subscription_purchase_options_PmYPKP",
+        "product_specifications_PCwaH4",
         "inventory",
         "recommended_replacement_q4UkTg",
         "popup",
@@ -154,151 +150,26 @@
         "margin_bottom": "s"
       }
     },
-    "product_specification_axjkJ9": {
-      "type": "product-specification",
-      "name": "Product specifications and feature",
+    "product_before_after_bmmeR6": {
+      "type": "product-before-after",
+      "name": "t:sections.product-before-after.presets.name",
       "settings": {
-        "icon_style": "secondary",
-        "section_heading": "Some heading",
-        "section_heading_size": "h2",
-        "section_subheading": "Subheading",
-        "dot": true,
-        "margin_top": "s",
-        "margin_bottom": "s"
-      }
-    },
-    "blockquote": {
-      "type": "blockquote",
-      "settings": {
-        "section_subheading": "About",
-        "dot": true,
-        "blockquote": "Some block quote for this section",
-        "section_blockquote_size": "h1",
-        "author_name": "",
-        "author_position": "",
-        "section_button_label": "Read about us",
-        "section_button_link": "",
-        "button_dot": true,
-        "section_button_style": "primary",
-        "margin_top": "xl",
-        "margin_bottom": "no-indent"
-      }
-    },
-    "image-banner": {
-      "type": "image-banner",
-      "settings": {
-        "color_scheme": "background-1",
-        "heading": "",
-        "section_heading": "",
-        "section_heading_size": "h2",
-        "subheading": "",
-        "dot": true,
-        "image_ratio": "1/1",
-        "animation": false,
-        "overlay_enable": true,
-        "overlay_opacity": 0.2,
-        "margin_top": "xl",
-        "margin_bottom": "no-indent"
-      }
-    },
-    "card-list": {
-      "type": "card-list",
-      "blocks": {
-        "product-1": {
-          "type": "card",
-          "settings": {
-            "badge": "Badge",
-            "badge_style": "primary",
-            "text": "Some description about this card"
-          }
-        },
-        "product-2": {
-          "type": "card",
-          "settings": {
-            "badge": "Badge",
-            "badge_style": "primary",
-            "text": "Some description about this card"
-          }
-        },
-        "product-3": {
-          "type": "card",
-          "settings": {
-            "badge": "Badge",
-            "badge_style": "primary",
-            "text": "Some description about this card"
-          }
-        }
-      },
-      "block_order": [
-        "product-1",
-        "product-2",
-        "product-3"
-      ],
-      "settings": {
-        "section_heading": "Some heading for this section",
-        "section_heading_size": "h3",
-        "subheading": "Some Subheading",
-        "dot": true,
-        "line": true,
-        "columns_per_row": 3,
-        "image_ratio": "3/4",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "margin_top": "xl",
-        "margin_bottom": "no-indent"
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "slide-1": {
-          "type": "testimonials_slide",
-          "settings": {
-            "text": "“Some review text that describes the product's highlights, features, and important details.”",
-            "author_name": "Author Name",
-            "position_name": "Position",
-            "enable_stars": true,
-            "rating": 5
-          }
-        },
-        "slide-2": {
-          "type": "testimonials_slide",
-          "settings": {
-            "text": "“Some review text that describes the product's highlights, features, and important details.”",
-            "author_name": "Author Name",
-            "position_name": "Position",
-            "enable_stars": true,
-            "rating": 5
-          }
-        },
-        "slide-3": {
-          "type": "testimonials_slide",
-          "settings": {
-            "text": "“Some review text that describes the product's highlights, features, and important details.”",
-            "author_name": "Author Name",
-            "position_name": "Position",
-            "enable_stars": true,
-            "rating": 5
-          }
-        }
-      },
-      "block_order": [
-        "slide-1",
-        "slide-2",
-        "slide-3"
-      ],
-      "settings": {
-        "section_heading": "Some heading for this section",
-        "section_heading_size": "h2",
-        "subheading": "Some Subheading",
-        "dot": true,
-        "is_autoplay": true,
-        "is_hover_stop_autoplay": true,
-        "slideshow_speed": 1.1,
-        "slideshow_delay": 4,
-        "button_style": "tertiary",
-        "margin_top": "xl",
-        "margin_bottom": "no-indent"
+        "heading": "See the difference",
+        "before_namespace": "custom",
+        "before_key": "before_image",
+        "after_namespace": "custom",
+        "after_key": "after_image",
+        "before_label": "Before",
+        "after_label": "After",
+        "image_ratio": "landscape",
+        "start_position": 50,
+        "max_width": 1000,
+        "corner_radius": 8,
+        "divider_color": "#ffffff",
+        "label_bg": "#000000",
+        "label_text": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "product-complementary": {
@@ -330,6 +201,7 @@
     },
     "product-recommendations": {
       "type": "product-recommendations",
+      "disabled": true,
       "settings": {
         "columns_per_row": 3,
         "products_limit": 3,
@@ -356,33 +228,29 @@
     },
     "1779709856bd6039df": {
       "type": "apps",
-      "blocks": {
-        "daniel_subscription_purchase_options_3ei7R3": {
-          "type": "shopify://apps/daniel-subscription/blocks/purchase-options/019e5e6f-bd5c-7cbb-8008-d4b326f8326b",
-          "settings": {
-            "discount_percentage": 10,
-            "one_time_label": "One-Time Purchase",
-            "subscription_label": "Monthly Subscription"
-          }
-        }
-      },
-      "block_order": [
-        "daniel_subscription_purchase_options_3ei7R3"
-      ],
+      "disabled": true,
       "settings": {
         "include_margins": true
+      }
+    },
+    "product_faq_7YkmbB": {
+      "type": "product-faq",
+      "name": "Product-faq",
+      "settings": {
+        "color_scheme": "",
+        "heading_size": "h1",
+        "faq_heading": "Frequently asked questions",
+        "margin_top": "xl",
+        "margin_bottom": "xl"
       }
     }
   },
   "order": [
     "main-product",
-    "product_specification_axjkJ9",
-    "blockquote",
-    "image-banner",
-    "card-list",
-    "testimonials",
+    "product_before_after_bmmeR6",
     "product-complementary",
     "product-recommendations",
+    "product_faq_7YkmbB",
     "1779709856bd6039df"
   ]
 }

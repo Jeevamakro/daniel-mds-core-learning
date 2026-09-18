@@ -576,6 +576,23 @@
 		<a class='skip-to-content-link button visually-hidden' href='#MainContent'>
 			{{ 'accessibility.skip_to_text' | t }}
 		</a>
+		{%- comment -%} Free-shipping banner — reads the current market's custom.free_ship_over metafield {%- endcomment -%}
+    {%- assign free_ship_threshold = localization.market.metafields.custom.free_ship_over -%}
+    {%- if free_ship_threshold != blank or free_ship_threshold == nil -%}
+      <p class="free-ship-banner">Free shipping on orders over {{ free_ship_threshold | money }}</p>
+      <style>
+        .free-ship-banner {
+          margin: 0;
+          padding: 0.6rem 1rem;
+          text-align: center;
+          font-size: 0.72rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          background: #1a1a1a;
+          color: #fff;
+        }
+      </style>
+	  {% endif %}
 		<div class='header__overlay'></div>
 		{% sections 'header-group' %}
 		{% sections 'overlay-group' %}
@@ -663,5 +680,10 @@
 				defer='defer'
 			></script>
 		{%- endif -%}
+		<div class="body-content-check"> <h2>{{ shop.metafields.custom.support_phone }}</h2></div>
+		{% assign threshold = localization.market.metafields.custom.free_ship_over %}
+  {% if threshold != blank %}
+    <p class="free-ship-banner">Free shipping on orders over {{ threshold | money }}!</p>
+  {% endif %}
 	</body>
 </html>

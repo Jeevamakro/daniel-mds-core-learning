@@ -997,7 +997,118 @@
                 {% else %}
                   {% render block %}
                 {% endif %}
-            	{%- when 'text_with_icon' -%}
+                {% when 'product_specifications' %}
+                      {% assign product_metafield = product.metafields.custom %}
+                      {% assign fragrance_free = product_metafield.fragrance_free %}
+                      {% assign shelf_life = product_metafield.shelf_life %}
+                      {% assign full_ingredients =  product_metafield.full_ingredients %}
+                      {% assign spf = product_metafield.spf %}  
+                      {% assign size_volumes = product_metafield.size_volume.value %}
+                      {% assign how_to_use = product_metafield.how_to_use %}
+                      {% assign benefits = product_metafield.benefits.value %}
+                      {% assign key_ingredients = product_metafield.key_ingredients.value %}
+                      {% assign certifications = product_metafield.certifications.value %}
+                      <div class="pdp-specs" {{ block.shopify_attributes }}>
+                        <h4 class="pdp-specs__heading">Product Specifications</h4>
+                        <dl class="pdp-specs__list">
+                          <div class="pdp-specs__row">
+                            <dt class="pdp-specs__label">Fragrance Free</dt>
+                            <dd class="pdp-specs__value">{% if fragrance_free %}Yes{% else %}No{% endif %}</dd>
+                          </div>
+                          {% if shelf_life %}
+                          <div class="pdp-specs__row">
+                            <dt class="pdp-specs__label">Shelf Life</dt>
+                            <dd class="pdp-specs__value">{{ shelf_life }}</dd>
+                          </div>
+                          {% endif %}
+                          {% if full_ingredients %}
+                          <div class="pdp-specs__row">
+                            <dt class="pdp-specs__label">Full Ingredients</dt>
+                            <dd class="pdp-specs__value">{{ full_ingredients }}</dd>
+                          </div>
+                          {% endif %}
+                          {% if spf %}
+                          <div class="pdp-specs__row">
+                            <dt class="pdp-specs__label">SPF</dt>
+                            <dd class="pdp-specs__value">{{ spf }}</dd>
+                          </div>
+                          {% endif %}
+                          {% if size_volumes.size > 0 %}
+                          <div class="pdp-specs__row">
+                            <dt class="pdp-specs__label">Size/Volumes</dt>
+                            <dd class="pdp-specs__value pdp-specs__value--tags">
+                              {% for size_volume in size_volumes %}<span class="pdp-specs__tag">{{ size_volume }}</span>{% endfor %}
+                            </dd>
+                          </div>
+                          {% endif %}
+                          {% if how_to_use %}
+                          <div class="pdp-specs__row">
+                            <dt class="pdp-specs__label">How to Use</dt>
+                            <dd class="pdp-specs__value">{{ how_to_use }}</dd>
+                          </div>
+                          {% endif %}
+                          {% if benefits.size > 0 %}
+                          <div class="pdp-specs__row benefits-row">
+                            <dt class="pdp-specs__label">Benefits</dt>
+                            <dd class="pdp-specs__value">
+                              <ul class="pdp-specs__benefits">{% for benefit in benefits %}<li>{{ benefit }}</li>{% endfor %}</ul>
+                            </dd>
+                          </div>
+                          {% endif %}
+                        </dl>
+
+                        {% if key_ingredients.size > 0 %}
+                          <div class="pdp-specs__group">
+                            <h4 class="pdp-specs__group-title">Key Ingredients</h4>
+                            <div class="pdp-specs__ingredients">
+                              {% for ingredient in key_ingredients %}
+                                <div class="pdp-specs__ingredient">
+                                  {% if ingredient.icon %}
+                                    <img class="pdp-specs__ingredient-icon" src="{{ ingredient.icon.value | image_url: width: 80 }}" alt="{{ ingredient.name }}" width="40" height="40" loading="lazy">
+                                  {% endif %}
+                                  <h5 class="pdp-specs__ingredient-name">{{ ingredient.name }} </h5>
+                                  <p class="pdp-specs__ingredient-benefit">{{ ingredient.benefit }}</p>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        {% endif %}
+
+                        {% if certifications.size > 0 %}
+                          <div class="pdp-specs__group">
+                            <h4 class="pdp-specs__group-title">Certifications</h4>
+                            <div class="pdp-specs__certifications">
+                              {% for certification in certifications %}
+                                <div class="pdp-specs__certification">
+                                  {% if certification.logo %}
+                                    <img class="pdp-specs__certification-icon" src="{{ certification.logo.value | image_url: width: 80 }}" alt="{{ certification.name }}" width="40" height="40" loading="lazy">
+                                  {% endif %}
+                                  <h5 class="pdp-specs__certification-name">{{ certification.name }}</h5>
+                                  <p class="pdp-specs__certification-description">{{ certification.description }}</p>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        {% endif %}
+                        {% assign suggested_products = product_metafield.suggested_products.value %}
+                        {% if suggested_products.size > 0 %}
+                            
+                        <h5>Suggested Products</h5>
+                        <div class="suggested-product">
+                         
+                          <div class="suggested-product__list">
+                            {% for suggested_product in suggested_products %}
+                              <div class="suggested-product__item">
+                                <a href="{{ suggested_product.url }}" class="suggested-product__link">
+                                  <img src="{{ suggested_product.featured_image | image_url: width: 200 }}" alt="{{ suggested_product.title }}" class="suggested-product__image" loading="lazy">
+                                  <span class="suggested-product__title">{{ suggested_product.title }}</span>
+                                </a>
+                              </div>
+                            {% endfor %}
+                          </div>
+                      </div>
+                    {% endif %}
+                {% when 'text_with_icon' %}
 								{% if block.settings.text_with_icon_text != blank or block.settings.text_with_icon_text-second != blank %}
 									<div class="text_with_icon" {{ block.shopify_attributes }}>
 										{% if block.settings.text_with_icon_text != blank %}
@@ -1824,6 +1935,11 @@
           "info": "Select a collection to pull accessories from."
         }
       ]
+    },
+    {
+      "type": "product_specifications",
+      "name": "Product Specifications",
+      "limit": 1
     },
     {
       "type": "recommended-replacement",

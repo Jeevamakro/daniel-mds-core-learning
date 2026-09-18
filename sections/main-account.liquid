@@ -28,6 +28,8 @@
 			</div>
 		</div>
 
+		{% render 'company-location-info' %}
+
 		<div class='account__wrapper{% if customer.orders.size == 0 %} empty-order{% endif %} {% if customer.orders.size > 0 %} account__wrapper--between{% endif %}'>
 			<div class='account__left{% if customer.orders.size > 0 %} account__left--table{% endif %}'>
 				<h4 class='account__subtitle h3{% if  customer.orders.size == 0 %} account__subtitle--hidden{% endif %}'>

@@ -1,74 +1,123 @@
-<modal-opener class="no-js-hidden" data-modal="#PopupModal-store-availability">
-    <div class="product-offers" id="ProductPopup-store-availability" aria-haspopup="dialog" type="button" >
-            <div class="store-availability-content">
-                <div class="store-availability-content">
-                    <button id="ProductPopup-store-availability" class=" see-more-btn" type="button" aria-haspopup="dialog">
-                        <span>{{ block.settings.btn_text | default:'See store availability' }}</span> <span>{% render 'custom-arrow-right' %}</span>
-                    </button>
-                </div>
-            </div>
-            
-        </div>
-</modal-opener>
-<modal-dialog id="PopupModal-store-availability" class="product-popup-modal product-spec-popup-modal product-store-avail-popup-modal" aria-hidden="true">
-<div role="dialog" aria-label="store-avaiability" aria-modal="true" class="product-popup-modal__dialog" tabindex="-1">
-    <button id="ModalClose-store-availability" type="button" class="product-popup-modal__close modal-close-button focus-inset" aria-label="{{ 'accessibility.close' | t }}">
-    {% render 'icon-close' %}
+{% doc %}
+  Renders a "see store availability" trigger + modal listing the physical
+  stockist locations carrying the current product.
+
+  Data source: product metafield `custom.available_stores`
+  (list of metaobject references, metaobject type expected to expose):
+    - store_name   (single line text)
+    - address      (multi-line text)
+    - hours        (single line text)
+    - phone        (single line text)
+    - latitude     (number, optional — enables a "directions" link)
+    - longitude    (number, optional — enables a "directions" link)
+
+  @param block - the section block whose settings supply the trigger
+    button text (`block.settings.btn_text`) and modal title
+    (`block.settings.title`)
+
+  @example
+  {% render 'store-availaibility', block: block %}
+{% enddoc %}
+
+{%- liquid
+  assign stores = product.metafields.custom.available_stores.value
+
+  assign btn_text = block.settings.btn_text
+  if btn_text == blank
+    assign btn_text = 'products.product.store_availability.see_availability' | t
+  endif
+
+  assign modal_title = block.settings.title
+  if modal_title == blank
+    assign modal_title = 'products.product.store_availability.title' | t
+  endif
+-%}
+
+{%- if stores.size > 0 -%}
+  <modal-opener class="no-js-hidden store-availability-content" data-modal="#PopupModal-store-availability">
+    <button
+      id="ProductPopup-store-availability"
+      class="see-more-btn"
+      type="button"
+      aria-haspopup="dialog">
+      <span>{{ btn_text }}</span>
+      {%- render 'custom-arrow-right' -%}
     </button>
-    <h4 class="product-popup-modal__title h4">{{ block.settings.title | default:'In stock locations' }}</h4>
-    <div class="product-popup-modal__content">
-        <div class="store-drawer-inner">
-            <div class="store-content">
-                <div class="store-detail-item">    
-                    <div class="store-detail">
-                        <div class="store-detail-content">
-                            <h4 class="store-name h4">Store Name</h4>
-                            <p class="store-address">3072 HWY 83 N<br>Seeley Lake, MT 89868<br>United States</p>
-                            <a href="tel:5377328283" class="store-phone">5377328283</a>
-                        </div>
-                        <div class="store-stock-status in-stock">
-                            <span class="in-stock product__inventory-inner">In Stock</span>
-                        </div>
-                    </div>
-                    <div class="store-time-direcions">
-                        <span class="store-time">Open today: 9:00 - 20:00</span>
-                        <a href="#" class="store-directions">Show Directions {% render 'custom-arrow-right' %}</a>
-                    </div>
+  </modal-opener>
+
+  <modal-dialog
+    id="PopupModal-store-availability"
+    class="product-popup-modal product-spec-popup-modal product-store-avail-popup-modal"
+    aria-hidden="true">
+    <div
+      role="dialog"
+      aria-label="{{ modal_title }}"
+      aria-modal="true"
+      class="product-popup-modal__dialog"
+      tabindex="-1">
+      <button
+        id="ModalClose-store-availability"
+        type="button"
+        class="product-popup-modal__close modal-close-button focus-inset"
+        aria-label="{{ 'accessibility.close' | t }}">
+        {%- render 'icon-close' -%}
+      </button>
+
+      <h4 class="product-popup-modal__title h4">
+        {{ modal_title }}
+      </h4>
+
+      <div class="product-popup-modal__content">
+        <div class="store-content">
+          {%- for store in stores -%}
+            {%- liquid
+              assign store_name = store.store_name.value
+              assign store_address = store.address.value
+              assign store_hours = store.hours.value
+              assign store_phone = store.phone.value
+              assign store_lat = store.latitude.value
+              assign store_lng = store.longitude.value
+              assign has_directions = false
+              if store_lat != blank and store_lng != blank
+                assign has_directions = true
+              endif
+            -%}
+            <div class="store-detail-item">
+              <div class="store-detail">
+                <div class="store-detail-content">
+                  {%- if store_name != blank -%}
+                    <h4 class="store-name h4">{{ store_name }}</h4>
+                  {%- endif -%}
+                  {%- if store_address != blank -%}
+                    <p class="store-address">{{ store_address | newline_to_br }}</p>
+                  {%- endif -%}
+                  {%- if store_phone != blank -%}
+                    <a href="tel:{{ store_phone }}" class="store-phone">{{ store_phone }}</a>
+                  {%- endif -%}
                 </div>
-                <div class="store-detail-item">    
-                    <div class="store-detail">
-                        <div class="store-detail-content">
-                            <h4 class="store-name h4">Store Name</h4>
-                            <p class="store-address">3072 HWY 83 N<br>Seeley Lake, MT 89868<br>United States</p>
-                            <a href="tel:5377328283" class="store-phone">5377328283</a>
-                        </div>
-                        <div class="store-stock-status in-stock">
-                            <span class="in-stock product__inventory-inner">In Stock</span>
-                        </div>
-                    </div>
-                    <div class="store-time-direcions">
-                        <span class="store-time">Open today: 9:00 - 20:00</span>
-                        <a href="#" class="store-directions">Show Directions {% render 'custom-arrow-right' %}</a>
-                    </div>
+              </div>
+
+              {%- if store_hours != blank or has_directions -%}
+                <div class="store-time-direcions">
+                  {%- if store_hours != blank -%}
+                    <span class="store-time">{{ store_hours }}</span>
+                  {%- endif -%}
+                  {%- if has_directions -%}
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query={{ store_lat }},{{ store_lng }}"
+                      class="store-directions"
+                      target="_blank"
+                      rel="noopener">
+                      {{ 'products.product.store_availability.show_directions' | t }}
+                      {%- render 'custom-arrow-right' -%}
+                    </a>
+                  {%- endif -%}
                 </div>
-                <div class="store-detail-item">    
-                    <div class="store-detail">
-                        <div class="store-detail-content">
-                            <h4 class="store-name h4">Store Name</h4>
-                            <p class="store-address">3072 HWY 83 N<br>Seeley Lake, MT 89868<br>United States</p>
-                            <a href="tel:5377328283" class="store-phone">5377328283</a>
-                        </div>
-                        <div class="store-stock-status in-stock">
-                            <span class="in-stock product__inventory-inner product__inventory-inner--empty">Out of Stock</span>
-                        </div>
-                    </div>
-                    <div class="store-time-direcions">
-                        <span class="store-time">Open today: 9:00 - 20:00</span>
-                        <a href="#" class="store-directions">Show Directions {% render 'custom-arrow-right' %}</a>
-                    </div>
-                </div>
+              {%- endif -%}
             </div>
+          {%- endfor -%}
         </div>
-    </div>                   
-</div>
-</modal-dialog>
+      </div>
+    </div>
+  </modal-dialog>
+{%- endif -%}
