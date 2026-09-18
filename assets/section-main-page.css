@@ -8,6 +8,22 @@
   margin-top: 2.4rem;
 }
 
+.main-page__hero {
+  overflow: hidden;
+  margin-bottom: 2.4rem;
+}
+
+.main-page__hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.main-page-subtitle {
+  margin: 0.8rem 0 0;
+  color: rgb(var(--color-foreground-secondary));
+}
+
 .page-placeholder-wrapper {
   display: flex;
   justify-content: center;

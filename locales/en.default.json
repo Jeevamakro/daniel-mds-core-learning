@@ -225,6 +225,11 @@
 				"unavailable": "Couldn't load pickup availability",
 				"refresh": "Refresh"
 			},
+			"store_availability": {
+				"see_availability": "See store availability",
+				"title": "In stock locations",
+				"show_directions": "Show directions"
+			},
 			"price": {
 				"name": "Price",
 				"from_price_html": "From {{ price }}",
@@ -460,6 +465,10 @@
 		"product_recommendations": {
 			"recommendations_empty": "This product currently has no recommended items.",
 			"complementary_empty": "This product currently has no complementary items or some of them may already be added to your cart."
+		},
+		"product_before_after": {
+			"empty_html": "Add images to this product’s metafields <strong>{{ before }}</strong> and <strong>{{ after }}</strong> to show the before/after slider.",
+			"comparison_slider_label": "{{ before }} / {{ after }} comparison slider"
 		},
 		"testimonials": {
 			"reviewed_by": "Reviewed by {{ author }}"

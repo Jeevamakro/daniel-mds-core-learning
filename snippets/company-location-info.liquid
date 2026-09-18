@@ -1,0 +1,46 @@
+{% comment %}
+  Renders B2B Company Location metafields (logistics.dock_hours, logistics.delivery_instructions)
+  for the currently logged-in B2B buyer.
+
+  Requires:
+  - Buyer is logged in and ordering on behalf of a Company (native Shopify B2B).
+  - The `logistics.dock_hours` and `logistics.delivery_instructions` metafield definitions
+    (owner type: COMPANY_LOCATION) must have storefront access set to PUBLIC_READ.
+
+  Usage: {% render 'company-location-info' %}
+{% endcomment %}
+
+{%- if customer and customer.b2b? and company -%}
+  <div class="company-location-info">
+    <h4 class="company-location-info__title h4">
+      {{ company.name }} — Locations
+    </h4>
+
+    <ul class="company-location-info__list list-unstyled">
+      {%- for location in company.locations -%}
+        <li class="company-location-info__item{% if company_location and location.id == company_location.id %} company-location-info__item--current{% endif %}">
+          <p class="company-location-info__name">
+            {{ location.name }}
+            {%- if company_location and location.id == company_location.id %}
+              <span class="company-location-info__badge">{{ 'customer.company.current_location' | t: default: 'Currently ordering from' }}</span>
+            {%- endif %}
+          </p>
+
+          {%- if location.metafields.logistics.dock_hours != blank -%}
+            <p class="company-location-info__row">
+              <span class="company-location-info__label">{{ 'customer.company.dock_hours' | t: default: 'Dock hours' }}:</span>
+              {{ location.metafields.logistics.dock_hours }}
+            </p>
+          {%- endif -%}
+
+          {%- if location.metafields.logistics.delivery_instructions != blank -%}
+            <p class="company-location-info__row">
+              <span class="company-location-info__label">{{ 'customer.company.delivery_instructions' | t: default: 'Delivery instructions' }}:</span>
+              {{ location.metafields.logistics.delivery_instructions }}
+            </p>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}

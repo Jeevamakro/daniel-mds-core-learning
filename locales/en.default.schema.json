@@ -1919,6 +1919,86 @@
 				"name": "Before/After"
 			}
 		},
+		"product-before-after": {
+			"name": "Before / After (product)",
+			"settings": {
+				"heading": {
+					"label": "Heading"
+				},
+				"metafields": {
+					"content": "Metafields (per product)"
+				},
+				"before_namespace": {
+					"label": "Before — namespace"
+				},
+				"before_key": {
+					"label": "Before — key"
+				},
+				"after_namespace": {
+					"label": "After — namespace"
+				},
+				"after_key": {
+					"label": "After — key"
+				},
+				"labels": {
+					"content": "Labels"
+				},
+				"before_label": {
+					"label": "Before label"
+				},
+				"after_label": {
+					"label": "After label"
+				},
+				"layout": {
+					"content": "Layout & style"
+				},
+				"image_ratio": {
+					"label": "Image ratio",
+					"options__1": {
+						"label": "Adapt to image"
+					},
+					"options__2": {
+						"label": "Square (1:1)"
+					},
+					"options__3": {
+						"label": "Landscape (16:9)"
+					},
+					"options__4": {
+						"label": "Portrait (3:4)"
+					}
+				},
+				"start_position": {
+					"label": "Start position"
+				},
+				"max_width": {
+					"label": "Max width"
+				},
+				"corner_radius": {
+					"label": "Corner radius"
+				},
+				"divider_color": {
+					"label": "Divider / handle color"
+				},
+				"label_bg": {
+					"label": "Label background"
+				},
+				"label_text": {
+					"label": "Label text"
+				},
+				"padding": {
+					"content": "Section padding"
+				},
+				"padding_top": {
+					"label": "Top padding"
+				},
+				"padding_bottom": {
+					"label": "Bottom padding"
+				}
+			},
+			"presets": {
+				"name": "Before / After (product)"
+			}
+		},
 		"image-collage": {
 			"name": "Image collage",
 			"settings": {

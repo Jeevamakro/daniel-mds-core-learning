@@ -1,0 +1,97 @@
+.ba {
+  max-width: var(--ba-max-width);
+  margin: 0 auto;
+  padding: var(--ba-padding-top) 1.5rem var(--ba-padding-bottom);
+}
+.ba__heading {
+  text-align: center;
+  margin: 0 0 1.25rem;
+}
+.ba__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ba-ratio);
+  overflow: hidden;
+  border-radius: var(--ba-radius);
+  touch-action: none;
+  user-select: none;
+  background-color: rgb(var(--color-background-secondary));
+}
+.ba__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.ba__before-layer {
+  clip-path: inset(0 calc(100% - var(--ba-pos)) 0 0);
+}
+.ba__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ba-pos);
+  width: 2px;
+  transform: translateX(-1px);
+  background: var(--ba-divider);
+  pointer-events: none;
+}
+.ba__handle {
+  position: absolute;
+  top: 50%;
+  left: var(--ba-pos);
+  width: 42px;
+  height: 42px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--ba-divider);
+  display: grid;
+  place-items: center;
+  color: rgb(var(--color-background));
+  font-size: 1.4rem;
+  line-height: 1;
+  box-shadow: 0 0.2rem 0.8rem rgba(var(--color-foreground), 0.25);
+  pointer-events: none;
+}
+.ba__handle svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+.ba__label {
+  position: absolute;
+  top: 1rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  background: var(--ba-label-bg);
+  color: var(--ba-label-text);
+  pointer-events: none;
+}
+.ba__label--before {
+  left: 1rem;
+}
+.ba__label--after {
+  right: 1rem;
+}
+.ba__range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+.ba__empty {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.7);
+  border: 0.1rem dashed rgb(var(--color-border));
+  border-radius: var(--border-radius-main);
+}

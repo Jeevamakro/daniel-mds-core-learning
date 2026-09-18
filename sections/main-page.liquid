@@ -8,12 +8,34 @@
   {% render 'section-margin' %}
 {%- endstyle -%}
 
+{%- assign page_hero_image = page.metafields.custom.page_hero_image.value -%}
+{%- assign page_subtitle = page.metafields.custom.page_subtitle.value -%}
+{%- assign page_title_alt = page.title | escape -%}
+
 <div class="main-page container">
+  {% if page_hero_image != blank %}
+    <div class="main-page__hero">
+      {{
+        page_hero_image
+        | image_url: width: 1600
+        | image_tag:
+            loading: 'lazy',
+            widths: '600,900,1200,1600',
+            sizes: '100vw',
+            alt: page_title_alt,
+            class: 'main-page__hero-image'
+      }}
+    </div>
+  {% endif %}
+
   <div class="page-header">
     <div class="page-header__inner">
       <h1 class="main-page-title page-title title--page {{section.settings.heading_size}}">
         {{ page.title | escape }}
       </h1>
+      {% if page_subtitle != blank %}
+        <p class="main-page-subtitle">{{ page_subtitle }}</p>
+      {% endif %}
     </div>
   </div>
   {% if page.content != blank %}
